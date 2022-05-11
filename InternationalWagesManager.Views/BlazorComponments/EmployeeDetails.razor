@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+
+
+<EditForm Model=this OnValidSubmit=Submit>
+<DataAnnotationsValidator/>
+<h2 class="mt-5 text-center header">Employee's Details</h2>
+<div style="width: 50%; height: 20%; margin: 3% auto auto auto;">
+    <table  class="table table-bordered border-2 border-secondary" >
+  <tbody>
+    <tr>
+      <th scope="row">First name:</th>
+      <td><InputText @bind-Value=String class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">Last name:</th>
+      <td><InputText @bind-Value=String class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">D.O.B</th>
+      <td><InputDate @bind-Value=Date class="form-control" /></td>
+    </tr>
+    <tr>
+      <th scope="row">Phone:</th>
+      <td><InputNumber @bind-Value=Number class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">Email:</th>
+      <td><InputText @bind-Value=String class="form-control" style="background-color: transparent"/></td>
+    </tr>
+  </tbody>
+</table>
+<ValidationSummary/>
+<div style="display: flex; justify-content: right; ">
+<button class="btn btn-primary form-control mt-4" >Submit</button>
+</div>
+</div>
+</EditForm>
+
+@code {
+    public string String { get; set; }
+    public DateTime Date { get; set; }
+    public int Number { get; set; }
+
+    public void Submit()
+    {
+        
+    }
+}
