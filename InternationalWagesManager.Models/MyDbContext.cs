@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using InternationalWagesManager.Models.Configurations;
 
 namespace InternationalWagesManager.Models
 {
@@ -24,9 +25,10 @@ namespace InternationalWagesManager.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
-
             modelBuilder.Entity<Employee>().HasIndex(ed => ed.Email).IsUnique();
+
+            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+            base.OnModelCreating(modelBuilder);
         }
 
     }

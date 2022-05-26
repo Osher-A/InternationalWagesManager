@@ -11,6 +11,10 @@
 		<RootNameSpace>InternationalWagesManager.Views</RootNameSpace>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="BlazorStyled" Version="3.1.0" />
     <PackageReference Include="BootstrapBlazor" Version="6.6.6" />

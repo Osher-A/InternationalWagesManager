@@ -7,7 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternationalWagesManager.V
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternationalWagesManager.Models", "InternationalWagesManager.Models\InternationalWagesManager.Models.csproj", "{6EB925B6-6A5F-4410-B13D-36D937DE58D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternationalWagesManager.DTO", "InternationalWagesManager.DTO\InternationalWagesManager.DTO.csproj", "{818424AD-F566-4184-80E3-87F55DAD4CFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternationalWagesManager.DTO", "InternationalWagesManager.DTO\InternationalWagesManager.DTO.csproj", "{818424AD-F566-4184-80E3-87F55DAD4CFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternationalWagesManager.DAL", "InternationalWagesManager.DAL\InternationalWagesManager.DAL.csproj", "{D403AFCC-C200-4945-ABC5-6BA84E5D9948}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{36858CD9-23BE-4E13-9380-FB4DC7480C72}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +34,10 @@ Global
 		{818424AD-F566-4184-80E3-87F55DAD4CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{818424AD-F566-4184-80E3-87F55DAD4CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{818424AD-F566-4184-80E3-87F55DAD4CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D403AFCC-C200-4945-ABC5-6BA84E5D9948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D403AFCC-C200-4945-ABC5-6BA84E5D9948}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D403AFCC-C200-4945-ABC5-6BA84E5D9948}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D403AFCC-C200-4945-ABC5-6BA84E5D9948}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
