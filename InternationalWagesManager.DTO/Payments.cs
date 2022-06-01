@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InternationalWagesManager.DTO
 {
-    public class Payment
+    public class Payment 
     {
         public int Id { get; set; }
         public Employee Employee { get; set; }

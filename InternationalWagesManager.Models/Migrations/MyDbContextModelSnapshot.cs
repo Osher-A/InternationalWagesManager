@@ -55,7 +55,7 @@ namespace InternationalWagesManager.Models.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.Payment", b =>
@@ -83,7 +83,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.Salary", b =>
@@ -110,7 +110,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Salaries");
+                    b.ToTable("Salaries", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.SalaryComponents", b =>
@@ -143,7 +143,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("SalariesComponents");
+                    b.ToTable("SalariesComponents", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.WorkConditions", b =>
@@ -176,7 +176,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("WorkConditions");
+                    b.ToTable("WorkConditions", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.Payment", b =>

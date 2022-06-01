@@ -16,6 +16,8 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="BlazorStyled" Version="3.1.0" />
     <PackageReference Include="BootstrapBlazor" Version="6.6.6" />
     <PackageReference Include="Expression.Interaction" Version="3.0.40218" />
@@ -31,6 +33,14 @@
     <PackageReference Include="ToastNotifications" Version="2.5.1" />
     <PackageReference Include="ToastNotifications.Messages" Version="2.5.1" />
     <PackageReference Include="WeCantSpell.Hunspell" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InternationalWagesManager.DAL\InternationalWagesManager.DAL.csproj" />
+    <ProjectReference Include="..\InternationalWagesManager.Domain\InternationalWagesManager.Domain.csproj" />
+    <ProjectReference Include="..\InternationalWagesManager.DTO\InternationalWagesManager.DTO.csproj" />
+    <ProjectReference Include="..\InternationalWagesManager.Models\InternationalWagesManager.Models.csproj" />
+    <ProjectReference Include="..\InternationalWagesManager.ViewModels\InternationalWagesManager.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

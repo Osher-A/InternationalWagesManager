@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AutoMapper;
+using InternationalWagesManager.DAL;
+using InternationalWagesManager.Views.Pages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InternationalWagesManager.Views
@@ -21,13 +24,18 @@ namespace InternationalWagesManager.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private IEmployeeRepository _employeeRepository;
+        private IMapper _mapper;
+        public MainWindow(IEmployeeRepository employeeRepository, IMapper mapper)
         {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddWpfBlazorWebView();
-            Resources.Add("services", serviceCollection.BuildServiceProvider());
-
+            _employeeRepository = employeeRepository;
+            _mapper = mapper;
             InitializeComponent();
+        }
+
+        private void MainWindowFrame_Loaded(object sender , RoutedEventArgs e)
+        {
+            MainWindowFrame.Content = new HomePage(_employeeRepository, _mapper);
         }
     }
 }

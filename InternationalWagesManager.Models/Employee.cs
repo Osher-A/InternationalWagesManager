@@ -1,8 +1,8 @@
 ﻿namespace InternationalWagesManager.Models
 {
-    public class Employee
+    public class Employee 
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DOB { get; set; }

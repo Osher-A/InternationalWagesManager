@@ -1,6 +1,7 @@
-﻿namespace InternationalWagesManager.DTO
+﻿
+namespace InternationalWagesManager.DTO
 {
-    public class Employee
+    public class Employee 
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
