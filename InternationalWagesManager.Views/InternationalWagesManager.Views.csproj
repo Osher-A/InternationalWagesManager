@@ -43,4 +43,8 @@
     <ProjectReference Include="..\InternationalWagesManager.ViewModels\InternationalWagesManager.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UserControls\" />
+  </ItemGroup>
+
 </Project>

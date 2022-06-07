@@ -7,52 +7,58 @@
       xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-    Background="{DynamicResource MaterialDesignPaper}"
     TextElement.FontWeight="Medium"
     TextElement.FontSize="14"
     FontFamily="{materialDesign:MaterialDesignFont}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="EmployeeDetails">
+      Title="EmployeeDetails"
+      >
+    <Border MaxHeight="450" MaxWidth="550" BorderThickness="3" BorderBrush="DarkSlateGray">
+        <Grid MaxHeight="450" MaxWidth="550">
+            <Grid Background="BlanchedAlmond" >
+                <Grid.Resources>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource MahApps.Styles.TextBox}">
+                        <Setter Property="Height" Value="45"/>
+                        <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType=ColumnDefinition}, Path=ActualWidth}"/>
+                        <Setter Property="Margin" Value="3"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="FontSize" Value="15"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition x:Name="EditRow"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
 
-    <Grid MaxHeight="450" MaxWidth="550">
-        <Grid Background="LightSeaGreen" >
-            <Grid.Resources>
-                <Style TargetType="TextBox" BasedOn="{StaticResource MahApps.Styles.TextBox}">
-                    <Setter Property="Height" Value="45"/>
-                    <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType=ColumnDefinition}, Path=ActualWidth}"/>
-                    <Setter Property="Margin" Value="3"/>
-                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    <Setter Property="FontSize" Value="15"/>
-                </Style>
-            </Grid.Resources>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="0.1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Employee Details"  Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Grid.Column="1"/>
-            <Label Grid.Row="1" Content="First name:" Grid.Column="1" />
-            <Label Grid.Row="2" Content="Last name:" Grid.Column="1" />
-            <Label Grid.Row="3" Content="Phone:" Grid.Column="1"/>
-            <Label Grid.Row="4" Content="Email:" Grid.Column="1" />
-            <Label Grid.Row="5" Content="D.O.B:" Grid.Column="1" />
-            <TextBox Grid.Row="1" Grid.Column="2" />
-            <TextBox Grid.Row="2" Grid.Column="2" />
-            <TextBox Grid.Row="3" Grid.Column="2" />
-            <TextBox Grid.Row="4" Grid.Column="2" />
-            <TextBox Grid.Row="5" Grid.Column="2" />
-            <TextBox Grid.Row="6" Grid.Column="2" mahApps:TextBoxHelper.Watermark="00/00/0000"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Employee Details"  Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Grid.Column="1"/>
+                <Label Content="Select Employee:" Grid.Row="1" Grid.Column="1"/>
+                <ComboBox Grid.Row="1" Grid.Column="2" Height="45"/>
+                <Label Grid.Row="2" Content="First name:" Grid.Column="1" />
+                <Label Grid.Row="3" Content="Last name:" Grid.Column="1" />
+                <Label Grid.Row="4" Content="Phone:" Grid.Column="1"/>
+                <Label Grid.Row="5" Content="Email:" Grid.Column="1" />
+                <Label Grid.Row="6" Content="D.O.B:" Grid.Column="1" />
+                <TextBox Grid.Row="2" Grid.Column="2" />
+                <TextBox Grid.Row="3" Grid.Column="2" />
+                <TextBox Grid.Row="4" Grid.Column="2" />
+                <TextBox Grid.Row="5" Grid.Column="2" />
+                <TextBox Grid.Row="6" Grid.Column="2" mahApps:TextBoxHelper.Watermark="00/00/0000"/>
+                <Button Grid.Row="7" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Dialogs}" Content="Submit"/>
+            </Grid>
+
         </Grid>
-
-    </Grid>
+    </Border>
 </Page>
