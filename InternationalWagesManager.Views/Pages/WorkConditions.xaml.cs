@@ -19,13 +19,14 @@ using System.Windows.Shapes;
 namespace InternationalWagesManager.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for EmployeeDetails.xaml
+    /// Interaction logic for WorkConditions.xaml
     /// </summary>
-    public partial class EmployeeDetails : Page
+    public partial class WorkConditions : Page
     {
-        public EmployeeDetails(IMapper mapper, IEmployeeRepository employeeRepository)
+        public WorkConditions(IMapper mapper, IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepository)
         {
-            this.DataContext = new EmployeeDetailsVM(mapper, employeeRepository);
+            this.DataContext = new WorkConditionsVM(mapper, employeeRepository, wConditionsRepository);
+
             InitializeComponent();
         }
     }

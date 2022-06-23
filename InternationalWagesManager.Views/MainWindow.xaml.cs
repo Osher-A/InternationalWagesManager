@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AutoMapper;
 using InternationalWagesManager.DAL;
+using InternationalWagesManager.ViewModels;
 using InternationalWagesManager.Views.Pages;
 using MahApps.Metro.Controls;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,11 +27,14 @@ namespace InternationalWagesManager.Views
     public partial class MainWindow : MetroWindow
     {
         private IEmployeeRepository _employeeRepository;
+        private IWConditionsRepository _wConditionsRepository;
         private IMapper _mapper;
-        public MainWindow(IEmployeeRepository employeeRepository, IMapper mapper)
+        public MainWindow(IMapper mapper,IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepository)
         {
-            _employeeRepository = employeeRepository;
             _mapper = mapper;
+            _employeeRepository = employeeRepository;
+            _wConditionsRepository = wConditionsRepository;
+
             InitializeComponent();
         }
 
@@ -41,12 +45,20 @@ namespace InternationalWagesManager.Views
 
         private void TreeViewAddEmployee_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainWindowFrame.Content = new EmployeeDetails();
+            MainWindowFrame.Content = new EmployeeDetails(_mapper, _employeeRepository);
+            EmployeeDetailsVM.EditRowHeight = "0";
         }
+        private void TreeViewEditEmployee_MouseEnter(object sender, MouseEventArgs e)
+        {
+            MainWindowFrame.Content = new EmployeeDetails(_mapper, _employeeRepository);
+            EmployeeDetailsVM.EditRowHeight = "Auto";
+        }
+
         private void TreeViewAddWorkConditions_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainWindowFrame.Content = new WorkConditions();
+            MainWindowFrame.Content = new WorkConditions(_mapper, _employeeRepository, _wConditionsRepository);
         }
+
 
        
     }

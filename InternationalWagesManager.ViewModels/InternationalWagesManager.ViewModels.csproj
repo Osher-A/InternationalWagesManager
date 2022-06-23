@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InternationalWagesManager.DAL\InternationalWagesManager.DAL.csproj" />
+    <ProjectReference Include="..\InternationalWagesManager.Domain\InternationalWagesManager.Domain.csproj" />
+    <ProjectReference Include="..\InternationalWagesManager.DTO\InternationalWagesManager.DTO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MyLibrary">
+      <HintPath>..\..\Wpf\MyLibrary\bin\Debug\netcoreapp3.1\MyLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

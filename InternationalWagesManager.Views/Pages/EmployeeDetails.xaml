@@ -5,27 +5,26 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:InternationalWagesManager.Views.Pages"
       xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-    TextElement.FontWeight="Medium"
-    TextElement.FontSize="14"
-    FontFamily="{materialDesign:MaterialDesignFont}"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:converter="clr-namespace:InternationalWagesManager.Views.converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="EmployeeDetails"
-      >
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Medium"
+      TextElement.FontSize="14"
+      FontFamily="{materialDesign:MaterialDesignFont}">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <converter:DateConverter x:Key="dateConvr"/>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Border MaxHeight="450" MaxWidth="550" BorderThickness="3" BorderBrush="DarkSlateGray">
         <Grid MaxHeight="450" MaxWidth="550">
             <Grid Background="BlanchedAlmond" >
-                <Grid.Resources>
-                    <Style TargetType="TextBox" BasedOn="{StaticResource MahApps.Styles.TextBox}">
-                        <Setter Property="Height" Value="45"/>
-                        <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType=ColumnDefinition}, Path=ActualWidth}"/>
-                        <Setter Property="Margin" Value="3"/>
-                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        <Setter Property="FontSize" Value="15"/>
-                    </Style>
-                </Grid.Resources>
+               
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="*"/>
@@ -34,7 +33,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
-                    <RowDefinition x:Name="EditRow"/>
+                    <RowDefinition x:Name="EditRow" Height="{Binding EditRowHeight, Mode=OneWay}" />
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -45,18 +44,19 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Employee Details"  Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Grid.Column="1"/>
                 <Label Content="Select Employee:" Grid.Row="1" Grid.Column="1"/>
-                <ComboBox Grid.Row="1" Grid.Column="2" Height="45"/>
+                <ComboBox Grid.Row="1" Grid.Column="2" Height="43" 
+                          ItemsSource="{Binding Employees}"  SelectedIndex="{Binding ComboBoxSelectedIndex, Mode=TwoWay}"/>
                 <Label Grid.Row="2" Content="First name:" Grid.Column="1" />
                 <Label Grid.Row="3" Content="Last name:" Grid.Column="1" />
                 <Label Grid.Row="4" Content="Phone:" Grid.Column="1"/>
                 <Label Grid.Row="5" Content="Email:" Grid.Column="1" />
                 <Label Grid.Row="6" Content="D.O.B:" Grid.Column="1" />
-                <TextBox Grid.Row="2" Grid.Column="2" />
-                <TextBox Grid.Row="3" Grid.Column="2" />
-                <TextBox Grid.Row="4" Grid.Column="2" />
-                <TextBox Grid.Row="5" Grid.Column="2" />
-                <TextBox Grid.Row="6" Grid.Column="2" mahApps:TextBoxHelper.Watermark="00/00/0000"/>
-                <Button Grid.Row="7" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Dialogs}" Content="Submit"/>
+                <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding SelectedEmployee.FirstName, Mode=TwoWay}"/>
+                <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding SelectedEmployee.LastName, Mode=TwoWay}"/>
+                <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SelectedEmployee.Phone, Mode=TwoWay}"/>
+                <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding SelectedEmployee.Email, Mode=TwoWay}"/>
+                <TextBox Grid.Row="6" Grid.Column="2" mahApps:TextBoxHelper.Watermark="00/00/0000" Text="{Binding SelectedEmployee.DOB, Mode=TwoWay, Converter={StaticResource dateConvr}, StringFormat={}{0:dd/MM/yyyy}}"/>
+                <Button Grid.Row="7" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Dialogs}" Content="Submit" Command="{Binding AddAndEditCommand}"/>
             </Grid>
 
         </Grid>

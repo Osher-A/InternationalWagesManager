@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using InternationalWagesManager.DAL;
-using InternationalWagesManager.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,13 +16,12 @@ using System.Windows.Shapes;
 namespace InternationalWagesManager.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for EmployeeDetails.xaml
+    /// Interaction logic for SalaryComponents.xaml
     /// </summary>
-    public partial class EmployeeDetails : Page
+    public partial class SalaryComponents : Page
     {
-        public EmployeeDetails(IMapper mapper, IEmployeeRepository employeeRepository)
+        public SalaryComponents()
         {
-            this.DataContext = new EmployeeDetailsVM(mapper, employeeRepository);
             InitializeComponent();
         }
     }

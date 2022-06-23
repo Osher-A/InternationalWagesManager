@@ -50,6 +50,7 @@ namespace InternationalWagesManager.Views
             //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddAutoMapper(Assembly.Load(typeof(DTOConvertor).Assembly.FullName));
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IWConditionsRepository, WConditionsRepository>();
             services.AddSingleton<MainWindow>();
         }
 

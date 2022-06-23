@@ -48,19 +48,19 @@
                     Background="BlanchedAlmond"
                     >
             <TreeViewItem  Header="Employee details" Margin="0,25,0,0" FontSize="15">
-                <TreeViewItem  MouseEnter="TreeViewAddEmployee_MouseEnter">
+                <TreeViewItem >
                     <TreeViewItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <icons:PackIconBootstrapIcons Kind="Plus" Width="15" Height="15" VerticalAlignment="Center" Margin="0,0,3,0"/>
-                            <Label Content="Add"/>
+                            <Label Content="Add" IsEnabled="True" MouseEnter="TreeViewAddEmployee_MouseEnter"/>
                         </StackPanel>
                     </TreeViewItem.Header>
                 </TreeViewItem>
-                <TreeViewItem>
+                <TreeViewItem >
                     <TreeViewItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <icons:PackIconBootstrapIcons Kind="Pencil" Width="15" Height="15" VerticalAlignment="Center" Margin="0,0,3,0"/>
-                            <Label Content="Edit"/>
+                            <Label Content="Edit" IsEnabled="True" MouseEnter="TreeViewEditEmployee_MouseEnter"/>
                         </StackPanel>
                     </TreeViewItem.Header>
                 </TreeViewItem>
