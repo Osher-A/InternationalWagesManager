@@ -2,9 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:InternationalWagesManager.Views"
+             xmlns:converters="clr-namespace:InternationalWagesManager.Views.converters"
              xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             Startup="OnStartup">
+             Startup="OnStartup"
+>
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,6 +16,8 @@
                 <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Sienna.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:DateConverter x:Key="dateConvr"/>
 
             <Style TargetType="TextBlock" x:Key="Title" BasedOn="{StaticResource MahApps.Styles.TextBlock}">
                 <Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Header}"/>
@@ -36,8 +40,9 @@
                 <Setter Property="Height" Value="45"/>
                 <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType=ColumnDefinition}, Path=ActualWidth}"/>
                 <Setter Property="Margin" Value="3"/>
-                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="FontSize" Value="14"/>
             </Style>
+            
 
         </ResourceDictionary>
     </Application.Resources>

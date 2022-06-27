@@ -6,7 +6,6 @@
       xmlns:local="clr-namespace:InternationalWagesManager.Views.Pages"
       xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:converter="clr-namespace:InternationalWagesManager.Views.converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="EmployeeDetails"
@@ -15,11 +14,6 @@
       TextElement.FontSize="14"
       FontFamily="{materialDesign:MaterialDesignFont}">
 
-    <Page.Resources>
-        <ResourceDictionary>
-            <converter:DateConverter x:Key="dateConvr"/>
-        </ResourceDictionary>
-    </Page.Resources>
     
     <Border MaxHeight="450" MaxWidth="550" BorderThickness="3" BorderBrush="DarkSlateGray">
         <Grid MaxHeight="450" MaxWidth="550">
@@ -55,7 +49,7 @@
                 <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding SelectedEmployee.LastName, Mode=TwoWay}"/>
                 <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SelectedEmployee.Phone, Mode=TwoWay}"/>
                 <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding SelectedEmployee.Email, Mode=TwoWay}"/>
-                <TextBox Grid.Row="6" Grid.Column="2" mahApps:TextBoxHelper.Watermark="00/00/0000" Text="{Binding SelectedEmployee.DOB, Mode=TwoWay, Converter={StaticResource dateConvr}, StringFormat={}{0:dd/MM/yyyy}}"/>
+                <TextBox Grid.Row="6" Grid.Column="2" mahApps:TextBoxHelper.Watermark="00/00/0000" Text="{Binding SelectedEmployee.DOB, Mode=TwoWay, Converter={StaticResource dateConvr}, StringFormat={} {0:dd/MM/yyyy}, ConverterCulture=en-GB}"/>
                 <Button Grid.Row="7" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Dialogs}" Content="Submit" Command="{Binding AddAndEditCommand}"/>
             </Grid>
 

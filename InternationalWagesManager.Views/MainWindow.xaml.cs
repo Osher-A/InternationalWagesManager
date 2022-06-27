@@ -59,7 +59,10 @@ namespace InternationalWagesManager.Views
             MainWindowFrame.Content = new WorkConditions(_mapper, _employeeRepository, _wConditionsRepository);
         }
 
-
+        private void TreeViewAddSalaryComponents_MouseEnter(object sender, MouseEventArgs e)
+        {
+            MainWindowFrame.Content = new SalaryComponents();
+        }
        
     }
 }
