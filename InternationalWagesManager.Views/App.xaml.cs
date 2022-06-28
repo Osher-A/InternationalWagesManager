@@ -51,6 +51,7 @@ namespace InternationalWagesManager.Views
             services.AddAutoMapper(Assembly.Load(typeof(DTOConvertor).Assembly.FullName));
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IWConditionsRepository, WConditionsRepository>();
+            services.AddScoped<ISalaryComponentsRepository, SalaryComponentsRepository>();
             services.AddSingleton<MainWindow>();
         }
 

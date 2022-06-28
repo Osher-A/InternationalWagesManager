@@ -28,13 +28,14 @@ namespace InternationalWagesManager.Views
     {
         private IEmployeeRepository _employeeRepository;
         private IWConditionsRepository _wConditionsRepository;
+        private ISalaryComponentsRepository _salaryComponentsRepository;
         private IMapper _mapper;
-        public MainWindow(IMapper mapper,IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepository)
+        public MainWindow(IMapper mapper,IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepository, ISalaryComponentsRepository salaryComponentsRepository)
         {
             _mapper = mapper;
             _employeeRepository = employeeRepository;
             _wConditionsRepository = wConditionsRepository;
-
+            _salaryComponentsRepository = salaryComponentsRepository;
             InitializeComponent();
         }
 
@@ -61,7 +62,12 @@ namespace InternationalWagesManager.Views
 
         private void TreeViewAddSalaryComponents_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainWindowFrame.Content = new SalaryComponents();
+            MainWindowFrame.Content = new SalaryComponents(_mapper, _employeeRepository, _salaryComponentsRepository);
+        }
+
+        private void TreeViewAddPayment_MouseEnter(object sender, MouseEventArgs e)
+        {
+            MainWindowFrame.Content = new Payments();
         }
        
     }

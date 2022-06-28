@@ -7,36 +7,37 @@ using System.Threading.Tasks;
 
 namespace InternationalWagesManager.DAL
 {
-    public class SComponentsRepository : ISComponentsRepository
+    public class SalaryComponentsRepository : ISalaryComponentsRepository
     {
         private MyDbContext _db;
-        public SComponentsRepository(MyDbContext dbContext)
+        public SalaryComponentsRepository(MyDbContext dbContext)
         {
             _db = dbContext;
         }
 
-        public void AddScomponent(SalaryComponents newSC)
+        public void AddSalaryComponents(SalaryComponents newSC)
         {
             _db.SalariesComponents.Add(newSC);
             _db.SaveChanges();
         }
 
-        public void UpdateSComponent(SalaryComponents SC)
+        public void UpdateSalaryComponents(SalaryComponents SC)
         {
             _db.SalariesComponents.Update(SC);
             _db.SaveChanges();
         }
 
-        public void DeleteSComponent(SalaryComponents SC)
+        public void DeleteSalaryComponents(SalaryComponents SC)
         {
             _db.SalariesComponents.Remove(SC);
             _db.SaveChanges();
         }
 
-        public SalaryComponents GetSComponent(SalaryComponents SC)
+        public SalaryComponents GetSalaryComponents(int employeeId, DateTime date)
         {
             var result = _db.SalariesComponents
-                .FirstOrDefault(sc => sc.EmployeeId == SC.EmployeeId && sc.Month.Month == SC.Month.Month);
+                .FirstOrDefault(sc => sc.EmployeeId == employeeId
+                && sc.Month.Month == date.Month);
 
             return result ?? new();
         }
