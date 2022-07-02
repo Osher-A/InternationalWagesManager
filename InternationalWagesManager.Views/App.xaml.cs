@@ -9,7 +9,6 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-
 using AutoMapper;
 using InternationalWagesManager.DAL;
 using InternationalWagesManager.DTO;
@@ -52,6 +51,8 @@ namespace InternationalWagesManager.Views
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IWConditionsRepository, WConditionsRepository>();
             services.AddScoped<ISalaryComponentsRepository, SalaryComponentsRepository>();
+            services.AddScoped<IPaymentsRepository , PaymentsRepository>();
+            services.AddScoped<EmployeeManager>();
             services.AddSingleton<MainWindow>();
         }
 

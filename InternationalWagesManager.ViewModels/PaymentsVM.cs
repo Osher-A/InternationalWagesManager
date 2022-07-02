@@ -3,30 +3,34 @@ using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
 using MyLibrary.Utilities;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace InternationalWagesManager.ViewModels
 {
-    public class WorkConditionsVM : INotifyPropertyChanged
+    public class PaymentsVM : INotifyPropertyChanged
     {
         private EmployeeManager _employeeManager;
-        private WorkConditionsManager _workConditionsManager;
-        private WorkConditions _workConditions = new WorkConditions { Date = null };
+        private PaymentsManager _paymentsManager;
         private List<Employee> _modelEmployees = new List<Employee>();
 
         public List<string> Employees { get; set; }
 
-        public WorkConditions WorkConditions
+        private Payment _payment = new Payment { Date = null};
+        public Payment Payment
         {
-            get { return _workConditions; }
+            get => _payment;
             set
             {
-                _workConditions = value;
-                OnPropertyChanged(nameof(WorkConditions));
+                _payment = value;
+                OnPropertyChanged(nameof(Payment));
             }
         }
+
         private string _comboBoxSelectedIndex = "0";
         public string ComboBoxSelectedIndex
         {
@@ -41,39 +45,29 @@ namespace InternationalWagesManager.ViewModels
         public ICommand AddCommand { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
-        public WorkConditionsVM(AutoMapper.IMapper mapper, IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepo)
+        public PaymentsVM(AutoMapper.IMapper mapper, IEmployeeRepository employeeRepository, IPaymentsRepository paymentsRepository)
         {
             _employeeManager = new EmployeeManager(mapper, employeeRepository);
-            _workConditionsManager = new WorkConditionsManager(mapper, wConditionsRepo);
-            AddCommand = new CustomCommand(AddWorkConditions, CanAddWorkConditions);
-            LoadData();
+            _paymentsManager = new PaymentsManager(mapper, paymentsRepository);
+            AddCommand = new CustomCommand(AddPayment, CanAddPayment);
         }
 
-        private void AddWorkConditions(object obj)
+        private void AddPayment(object obj)
         {
             int employeeId = _modelEmployees[int.Parse(ComboBoxSelectedIndex) - 1].Id;
-            WorkConditions.EmployeeId = employeeId;
-            _workConditionsManager.AddWorkConditions(WorkConditions);
+            Payment.EmployeeId = employeeId;
+            _paymentsManager.AddPayment(Payment);
         }
 
-        private bool CanAddWorkConditions(object obj)
+        private bool CanAddPayment(object obj)
         {
-            if (ComboBoxSelectedIndex != "0"
-                && WorkConditions.Date != null && WorkConditions.PayRate != 0)
+            if(ComboBoxSelectedIndex != "0"
+                && Payment.Date != null && Payment.Amount != null && Payment.Amount != 0)
                 return true;
 
             return false;
         }
 
-        private void LoadData()
-        {
-            Employees = new List<string>() { "Select a employee!" };
-
-            _modelEmployees = _employeeManager.GetEmployees().ToList();
-            foreach (var employee in _modelEmployees)
-                Employees.Add(employee.FullName);
-        }
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
