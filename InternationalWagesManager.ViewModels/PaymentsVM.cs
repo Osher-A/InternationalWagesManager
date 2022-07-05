@@ -1,6 +1,7 @@
 ﻿using InternationalWagesManager.DAL;
 using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using MyLibrary.Utilities;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace InternationalWagesManager.ViewModels
             _employeeManager = new EmployeeManager(mapper, employeeRepository);
             _paymentsManager = new PaymentsManager(mapper, paymentsRepository);
             AddCommand = new CustomCommand(AddPayment, CanAddPayment);
+            LoadData();
         }
 
         private void AddPayment(object obj)
@@ -66,6 +68,15 @@ namespace InternationalWagesManager.ViewModels
                 return true;
 
             return false;
+        }
+
+        private void LoadData()
+        {
+            Employees = new() { "Select a employee!" };
+            _modelEmployees = _employeeManager.GetEmployees().ToList();
+
+            foreach(var employee in _modelEmployees)
+                Employees.Add(employee.FullName);
         }
 
         private void OnPropertyChanged(string propertyName)

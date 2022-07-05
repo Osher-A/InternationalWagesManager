@@ -4,6 +4,7 @@ using InternationalWagesManager.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InternationalWagesManager.Models.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220704231251_AddingWageCurrencyIdColumnInWorkConditionsTable")]
+    partial class AddingWageCurrencyIdColumnInWorkConditionsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,14 +110,8 @@ namespace InternationalWagesManager.Models.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CurrencyId")
-                        .HasColumnType("int");
-
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
-
-                    b.Property<float>("ExpensesRate")
-                        .HasColumnType("real");
 
                     b.Property<decimal>("GrossPay")
                         .HasColumnType("decimal(18,2)");
@@ -126,12 +122,7 @@ namespace InternationalWagesManager.Models.Migrations
                     b.Property<decimal>("NetPay")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("WageRate")
-                        .HasColumnType("real");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("EmployeeId");
 
@@ -221,19 +212,11 @@ namespace InternationalWagesManager.Models.Migrations
 
             modelBuilder.Entity("InternationalWagesManager.Models.Salary", b =>
                 {
-                    b.HasOne("InternationalWagesManager.Models.Currency", "Currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("InternationalWagesManager.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Currency");
 
                     b.Navigation("Employee");
                 });

@@ -17,6 +17,7 @@ namespace InternationalWagesManager.Models
         public DbSet<SalaryComponents> SalariesComponents { get; set; }
         public DbSet<Salary> Salaries { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["Database"].ConnectionString);

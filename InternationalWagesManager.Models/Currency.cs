@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace InternationalWagesManager.Models
 {
-    public enum Currency
+    public class Currency
     {
-        GBP,
-        USD,
-        EUR,
-        CHF,
-        ILS
+       public int Id { get; set; }  
+       public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

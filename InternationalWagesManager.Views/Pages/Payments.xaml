@@ -30,14 +30,14 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Payment"  Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Grid.Column="1"/>
                 <Label Grid.Row="1" Grid.Column="1" Content="Employee:"/>
-                <ComboBox Grid.Row="1" Grid.Column="2" Height="45" Style="{StaticResource MahApps.Styles.ComboBox}"/>
+                <ComboBox Grid.Row="1" Grid.Column="2" Height="45" Style="{StaticResource MahApps.Styles.ComboBox}" ItemsSource="{Binding Employees}" SelectedIndex="{Binding ComboBoxSelectedIndex, Mode=TwoWay}"/>
                 <Label Grid.Row="2" Content="Month:" Grid.Column="1" mahApps:TextBoxHelper.Watermark="00/00/0000"/>
                 <Label Grid.Row="3" Content="Total:" Grid.Column="1" />
                 <Label Grid.Row="4" Content="Destination:" Grid.Column="1"/>
-                <TextBox Grid.Row="2" Grid.Column="2" />
-                <TextBox Grid.Row="3" Grid.Column="2" />
-                <TextBox Grid.Row="4" Grid.Column="2" />
-                <Button Grid.Row="5" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Dialogs}" Content="Submit"/>
+                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Payment.Date, Mode=TwoWay, Converter={StaticResource dateConvr}, ConverterCulture=en-GB, StringFormat={} {0:dd/MM/yyyy}}"/>
+                <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding Payment.Amount}"/>
+                <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Payment.Description}"/>
+                <Button Grid.Row="5" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Dialogs}" Content="Submit" Command="{Binding AddCommand}"/>
             </Grid>
 
         </Grid>

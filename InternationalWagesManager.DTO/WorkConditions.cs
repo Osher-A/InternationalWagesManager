@@ -14,7 +14,9 @@ namespace InternationalWagesManager.DTO
         public DateTime? Date { get; set; }
         public float? PayRate { get; set; }
         public Currency WageCurrency { get; set; }
+        public int WageCurrencyId { get; set; }
         public Currency ExpensesCurrency { get; set; }
+        public int? ExpensesCurrencyId { get; set; }
         public float? Deductions { get; set; }
 
     }

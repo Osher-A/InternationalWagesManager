@@ -6,12 +6,18 @@ using System.Threading.Tasks;
 
 namespace InternationalWagesManager.DTO
 {
-    public enum Currency
+    public class Currency
     {
-        GBP,
-        USD,
-        EUR,
-        CHF,
-        ILS
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+        //GBP,
+        //USD,
+        //EUR,
+        //CHF,
+        //ILS
     }
+
 }
+

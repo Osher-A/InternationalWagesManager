@@ -15,11 +15,11 @@
       TextElement.FontSize="14">
     <Page.Resources>
 
-        <ObjectDataProvider x:Key="currencyEnum" ObjectType="{x:Type sys:Enum}" MethodName="GetNames" >
+        <!--<ObjectDataProvider x:Key="currencyEnum" ObjectType="{x:Type sys:Enum}" MethodName="GetNames" >
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="currency:Currency"/>
             </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        </ObjectDataProvider>-->
     </Page.Resources>
 
     <Border MaxHeight="450" MaxWidth="550" BorderThickness="3" BorderBrush="DarkSlateGray">
@@ -53,8 +53,8 @@
                 <Label Grid.Row="6" Content="Deductions:" Grid.Column="1" />
                 <TextBox Grid.Row="2" Grid.Column="2" mahApps:TextBoxHelper.Watermark="00/00/0000" Text="{Binding WorkConditions.Date, Mode=TwoWay,UpdateSourceTrigger=LostFocus, Converter={StaticResource dateConvr}, StringFormat={} {0:dd/MM/yyyy}, ConverterCulture=en-GB}"  />
                 <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding WorkConditions.PayRate, Mode=TwoWay}" />
-                <ComboBox Grid.Row="4" Grid.Column="2" ItemsSource="{Binding Source={StaticResource currencyEnum}}" SelectedValue="{Binding WorkConditions.WageCurrency, Mode=TwoWay}" />
-                <ComboBox Grid.Row="5" Grid.Column="2" ItemsSource="{Binding Source={StaticResource currencyEnum}}" SelectedValue="{Binding WorkConditions.ExpensesCurrency, Mode=TwoWay}"/>
+                <ComboBox Grid.Row="4" Grid.Column="2"  />
+                <ComboBox Grid.Row="5" Grid.Column="2"/>
                 <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding WorkConditions.Deductions, Mode=TwoWay}" />
                 <Button Grid.Row="7" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Dialogs}" Content="Submit" Command="{Binding AddCommand}"/>
             </Grid>

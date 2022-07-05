@@ -14,5 +14,9 @@ namespace InternationalWagesManager.DTO
         public DateTime Month { get; set; }
         public decimal GrossPay { get; set; }
         public decimal NetPay { get; set; }
+        public Currency Currency { get; set; }
+        public int CurrencyId { get; set; }
+        public float WagesPayRate { get; set; }
+        public float ExpensesPayRate { get; set; }
     }
 }

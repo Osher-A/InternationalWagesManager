@@ -14,5 +14,9 @@ namespace InternationalWagesManager.Models
         public DateTime Month { get; set; }
         public decimal GrossPay { get; set; }
         public decimal NetPay { get; set; }
+        public Currency Currency { get; set; }
+        public int CurrencyId { get; set; }
+        public float WageRate { get; set; }
+        public float ExpensesRate { get; set; }
     }
 }
