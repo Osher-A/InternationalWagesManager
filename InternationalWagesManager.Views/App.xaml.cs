@@ -31,14 +31,14 @@ namespace InternationalWagesManager.Views
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
             // TESTER
-            //using (var scope = _serviceProvider.CreateScope())
-            //{
-            //    var repo = scope.ServiceProvider.GetRequiredService<IEmployeeRepository>();
-            //    var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
-            //    var employee = new DTO.Employee() { Email = "omoscovitch@gmail.com", FirstName = "aharon", LastName = "moscovitch", DOB = new DateTime(1984, 06, 04), Phone = "07928593096" };
-            //    var domain = new EmployeeManager(mapper, repo);
-            //    domain.UpdateEmployee(employee);
-            //}
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var salaryRepo = scope.ServiceProvider.GetRequiredService<ISalaryRepository>();
+                var wCRepo = scope.ServiceProvider.GetRequiredService<IWConditionsRepository>();
+                var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
+                var domain = new SalaryManager(mapper, salaryRepo, wCRepo);
+                domain.AddSalary();
+            }
 
         }
 
@@ -52,6 +52,7 @@ namespace InternationalWagesManager.Views
             services.AddScoped<IWConditionsRepository, WConditionsRepository>();
             services.AddScoped<ISalaryComponentsRepository, SalaryComponentsRepository>();
             services.AddScoped<IPaymentsRepository , PaymentsRepository>();
+            services.AddScoped<ISalaryRepository, SalaryRepository>();
             services.AddScoped<EmployeeManager>();
             services.AddSingleton<MainWindow>();
         }

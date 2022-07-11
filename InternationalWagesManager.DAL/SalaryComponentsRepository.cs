@@ -33,13 +33,12 @@ namespace InternationalWagesManager.DAL
             _db.SaveChanges();
         }
 
-        public SalaryComponents GetSalaryComponents(int employeeId, DateTime date)
+        public List<SalaryComponents> GetEmployeeSalaryComponents(int employeeId)
         {
             var result = _db.SalariesComponents
-                .FirstOrDefault(sc => sc.EmployeeId == employeeId
-                && sc.Month.Month == date.Month);
+                .Where(sc => sc.EmployeeId == employeeId).ToList();
 
-            return result ?? new();
+            return result;
         }
 
     }

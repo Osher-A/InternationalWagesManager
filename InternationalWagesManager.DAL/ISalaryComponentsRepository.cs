@@ -6,7 +6,7 @@ namespace InternationalWagesManager.DAL
     {
         void AddSalaryComponents(SalaryComponents newSC);
         void DeleteSalaryComponents(SalaryComponents SC);
-        SalaryComponents GetSalaryComponents(int employeeId, DateTime date);
+        List<SalaryComponents> GetEmployeeSalaryComponents(int employeeId);
         void UpdateSalaryComponents(SalaryComponents SC);
     }
 }

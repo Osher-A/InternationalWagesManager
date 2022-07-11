@@ -11,7 +11,7 @@ namespace InternationalWagesManager.DTO
         public int Id { get; set; }
         public Employee Employee { get; set; }
         public int EmployeeId { get; set; }
-        public DateTime? Month { get; set; }
+        public DateTime? Date { get; set; }
         public float? TotalHours { get; set; }
         public float? BonusHours { get; set; }
         public float? BonusWage { get; set; }

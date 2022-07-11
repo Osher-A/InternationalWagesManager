@@ -41,7 +41,7 @@
                 <Label Grid.Row="4" Content="Bonus hours:" Grid.Column="1"/>
                 <Label Grid.Row="5" Content="Bonus wages:" Grid.Column="1" />
                 <Label Grid.Row="6" Content="Expenses" Grid.Column="1" />
-                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SalaryComponents.Month, Converter={StaticResource dateConvr}, Mode=TwoWay, StringFormat={} {0: dd/MM/yyyy}, ConverterCulture=en-GB}" />
+                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SalaryComponents.Date, Converter={StaticResource dateConvr}, Mode=TwoWay, StringFormat={} {0: dd/MM/yyyy}, ConverterCulture=en-GB}" />
                 <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding SalaryComponents.TotalHours, Mode=TwoWay}"/>
                 <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SalaryComponents.BonusHours, Mode=TwoWay}"/>
                 <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding SalaryComponents.BonusWage, Mode=TwoWay}"/>

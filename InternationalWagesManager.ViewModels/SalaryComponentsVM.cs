@@ -16,7 +16,7 @@ namespace InternationalWagesManager.ViewModels
     {
         private EmployeeManager _employeeManager;
         private SalaryComponentsManager _salaryComponentsManager;
-        private SalaryComponents _salaryComponents = new SalaryComponents { Month = null };
+        private SalaryComponents _salaryComponents = new SalaryComponents { Date = null };
         private List<Employee> _modelEmployees = new List<Employee>();
 
         public List<string> Employees { get; set; }
@@ -63,7 +63,7 @@ namespace InternationalWagesManager.ViewModels
         private bool CanAddSalaryComponents(object obj)
         {
             if (ComboBoxSelectedIndex != "0"
-                && SalaryComponents.Month != null && SalaryComponents.TotalHours != null && SalaryComponents.TotalHours != 0)
+                && SalaryComponents.Date != null && SalaryComponents.TotalHours != null && SalaryComponents.TotalHours != 0)
                 return true;
 
             return false;

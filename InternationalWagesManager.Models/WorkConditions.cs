@@ -17,7 +17,9 @@ namespace InternationalWagesManager.Models
         public int WageCurrencyId { get; set; }
         public Currency ExpensesCurrency { get; set; }
         public int? ExpensesCurrencyId { get; set; }
-        public float Deductions { get; set; }
+        public Currency PayCurrency { get; set; }
+        public int? PayCurrencyId { get; set; }
+        public decimal Deductions { get; set; }
 
     }
 }
