@@ -16,7 +16,7 @@ namespace InternationalWagesManager.DTO
         public decimal Expenses { get; set; }
         public decimal GrossPay { get; set; }
         public decimal NetPay { get; set; }
-        public decimal WagesPayRate { get; set; }
-        public decimal ExpensesPayRate { get; set; }
+        public decimal WageRate { get; set; }
+        public decimal ExpensesRate { get; set; }
     }
 }

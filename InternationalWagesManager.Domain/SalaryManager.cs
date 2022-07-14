@@ -19,25 +19,40 @@ namespace InternationalWagesManager.Domain
         private readonly IMapper _mapper;
         private readonly ISalaryRepository _salaryRepo;
         private readonly WorkConditionsManager _workConditionsManager;
+        private readonly CurrenciesManager _currenciesManager;
         private SalaryComponents _salaryComponents = new ();
         private WorkConditions _workConditions = new();
         private readonly Salary _salary = new ();
         private decimal _employeeCurrencyWage;
         private decimal _expenses;
         private string _baseUrl;
-        public SalaryManager(IMapper mapper, ISalaryRepository salaryRepo, IWConditionsRepository wConditionsRepository)
+        public SalaryManager(IMapper mapper, ISalaryRepository salaryRepo, IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
         {
             _mapper = mapper;
             _salaryRepo = salaryRepo;
             _workConditionsManager = new WorkConditionsManager(mapper, wConditionsRepository);
+            _currenciesManager = new(mapper, currenciesRepository);
         }
 
-        public async Task AddSalary(DTO.SalaryComponents salaryComponents)
+        public List<Salary> GetSalaries(int employeeId, DateTime? fromDate = null, DateTime? toDate = null )
+        {
+            var allModelSalaries = _mapper.Map<List<Models.Salary>, List<DTO.Salary>>(_salaryRepo.GetAllSalaries(employeeId));
+            if (fromDate != null && toDate != null)
+                return allModelSalaries.Where(s => s.Month >= fromDate && s.Month <= toDate).ToList();
+            else if (fromDate != null)
+                return allModelSalaries.Where(s => s.Month >= fromDate).ToList();
+            else if (toDate != null)
+                return allModelSalaries.Where(s => s.Month <= toDate).ToList();
+
+            return allModelSalaries;
+        }
+
+        public async Task AddSalaryAsync(DTO.SalaryComponents salaryComponents)
         {
             _salaryComponents = salaryComponents;
             _workConditions = GetWorkConditions(salaryComponents.EmployeeId, salaryComponents.Date);
-            var employerCurrencyWage = await ApiExchangeRate(WageEndPoint(), _workConditions.PayCurrency.Name);
-            var employerCurrencyExpenses = await ApiExchangeRate(ExpensesEndPoint(), _workConditions.PayCurrency.Name);
+            var employerCurrencyWage = await ApiExchangeRate(WageEndPoint(), GetCurrencyName(_workConditions.PayCurrencyId));
+            var employerCurrencyExpenses = await ApiExchangeRate(ExpensesEndPoint(), GetCurrencyName(_workConditions.PayCurrencyId));
             SetUpSalaryData(employerCurrencyWage, employerCurrencyExpenses);
             AddSalaryToRepo();
         }
@@ -70,32 +85,37 @@ namespace InternationalWagesManager.Domain
         {
             var workHours = _salaryComponents.TotalHours + _salaryComponents.BonusHours;
             _employeeCurrencyWage = (decimal)((workHours * _workConditions.PayRate) + _salaryComponents.BonusWage);
-            string wageCurrency = _workConditions.WageCurrency.Name;
-            string payCurrency = _workConditions.PayCurrency.Name;
+            string wageCurrency = GetCurrencyName(_workConditions.WageCurrencyId);
+            string payCurrency = GetCurrencyName(_workConditions.PayCurrencyId);
             _baseUrl = $"http://api.frankfurter.app/{_salaryComponents.Date?.Date.ToString("yyyy-MM-dd")}";
             return $"?amount={_employeeCurrencyWage.ToString()}&from={wageCurrency}&to={payCurrency}";
         }
         private string ExpensesEndPoint()
         {
             _expenses = (decimal)_salaryComponents.Expenses;
-            string expensesCurrency = _workConditions.ExpensesCurrency.Name;
-            string payCurrency = _workConditions.PayCurrency.Name;
+            string expensesCurrency = GetCurrencyName(_workConditions.ExpensesCurrencyId);
+            string payCurrency = GetCurrencyName(_workConditions.PayCurrencyId);
             return $"?amount={_expenses.ToString()}&from={expensesCurrency}&to{payCurrency}";
         }
         private void SetUpSalaryData(decimal employerCurrencyWages, decimal employerCurrencyExpenses)
         {
+            _salary.EmployeeId = _salaryComponents.EmployeeId;
+            _salary.Month = (DateTime)_salaryComponents.Date;
             decimal deductionAmount = employerCurrencyWages * (decimal)_workConditions.Deductions;
             _salary.Wage = employerCurrencyWages - deductionAmount;
             _salary.Expenses = employerCurrencyExpenses;
             _salary.NetPay = employerCurrencyExpenses + employerCurrencyWages - deductionAmount;
             _salary.GrossPay = employerCurrencyWages + employerCurrencyExpenses;
-            _salary.WagesPayRate = _employeeCurrencyWage / employerCurrencyWages;
-            _salary.ExpensesPayRate = _expenses / employerCurrencyExpenses;
+            _salary.WageRate = _employeeCurrencyWage / employerCurrencyWages;
+            _salary.ExpensesRate = _expenses / employerCurrencyExpenses;
         }
         private void AddSalaryToRepo()
         {
             var modelSalary = _mapper.Map<DTO.Salary, Models.Salary>(_salary);
             _salaryRepo.AddSalary(modelSalary);
         }
+
+        private string GetCurrencyName(int? currencyId) =>
+            _currenciesManager.GetCurrencyName(currencyId);
     }
 }

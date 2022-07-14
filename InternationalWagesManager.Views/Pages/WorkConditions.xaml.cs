@@ -23,9 +23,9 @@ namespace InternationalWagesManager.Views.Pages
     /// </summary>
     public partial class WorkConditions : Page
     {
-        public WorkConditions(IMapper mapper, IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepository)
+        public WorkConditions(IMapper mapper, IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
         {
-            this.DataContext = new WorkConditionsVM(mapper, employeeRepository, wConditionsRepository);
+            this.DataContext = new WorkConditionsVM(mapper, employeeRepository, wConditionsRepository, currenciesRepository);
 
             InitializeComponent();
         }

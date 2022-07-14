@@ -4,6 +4,7 @@ using InternationalWagesManager.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InternationalWagesManager.Models.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220712105921_SeedingCurrencyTable")]
+    partial class SeedingCurrencyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,8 +117,7 @@ namespace InternationalWagesManager.Models.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("ExpensesRate")
-                        .HasPrecision(9, 5)
-                        .HasColumnType("decimal(9,5)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("GrossPay")
                         .HasColumnType("decimal(18,2)");
@@ -131,8 +132,7 @@ namespace InternationalWagesManager.Models.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("WageRate")
-                        .HasPrecision(9, 5)
-                        .HasColumnType("decimal(9,5)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -186,8 +186,7 @@ namespace InternationalWagesManager.Models.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Deductions")
-                        .HasPrecision(9, 8)
-                        .HasColumnType("decimal(9,8)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");

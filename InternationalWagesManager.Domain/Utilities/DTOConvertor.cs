@@ -11,6 +11,7 @@ namespace InternationalWagesManager.Domain.Utilities
             CreateMap<DTO.SalaryComponents, Models.SalaryComponents>().ReverseMap();
             CreateMap<DTO.WorkConditions, Models.WorkConditions>().ReverseMap();
             CreateMap<DTO.Payment, Models.Payment>().ReverseMap();
+            CreateMap<DTO.Currency, Models.Currency>().ReverseMap();
         }
     }
 }

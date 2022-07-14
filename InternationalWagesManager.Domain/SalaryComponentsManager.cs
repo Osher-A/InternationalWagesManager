@@ -17,20 +17,20 @@ namespace InternationalWagesManager.Domain
         private SalaryManager _salaryManager;
 
         public SalaryComponentsManager(IMapper mapper, ISalaryComponentsRepository sComponentsRepository, 
-            ISalaryRepository salaryRepository, IWConditionsRepository wConditionsRepository)
+            ISalaryRepository salaryRepository, IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
         {
             _mapper = mapper;
             _salaryComponentsRepository = sComponentsRepository;
-            _salaryManager = new(_mapper, salaryRepository, wConditionsRepository);
+            _salaryManager = new(_mapper, salaryRepository, wConditionsRepository, currenciesRepository);
         }
 
-        public void AddSalaryComponents(DTO.SalaryComponents salaryComponents)
+        public async Task AddSalaryComponentsAsync(DTO.SalaryComponents salaryComponents)
         {
             var modelSalaryComponents = _mapper.Map<DTO.SalaryComponents, Models.SalaryComponents>(salaryComponents);
             if (salaryComponents.EmployeeId != 0 && salaryComponents.TotalHours != 0)
             {
                 _salaryComponentsRepository.AddSalaryComponents(modelSalaryComponents);
-                _salaryManager.AddSalary(salaryComponents);
+                await _salaryManager.AddSalaryAsync(salaryComponents);
             }
         }
 

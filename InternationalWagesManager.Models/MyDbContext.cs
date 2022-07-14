@@ -29,6 +29,10 @@ namespace InternationalWagesManager.Models
         {
             modelBuilder.Entity<Employee>().HasIndex(ed => ed.Email).IsUnique();
 
+            modelBuilder.Entity<WorkConditions>().Property(wc => wc.Deductions).HasPrecision(9, 8);
+            modelBuilder.Entity<Salary>().Property(s => s.ExpensesRate).HasPrecision(9, 5);
+            modelBuilder.Entity<Salary>().Property(s => s.WageRate).HasPrecision(9, 5);
+
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
             base.OnModelCreating(modelBuilder);
         }

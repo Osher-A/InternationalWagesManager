@@ -45,10 +45,11 @@ namespace InternationalWagesManager.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public SalaryComponentsVM(AutoMapper.IMapper mapper, IEmployeeRepository employeeRepository, ISalaryComponentsRepository salaryComponetsRepo)
+        public SalaryComponentsVM(AutoMapper.IMapper mapper, IEmployeeRepository employeeRepository, ISalaryComponentsRepository salaryComponetsRepo,
+            ISalaryRepository salaryRepository, IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
         {
             _employeeManager = new EmployeeManager(mapper, employeeRepository);
-            _salaryComponentsManager = new SalaryComponentsManager(mapper, salaryComponetsRepo);
+            _salaryComponentsManager = new SalaryComponentsManager(mapper, salaryComponetsRepo, salaryRepository, wConditionsRepository, currenciesRepository);
             AddCommand = new CustomCommand(AddSalaryComponents, CanAddSalaryComponents);
             LoadData();
         }
@@ -57,7 +58,7 @@ namespace InternationalWagesManager.ViewModels
         {
             int employeeId = _modelEmployees[int.Parse(ComboBoxSelectedIndex) - 1].Id;
             SalaryComponents.EmployeeId = employeeId;
-            _salaryComponentsManager.AddSalaryComponents(SalaryComponents);
+            _salaryComponentsManager.AddSalaryComponentsAsync(SalaryComponents);
         }
 
         private bool CanAddSalaryComponents(object obj)

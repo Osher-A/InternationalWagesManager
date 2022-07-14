@@ -44,5 +44,7 @@ namespace InternationalWagesManager.DAL
         {
             return _db.Salaries.Where(s => s.EmployeeId == employeeId).ToList() ?? new();
         }
+
+        
     }
 }

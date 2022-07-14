@@ -22,9 +22,10 @@ namespace InternationalWagesManager.Views.Pages
     /// </summary>
     public partial class SalaryComponents : Page
     {
-        public SalaryComponents(IMapper mapper, IEmployeeRepository employeeRepository, ISalaryComponentsRepository salaryComponentsRepository)
+        public SalaryComponents(IMapper mapper, IEmployeeRepository employeeRepository, ISalaryComponentsRepository salaryComponentsRepository,
+            ISalaryRepository salaryRepository, IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
         {
-            this.DataContext = new ViewModels.SalaryComponentsVM(mapper, employeeRepository, salaryComponentsRepository);
+            this.DataContext = new ViewModels.SalaryComponentsVM(mapper, employeeRepository, salaryComponentsRepository, salaryRepository, wConditionsRepository, currenciesRepository);
             InitializeComponent();
         }
     }

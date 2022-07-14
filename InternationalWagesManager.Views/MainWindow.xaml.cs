@@ -30,15 +30,19 @@ namespace InternationalWagesManager.Views
         private IWConditionsRepository _wConditionsRepository;
         private ISalaryComponentsRepository _salaryComponentsRepository;
         private IPaymentsRepository _paymentsRepository;
+        private ISalaryRepository _salaryRepository;
+        private ICurrenciesRepository _currenciesRepository;
         private IMapper _mapper;
         public MainWindow(IMapper mapper,IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepository, 
-            ISalaryComponentsRepository salaryComponentsRepository, IPaymentsRepository paymentsRepository)
+            ISalaryComponentsRepository salaryComponentsRepository, IPaymentsRepository paymentsRepository,ISalaryRepository salaryRepository ,ICurrenciesRepository currenciesRepository)
         {
             _mapper = mapper;
             _employeeRepository = employeeRepository;
             _wConditionsRepository = wConditionsRepository;
             _salaryComponentsRepository = salaryComponentsRepository;
             _paymentsRepository = paymentsRepository;
+            _salaryRepository = salaryRepository;
+            _currenciesRepository = currenciesRepository;
             InitializeComponent();
         }
 
@@ -60,12 +64,12 @@ namespace InternationalWagesManager.Views
 
         private void TreeViewAddWorkConditions_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainWindowFrame.Content = new WorkConditions(_mapper, _employeeRepository, _wConditionsRepository);
+            MainWindowFrame.Content = new WorkConditions(_mapper, _employeeRepository, _wConditionsRepository, _currenciesRepository);
         }
 
         private void TreeViewAddSalaryComponents_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainWindowFrame.Content = new SalaryComponents(_mapper, _employeeRepository, _salaryComponentsRepository);
+            MainWindowFrame.Content = new SalaryComponents(_mapper, _employeeRepository, _salaryComponentsRepository, _salaryRepository, _wConditionsRepository, _currenciesRepository);
         }
 
         private void TreeViewAddPayment_MouseEnter(object sender, MouseEventArgs e)

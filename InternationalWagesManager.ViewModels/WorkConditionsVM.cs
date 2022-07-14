@@ -13,10 +13,13 @@ namespace InternationalWagesManager.ViewModels
     {
         private EmployeeManager _employeeManager;
         private WorkConditionsManager _workConditionsManager;
-        private WorkConditions _workConditions = new WorkConditions { Date = null };
+        private CurrenciesManager _currenciesManager;
+        private WorkConditions _workConditions = new WorkConditions { Date = null  };
         private List<Employee> _modelEmployees = new List<Employee>();
+        private List<Currency> _modelCurrencies = new List<Currency>(); 
 
         public List<string> Employees { get; set; }
+        public List<string> Currencies { get; set; }
 
         public WorkConditions WorkConditions
         {
@@ -27,14 +30,46 @@ namespace InternationalWagesManager.ViewModels
                 OnPropertyChanged(nameof(WorkConditions));
             }
         }
-        private string _comboBoxSelectedIndex = "0";
-        public string ComboBoxSelectedIndex
+        private string _employeeComboBoxSelectedIndex = "0";
+        public string EmployeeComboBoxSelectedIndex
         {
-            get { return _comboBoxSelectedIndex; }
+            get { return _employeeComboBoxSelectedIndex; }
             set
             {
-                _comboBoxSelectedIndex = value;
-                OnPropertyChanged(nameof(ComboBoxSelectedIndex));
+                _employeeComboBoxSelectedIndex = value;
+                OnPropertyChanged(nameof(EmployeeComboBoxSelectedIndex));
+            }
+        }
+        private string _wageCurrencyComboBoxSelectedIndex = "0";
+        public string WageCurrencyComboBoxSelectedIndex
+        {
+            get { return _wageCurrencyComboBoxSelectedIndex; }
+            set
+            {
+                _wageCurrencyComboBoxSelectedIndex = value;
+                OnPropertyChanged(nameof(WageCurrencyComboBoxSelectedIndex));
+            }
+        }
+
+        private string _expensesCurrencyComboBoxSelectedIndex = "0";
+        public string ExpensesCurrencyComboBoxSelectedIndex
+        {
+            get { return _expensesCurrencyComboBoxSelectedIndex; }
+            set
+            {
+                _expensesCurrencyComboBoxSelectedIndex = value;
+                OnPropertyChanged(nameof(ExpensesCurrencyComboBoxSelectedIndex));
+            }
+        }
+
+        private string _payCurrencyComboBoxSelectedIndex = "0";
+        public string PayCurrencyComboBoxSelectedIndex
+        {
+            get { return _payCurrencyComboBoxSelectedIndex; }
+            set
+            {
+                _payCurrencyComboBoxSelectedIndex = value;
+                OnPropertyChanged(nameof(PayCurrencyComboBoxSelectedIndex));
             }
         }
 
@@ -42,24 +77,31 @@ namespace InternationalWagesManager.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public WorkConditionsVM(AutoMapper.IMapper mapper, IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepo)
+        public WorkConditionsVM(AutoMapper.IMapper mapper, IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepo, ICurrenciesRepository currenciesRepository)
         {
             _employeeManager = new EmployeeManager(mapper, employeeRepository);
             _workConditionsManager = new WorkConditionsManager(mapper, wConditionsRepo);
+            _currenciesManager = new CurrenciesManager(mapper, currenciesRepository);
             AddCommand = new CustomCommand(AddWorkConditions, CanAddWorkConditions);
             LoadData();
         }
 
         private void AddWorkConditions(object obj)
         {
-            int employeeId = _modelEmployees[int.Parse(ComboBoxSelectedIndex) - 1].Id;
+            int employeeId = _modelEmployees[int.Parse(EmployeeComboBoxSelectedIndex) - 1].Id;
             WorkConditions.EmployeeId = employeeId;
+            WorkConditions.WageCurrencyId = _modelCurrencies[int.Parse(WageCurrencyComboBoxSelectedIndex) - 1].Id;
+            WorkConditions.ExpensesCurrencyId = _modelCurrencies[int.Parse(ExpensesCurrencyComboBoxSelectedIndex) - 1].Id;
+            WorkConditions.PayCurrencyId = _modelCurrencies[int.Parse(PayCurrencyComboBoxSelectedIndex) - 1].Id;
             _workConditionsManager.AddWorkConditions(WorkConditions);
+            WorkConditions = new WorkConditions { Date = null };
+            EmployeeComboBoxSelectedIndex = "0"; WageCurrencyComboBoxSelectedIndex = "0"; ExpensesCurrencyComboBoxSelectedIndex = "0"; PayCurrencyComboBoxSelectedIndex = "0";
         }
 
         private bool CanAddWorkConditions(object obj)
         {
-            if (ComboBoxSelectedIndex != "0"
+            if (EmployeeComboBoxSelectedIndex != "0" && WageCurrencyComboBoxSelectedIndex != "0" 
+                && ExpensesCurrencyComboBoxSelectedIndex != "0" && PayCurrencyComboBoxSelectedIndex != "0"
                 && WorkConditions.Date != null && WorkConditions.PayRate != 0)
                 return true;
 
@@ -73,6 +115,11 @@ namespace InternationalWagesManager.ViewModels
             _modelEmployees = _employeeManager.GetEmployees().ToList();
             foreach (var employee in _modelEmployees)
                 Employees.Add(employee.FullName);
+
+            Currencies = new List<string>() { "Select a currency!" };
+            _modelCurrencies = _currenciesManager.GetAllCurrencies().ToList();
+            foreach(var currency in _modelCurrencies)
+                Currencies.Add(currency.Name);
         }
         private void OnPropertyChanged(string propertyName)
         {

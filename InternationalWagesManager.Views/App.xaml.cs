@@ -31,14 +31,14 @@ namespace InternationalWagesManager.Views
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
             // TESTER
-            using (var scope = _serviceProvider.CreateScope())
-            {
-                var salaryRepo = scope.ServiceProvider.GetRequiredService<ISalaryRepository>();
-                var wCRepo = scope.ServiceProvider.GetRequiredService<IWConditionsRepository>();
-                var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
-                var domain = new SalaryManager(mapper, salaryRepo, wCRepo);
-                domain.AddSalary();
-            }
+            //using (var scope = _serviceProvider.CreateScope())
+            //{
+            //    var salaryRepo = scope.ServiceProvider.GetRequiredService<ISalaryRepository>();
+            //    var wCRepo = scope.ServiceProvider.GetRequiredService<IWConditionsRepository>();
+            //    var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
+            //    var domain = new SalaryManager(mapper, salaryRepo, wCRepo);
+            //    domain.AddSalaryAsync();
+            //}
 
         }
 
@@ -53,6 +53,7 @@ namespace InternationalWagesManager.Views
             services.AddScoped<ISalaryComponentsRepository, SalaryComponentsRepository>();
             services.AddScoped<IPaymentsRepository , PaymentsRepository>();
             services.AddScoped<ISalaryRepository, SalaryRepository>();
+            services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
             services.AddScoped<EmployeeManager>();
             services.AddSingleton<MainWindow>();
         }
