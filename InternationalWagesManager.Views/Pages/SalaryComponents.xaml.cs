@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
+using InternationalWagesManager.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,9 @@ namespace InternationalWagesManager.Views.Pages
     /// </summary>
     public partial class SalaryComponents : Page
     {
-        public SalaryComponents(IMapper mapper, IEmployeeRepository employeeRepository, ISalaryComponentsRepository salaryComponentsRepository,
-            ISalaryRepository salaryRepository, IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
+        public SalaryComponents(EmployeeManager employeeManager, SalaryComponentsManager salaryComponentsManager)
         {
-            this.DataContext = new ViewModels.SalaryComponentsVM(mapper, employeeRepository, salaryComponentsRepository, salaryRepository, wConditionsRepository, currenciesRepository);
+            this.DataContext = new ViewModels.SalaryComponentsVM(employeeManager, salaryComponentsManager);
             InitializeComponent();
         }
     }

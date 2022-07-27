@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
+using InternationalWagesManager.Domain;
 using InternationalWagesManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,9 @@ namespace InternationalWagesManager.Views.Pages
     /// </summary>
     public partial class Payments : Page
     {
-        public Payments(IMapper mapper, IEmployeeRepository employeeRepository, IPaymentsRepository paymentsRepository)
+        public Payments(EmployeeManager employeeManager, PaymentsManager paymentsManager)
         {
-            this.DataContext = new PaymentsVM(mapper, employeeRepository, paymentsRepository);
+            this.DataContext = new PaymentsVM(employeeManager, paymentsManager);
             InitializeComponent();
         }
     }

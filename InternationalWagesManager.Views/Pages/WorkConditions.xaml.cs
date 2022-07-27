@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
+using InternationalWagesManager.Domain;
 using InternationalWagesManager.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,9 @@ namespace InternationalWagesManager.Views.Pages
     /// </summary>
     public partial class WorkConditions : Page
     {
-        public WorkConditions(IMapper mapper, IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
+        public WorkConditions(EmployeeManager employeeManager, WorkConditionsManager workConditionsManager, CurrenciesManager currenciesManager)
         {
-            this.DataContext = new WorkConditionsVM(mapper, employeeRepository, wConditionsRepository, currenciesRepository);
+            this.DataContext = new WorkConditionsVM(employeeManager, workConditionsManager, currenciesManager);
 
             InitializeComponent();
         }

@@ -55,6 +55,12 @@ namespace InternationalWagesManager.Views
             services.AddScoped<ISalaryRepository, SalaryRepository>();
             services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
             services.AddScoped<EmployeeManager>();
+            services.AddScoped<WorkConditionsManager>();
+            services.AddScoped<SalaryComponentsManager>();
+            services.AddScoped<CurrenciesManager>();
+            services.AddScoped<SalaryManager>();
+            services.AddScoped<PaymentsManager>();
+            services.AddScoped<StatementManager>();
             services.AddSingleton<MainWindow>();
         }
 

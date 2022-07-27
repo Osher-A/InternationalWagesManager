@@ -45,11 +45,10 @@ namespace InternationalWagesManager.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public SalaryComponentsVM(AutoMapper.IMapper mapper, IEmployeeRepository employeeRepository, ISalaryComponentsRepository salaryComponetsRepo,
-            ISalaryRepository salaryRepository, IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
+        public SalaryComponentsVM(EmployeeManager employeeManager, SalaryComponentsManager salaryComponentsManager)
         {
-            _employeeManager = new EmployeeManager(mapper, employeeRepository);
-            _salaryComponentsManager = new SalaryComponentsManager(mapper, salaryComponetsRepo, salaryRepository, wConditionsRepository, currenciesRepository);
+            _employeeManager = employeeManager;
+            _salaryComponentsManager = salaryComponentsManager;
             AddCommand = new CustomCommand(AddSalaryComponents, CanAddSalaryComponents);
             LoadData();
         }

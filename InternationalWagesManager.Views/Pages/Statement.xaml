@@ -1,0 +1,50 @@
+﻿<Page x:Class="InternationalWagesManager.Views.Pages.Statement"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:local="clr-namespace:InternationalWagesManager.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Statement">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <ComboBox  Grid.ColumnSpan="2" Width="200" Height="45" Style="{StaticResource MahApps.Styles.ComboBox}" mahApps:TextBoxHelper.UseFloatingWatermark="True" mahApps:TextBoxHelper.Watermark="Employee" ItemsSource="{Binding Employees}" SelectedIndex="{Binding ComboBoxSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  >
+            <i:Interaction.Triggers>
+            <i:EventTrigger EventName="SelectionChanged">
+                <i:InvokeCommandAction Command="{Binding GetFullStatementCommand}"/>
+            </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+        <DataGrid Grid.Row="1"  Grid.ColumnSpan="2" HorizontalAlignment="Center" ColumnWidth="150" IsReadOnly="True" ItemsSource="{Binding Statements}" AutoGenerateColumns="False" Style="{StaticResource MahApps.Styles.DataGrid}" GridLinesVisibility="Horizontal">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={} {0:dd/MM/yyyy}, ConverterCulture=en-GB}"  IsReadOnly="True"/>
+                <DataGridTextColumn Header="Salary payable" Binding="{Binding SalaryPayable}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Payment" Binding="{Binding Payment}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Balance" Binding="{Binding Balance}" IsReadOnly="True"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--<DataGrid Grid.Row="1" Grid.Column="1" IsReadOnly="True" ItemsSource="{Binding Payments}" AutoGenerateColumns="False" Style="{StaticResource MaterialDesignDataGrid}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Payment Date" Binding="{Binding Date, StringFormat={} {0:dd/MM/yyyy}, ConverterCulture=en-GB}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Balance, StringFormat=Ballance: {0:}}" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+    </Grid>
+</Page>

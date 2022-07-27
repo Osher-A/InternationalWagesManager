@@ -60,9 +60,9 @@ namespace InternationalWagesManager.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         public static event PropertyChangedEventHandler?  StaticPropertyChanged;
 
-        public EmployeeDetailsVM(AutoMapper.IMapper mapper, IEmployeeRepository employeeRepository)
+        public EmployeeDetailsVM(EmployeeManager employeeManager)
         {
-            _employeeManager = new EmployeeManager(mapper, employeeRepository);
+            _employeeManager = employeeManager;
             AddAndEditCommand = new CustomCommand(AddOrEditEmployee, CanAddOrEditEmployee);
             LoadData();
         }

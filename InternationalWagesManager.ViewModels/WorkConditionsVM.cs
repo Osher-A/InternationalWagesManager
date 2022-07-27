@@ -77,11 +77,11 @@ namespace InternationalWagesManager.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public WorkConditionsVM(AutoMapper.IMapper mapper, IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepo, ICurrenciesRepository currenciesRepository)
+        public WorkConditionsVM(EmployeeManager employeeManager, WorkConditionsManager workConditionsManager, CurrenciesManager currenciesManager)
         {
-            _employeeManager = new EmployeeManager(mapper, employeeRepository);
-            _workConditionsManager = new WorkConditionsManager(mapper, wConditionsRepo);
-            _currenciesManager = new CurrenciesManager(mapper, currenciesRepository);
+            _employeeManager = employeeManager;
+            _workConditionsManager = workConditionsManager;
+            _currenciesManager = currenciesManager;
             AddCommand = new CustomCommand(AddWorkConditions, CanAddWorkConditions);
             LoadData();
         }

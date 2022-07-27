@@ -46,10 +46,10 @@ namespace InternationalWagesManager.ViewModels
         public ICommand AddCommand { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        public PaymentsVM(AutoMapper.IMapper mapper, IEmployeeRepository employeeRepository, IPaymentsRepository paymentsRepository)
+        public PaymentsVM(EmployeeManager employeeManager, PaymentsManager paymentsManager)
         {
-            _employeeManager = new EmployeeManager(mapper, employeeRepository);
-            _paymentsManager = new PaymentsManager(mapper, paymentsRepository);
+            _employeeManager = employeeManager;
+            _paymentsManager = paymentsManager;
             AddCommand = new CustomCommand(AddPayment, CanAddPayment);
             LoadData();
         }

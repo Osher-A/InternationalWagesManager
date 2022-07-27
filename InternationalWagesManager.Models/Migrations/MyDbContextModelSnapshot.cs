@@ -38,7 +38,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currencies");
+                    b.ToTable("Currencies", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.Employee", b =>
@@ -70,7 +70,7 @@ namespace InternationalWagesManager.Models.Migrations
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.Payment", b =>
@@ -97,7 +97,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.Salary", b =>
@@ -138,7 +138,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Salaries");
+                    b.ToTable("Salaries", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.SalaryComponents", b =>
@@ -171,7 +171,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("SalariesComponents");
+                    b.ToTable("SalariesComponents", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.WorkConditions", b =>
@@ -214,7 +214,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("WageCurrencyId");
 
-                    b.ToTable("WorkConditions");
+                    b.ToTable("WorkConditions", (string)null);
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.Payment", b =>

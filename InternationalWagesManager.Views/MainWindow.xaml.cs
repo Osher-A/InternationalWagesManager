@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AutoMapper;
 using InternationalWagesManager.DAL;
+using InternationalWagesManager.Domain;
 using InternationalWagesManager.ViewModels;
 using InternationalWagesManager.Views.Pages;
 using MahApps.Metro.Controls;
@@ -33,16 +34,23 @@ namespace InternationalWagesManager.Views
         private ISalaryRepository _salaryRepository;
         private ICurrenciesRepository _currenciesRepository;
         private IMapper _mapper;
-        public MainWindow(IMapper mapper,IEmployeeRepository employeeRepository, IWConditionsRepository wConditionsRepository, 
-            ISalaryComponentsRepository salaryComponentsRepository, IPaymentsRepository paymentsRepository,ISalaryRepository salaryRepository ,ICurrenciesRepository currenciesRepository)
+        private EmployeeManager _employeeManager;
+        private WorkConditionsManager _workConditionsManager;
+        private SalaryComponentsManager _salaryComponentsManager;
+        private SalaryManager _salaryManager;
+        private PaymentsManager _paymentsManager;
+        private CurrenciesManager _currenciesManager;
+        private StatementManager _balanceManager;
+        public MainWindow(EmployeeManager employeeManager, WorkConditionsManager workConditionsManager, SalaryComponentsManager salaryComponentsManager, 
+            SalaryManager salaryManager, CurrenciesManager currenciesManager, PaymentsManager paymentsManager, StatementManager balanceManager)
         {
-            _mapper = mapper;
-            _employeeRepository = employeeRepository;
-            _wConditionsRepository = wConditionsRepository;
-            _salaryComponentsRepository = salaryComponentsRepository;
-            _paymentsRepository = paymentsRepository;
-            _salaryRepository = salaryRepository;
-            _currenciesRepository = currenciesRepository;
+            _employeeManager = employeeManager;
+            _workConditionsManager = workConditionsManager;
+            _salaryComponentsManager = salaryComponentsManager;
+            _salaryManager = salaryManager;
+            _currenciesManager = currenciesManager;
+            _paymentsManager = paymentsManager;
+            _balanceManager = balanceManager;
             InitializeComponent();
         }
 
@@ -53,28 +61,33 @@ namespace InternationalWagesManager.Views
 
         private void TreeViewAddEmployee_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainWindowFrame.Content = new EmployeeDetails(_mapper, _employeeRepository);
+            MainWindowFrame.Content = new EmployeeDetails(_employeeManager);
             EmployeeDetailsVM.EditRowHeight = "0";
         }
         private void TreeViewEditEmployee_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainWindowFrame.Content = new EmployeeDetails(_mapper, _employeeRepository);
+            MainWindowFrame.Content = new EmployeeDetails(_employeeManager);
             EmployeeDetailsVM.EditRowHeight = "Auto";
         }
 
         private void TreeViewAddWorkConditions_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainWindowFrame.Content = new WorkConditions(_mapper, _employeeRepository, _wConditionsRepository, _currenciesRepository);
+            MainWindowFrame.Content = new WorkConditions(_employeeManager, _workConditionsManager, _currenciesManager);
         }
 
         private void TreeViewAddSalaryComponents_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainWindowFrame.Content = new SalaryComponents(_mapper, _employeeRepository, _salaryComponentsRepository, _salaryRepository, _wConditionsRepository, _currenciesRepository);
+            MainWindowFrame.Content = new SalaryComponents(_employeeManager, _salaryComponentsManager);
         }
 
         private void TreeViewAddPayment_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainWindowFrame.Content = new Payments(_mapper, _employeeRepository, _paymentsRepository);
+            MainWindowFrame.Content = new Payments(_employeeManager, _paymentsManager);
+        }
+
+        private void TreeViewStatement_MouseEnter(object sender, MouseEventArgs e)
+        {
+            MainWindowFrame.Content = new Statement(_salaryManager, _paymentsManager, _balanceManager, _employeeManager);
         }
        
     }
