@@ -18,7 +18,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternationalWagesManager.Domain", "InternationalWagesManager.Domain\InternationalWagesManager.Domain.csproj", "{8195597F-6143-4DDA-9572-6559CAF3E3E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternationalWagesManager.ViewModels", "InternationalWagesManager.ViewModels\InternationalWagesManager.ViewModels.csproj", "{12BE14D9-62E9-4C76-88B5-11742B55A957}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternationalWagesManager.ViewModels", "InternationalWagesManager.ViewModels\InternationalWagesManager.ViewModels.csproj", "{12BE14D9-62E9-4C76-88B5-11742B55A957}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorClient", "BlazorClient\BlazorClient.csproj", "{DA231B59-45B9-4BD3-BF61-6CEE30E9F468}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,10 @@ Global
 		{12BE14D9-62E9-4C76-88B5-11742B55A957}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12BE14D9-62E9-4C76-88B5-11742B55A957}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12BE14D9-62E9-4C76-88B5-11742B55A957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA231B59-45B9-4BD3-BF61-6CEE30E9F468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA231B59-45B9-4BD3-BF61-6CEE30E9F468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA231B59-45B9-4BD3-BF61-6CEE30E9F468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA231B59-45B9-4BD3-BF61-6CEE30E9F468}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

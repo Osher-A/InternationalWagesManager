@@ -1,4 +1,5 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace InternationalWagesManager.DTO
 {
     public class Employee 
