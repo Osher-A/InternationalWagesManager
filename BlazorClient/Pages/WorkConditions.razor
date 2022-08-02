@@ -1,0 +1,115 @@
+﻿@page "/workconditions"
+
+<EditForm  Model="this" OnValidSubmit="OnSubmit" style="width: 50%; margin: 3% auto auto auto;">
+    <h2 class="text-center m-4 header ">Work Conditions</h2>
+    <table class="mt-2 table table-bordered border-2 border-secondary">
+        <tbody>
+            <tr>
+                <th scope="row">Select an Employee:</th>
+                <td>
+                    <InputSelect @bind-Value=WorkConditons.EmployeeId class="form-control">
+                        <option value="0">Select a Employee</option>
+                        @foreach(var employee in Employees)
+                        {
+                            <option value="@employee.Id">@employee.FullName</option>
+                        }
+
+                    </InputSelect>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Date:</th>
+                <td>
+                    <InputDate @bind-Value=WorkConditons.Date class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Pay rate:</th>
+                <td>
+                    <InputNumber @bind-Value=WorkConditons.PayRate class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Wage currency:</th>
+                <td>
+                    <InputSelect @bind-Value=WorkConditons.WageCurrencyId class="form-control">
+                        <option value="0">Select a Currency</option>
+                        @foreach (var currency in Currencies)
+                        {
+                            <option value="@currency.Id">@currency.Name</option>
+                        }
+                    </InputSelect>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Expenses currency:</th>
+                <td>
+                    <InputSelect @bind-Value=WorkConditons.ExpensesCurrencyId class="form-control">
+                        <option value="0">Select a Currency</option>
+                        @foreach (var currency in Currencies)
+                        {
+                            <option value="@currency.Id">@currency.Name</option>
+                        }
+                    </InputSelect>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Pay currency:</th>
+                <td>
+                    <InputSelect @bind-Value=WorkConditons.PayCurrencyId class="form-control">
+                        <option value="0">Select a Currency</option>
+                        @foreach(var currency in Currencies)
+                        {
+                            <option value="@currency.Id">@currency.Name</option>
+                        }
+                    </InputSelect>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Deductions:</th>
+                <td>
+                    <InputNumber @bind-Value=WorkConditons.Deductions class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <th/>
+                <td>
+                    <button class="btn btn-primary form-control">Submit</button>
+                </td>
+            </tr>
+            
+        </tbody>
+
+    </table>
+
+</EditForm>
+
+
+@code {
+    private int EmployeeId { get; set; } = 0;
+    private List<Employee> Employees { get; set; } = new List<Employee>();
+    private WorkConditons WorkConditons { get; set; } = new WorkConditons();
+    private List<Currency> Currencies { get; set; } = new List<Currency>();
+
+    protected override void OnInitialized()
+    {
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        Employees = new List<Employee>()
+        {
+            new Employee { Id=1, FirstName="O.A.", LastName="Mosco", DOB =new DateTime(1984, 06, 04), Email="oamoacovit", Phone="020805032"},
+            new Employee { Id=2, FirstName="Chavi", LastName="Mosco", DOB =new DateTime(1987, 11, 13), Email="chavi@", Phone="020805032"},
+            new Employee { Id = 3, FirstName="Fred", LastName="Monkey", DOB =new DateTime(1999, 06, 04), Email="gialdj@", Phone="020805032"}
+        };
+    }
+
+    private void OnSubmit()
+    {
+
+    }
+
+
+}

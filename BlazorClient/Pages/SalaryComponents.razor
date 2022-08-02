@@ -1,0 +1,69 @@
+﻿@page "/salarycomponents"
+
+<EditForm Model=this style="width: 50%; margin:auto;">
+    <h2 class="header m-5 text-center">Salary Components</h2>
+    <table class="table table-bordered border-secondary">
+        <tbody>
+            <tr>
+            <th scope="row">Employee:</th>
+            <td>
+                <InputSelect @bind-Value=SalaryComponent.EmployeeId class="form-control">
+                    <option value="0">Select a Employee</option>
+                    @foreach (var employee in Employees)
+                    {
+                        <option value="@employee.Id">@employee.FullName</option>
+                    }
+                </InputSelect>
+            </td>
+            </tr>
+             <tr>
+            <th scope="row">Date:</th>
+            <td>
+                <InputDate @bind-Value=SalaryComponent.Date class="form-control"/>
+            </td>
+            </tr>
+             <tr>
+            <th scope="row">Total hours:</th>
+            <td>
+                <InputNumber @bind-Value=SalaryComponent.TotalHours class="form-control"/>
+            </td>
+            </tr>
+             <tr>
+            <th scope="row">Bonus hours:</th>
+            <td>
+                <InputNumber @bind-Value=SalaryComponent.BonusHours class="form-control"/>
+            </td>
+            </tr>
+             <tr>
+            <th scope="row">Bonus wages:</th>
+            <td>
+                <InputNumber @bind-Value=SalaryComponent.BonusWage class="form-control"/>
+            </td>
+            </tr>
+             <tr>
+            <th scope="row">Expenses:</th>
+            <td>
+                <InputNumber @bind-Value=SalaryComponent.Expenses class="form-control"/>
+            </td>
+            </tr>
+             <tr>
+            <th scope="row"/>
+            <td>
+                <button class="btn btn-primary form-control">Submit</button>
+            </td>
+            </tr>
+        </tbody>
+
+    </table>
+</EditForm>
+
+
+
+
+
+
+
+@code {
+    private List<Employee> Employees { get; set; } = new List<Employee>();
+    private ViewModel.SalaryComponents SalaryComponent { get; set; } = new();
+}

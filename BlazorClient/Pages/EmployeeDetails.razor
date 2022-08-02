@@ -8,10 +8,10 @@
 
 
 
-<EditForm Model=SelectedEmployee OnValidSubmit=OnSubmit>
+<EditForm Model=SelectedEmployee OnValidSubmit=OnSubmit style="width: 50%; margin: auto;">
 <DataAnnotationsValidator/>
-<h2 class="mt-5 text-center header">Employee's Details</h2>
-<div style="width: 50%; height: 20%; margin: 3% auto auto auto;">
+<h2 class="m-5 text-center header">Employee's Details</h2>
+<div >
     <table  class="table table-bordered border-2 border-secondary" >
   <tbody>
       <tr style="display: @Visibility">
@@ -46,7 +46,7 @@
       <td><InputText @bind-Value=SelectedEmployee.Email class="form-control" style="background-color: transparent"/></td>
     </tr>
     <tr>
-        <td colspan="2"><button class="btn btn-danger" style="width:39%; margin-right: 0.5%" type="button" @onclick=SetAction>@this.Action</button>
+        <td colspan="2"><button class="btn btn-danger" style="width:39%; margin-right: 0.5%" type="button" @onclick=SetAction>@this.ActionType</button>
            <button class="btn btn-primary" style="width: 59%;" type="submit">Submit</button> </td>
     </tr>
   </tbody>
@@ -59,7 +59,7 @@
     public IEnumerable<Employee> Employees = new List<Employee>();
     public int EmployeeId { get; set; }
     public string Visibility { get; set; } = "None";
-    public string Action { get; set; } = "Edit Details";
+    public string ActionType { get; set; } = "Edit Details";
 
     protected override void OnInitialized()
     {
@@ -69,14 +69,14 @@
     {
 
     }
-    public async void SetAction()
+    public void SetAction()
     {
         //To clear all fields and selection
         SelectedEmployee = new Employee();
         EmployeeId = 0;
         
-        Action = Action == "New Employee" ? "Edit Details" : "New Employee";
-        Visibility = Action == "Edit Details" ? "None" : "Normal";
+        ActionType = ActionType == "New Employee" ? "Edit Details" : "New Employee";
+        Visibility = ActionType == "Edit Details" ? "None" : "Normal";
         StateHasChanged();
     }
 
