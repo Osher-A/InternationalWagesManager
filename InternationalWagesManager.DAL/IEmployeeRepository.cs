@@ -7,7 +7,7 @@ namespace InternationalWagesManager.DAL
         void AddEmployee(Employee newEmployee);
         void DeleteEmployee(Employee employee);
         Employee GetEmployee(string email);
-        List<Employee> GetEmployees();
+        Task<List<Employee>> GetEmployeesAsync();
         void UpdateEmployee(Employee employee);
     }
 }

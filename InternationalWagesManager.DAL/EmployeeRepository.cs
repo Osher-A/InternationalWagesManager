@@ -1,4 +1,5 @@
 ﻿using InternationalWagesManager.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InternationalWagesManager.DAL
 {
@@ -34,9 +35,9 @@ namespace InternationalWagesManager.DAL
             return employee ?? new Employee();
         }
 
-        public List<Employee> GetEmployees()
+        public async Task<List<Employee>> GetEmployeesAsync()
         {
-            return _db.Employees.ToList();
+            return await _db.Employees.ToListAsync();
         }
     }
 }

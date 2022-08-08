@@ -28,7 +28,7 @@ namespace InternationalWagesManager.Domain
         
         public IEnumerable<DTO.Employee> GetEmployees()
         {
-            var modelEmployees =_employeeRepo.GetEmployees();
+            var modelEmployees = _employeeRepo.GetEmployeesAsync().GetAwaiter().GetResult();
             foreach (var employee in modelEmployees)
             {
                 var dtoEmployee = _mapper.Map<Models.Employee, DTO.Employee>(employee);
