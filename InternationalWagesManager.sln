@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorClient", "BlazorClien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{4CF6919C-13A9-4817-A8DA-06F941CC37A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiContracts", "ApiContracts\ApiContracts.csproj", "{578BE09B-8A4E-47D5-AE32-EF91B9DCBA38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiContracts", "ApiContracts\ApiContracts.csproj", "{578BE09B-8A4E-47D5-AE32-EF91B9DCBA38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

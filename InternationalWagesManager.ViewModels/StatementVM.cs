@@ -114,10 +114,10 @@ namespace InternationalWagesManager.ViewModels
         {
            return ComboBoxSelectedIndex != "0";
         }
-        private void LoadData()
+        private async void LoadData()
         {
             Employees = new() { "Select a employee!" };
-            _employees = _employeeManager.GetEmployees().ToList();
+            _employees = await _employeeManager.GetEmployees();
 
             foreach (var employee in _employees)
                 Employees.Add(employee.FullName);

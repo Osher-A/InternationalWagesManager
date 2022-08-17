@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InternationalWagesManager.DAL\InternationalWagesManager.DAL.csproj" />
+    <ProjectReference Include="..\InternationalWagesManager.Domain\InternationalWagesManager.Domain.csproj" />
     <ProjectReference Include="..\InternationalWagesManager.Models\InternationalWagesManager.Models.csproj" />
   </ItemGroup>
 

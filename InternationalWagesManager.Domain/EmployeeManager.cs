@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
+using InternationalWagesManager.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InternationalWagesManager.Domain
 {
@@ -10,14 +12,15 @@ namespace InternationalWagesManager.Domain
         public EmployeeManager(IMapper mapper, IEmployeeRepository employeeRepo)
         {
             _mapper = mapper;
-            _employeeRepo = employeeRepo;
+
+             _employeeRepo = employeeRepo;
         }
 
-        public void AddEmployee(DTO.Employee employee)
+        public async Task AddEmployee(DTO.Employee employee)
         {
             if(!string.IsNullOrWhiteSpace(employee.FirstName) && !string.IsNullOrWhiteSpace(employee.LastName)
                 && !string.IsNullOrWhiteSpace(employee.Email))
-                _employeeRepo.AddEmployee(_mapper.Map<DTO.Employee, Models.Employee>(employee));
+               await _employeeRepo.AddEmployee(_mapper.Map<DTO.Employee, Models.Employee>(employee));
         }
 
         public void UpdateEmployee(DTO.Employee employee)
@@ -26,14 +29,16 @@ namespace InternationalWagesManager.Domain
             _employeeRepo.UpdateEmployee(modelEmployee);
         }
         
-        public IEnumerable<DTO.Employee> GetEmployees()
+        public async Task<List<DTO.Employee>> GetEmployees()
         {
-            var modelEmployees = _employeeRepo.GetEmployeesAsync().GetAwaiter().GetResult();
+            var listOfEmployees = new List<DTO.Employee>();
+            var modelEmployees = await _employeeRepo.GetEmployeesAsync();
             foreach (var employee in modelEmployees)
             {
                 var dtoEmployee = _mapper.Map<Models.Employee, DTO.Employee>(employee);
-                yield return dtoEmployee;
+                listOfEmployees.Add(dtoEmployee);
             }
+            return listOfEmployees;
         }
     }
 }

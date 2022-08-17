@@ -4,9 +4,9 @@ namespace InternationalWagesManager.DAL
 {
     public interface IEmployeeRepository
     {
-        void AddEmployee(Employee newEmployee);
+        Task<int> AddEmployee(Employee newEmployee);
         void DeleteEmployee(Employee employee);
-        Employee GetEmployee(string email);
+        Task<Employee?> GetEmployeeAsync(int id);
         Task<List<Employee>> GetEmployeesAsync();
         void UpdateEmployee(Employee employee);
     }

@@ -69,11 +69,11 @@ namespace InternationalWagesManager.ViewModels
             return false;
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
             Employees = new List<string>() { "Select a employee!" };
 
-            _modelEmployees = _employeeManager.GetEmployees().ToList();
+            _modelEmployees = await _employeeManager.GetEmployees();
             foreach (var employee in _modelEmployees)
                 Employees.Add(employee.FullName);
         }

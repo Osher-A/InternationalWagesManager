@@ -1,8 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
-@using BlazorClient.ViewModel
-@using Microsoft.JSInterop;
+@using Microsoft.JSInterop
+@using AutoMapper
+
 
 @inject IJSRuntime _jsRuntime;
+@inject IEmployeeRepository _employeeRepo;
+@inject IMapper _mapper;
 
 @page "/employee"
 
@@ -14,9 +17,9 @@
 <div >
     <table  class="table table-bordered border-2 border-secondary" >
   <tbody>
-      <tr style="display: @Visibility">
+      <tr style="display: @ComboBoxVisibility">
           <th scope="row">Select Employee:</th>
-          <td><select id="employee" class="form-control border-3 border-dark"   @bind-value="EmployeeId" @bind-value:event="oninput"   @onchange=SelectionChanged >
+          <td><select id="employee" class="form-control border-3 border-dark "   @bind-value="EmployeeId" @bind-value:event="oninput"   @onchange=SelectionChanged >
               <option value="0" selected>Please select a employee!</option>
 				@foreach(var employee in Employees)
 				{
@@ -55,28 +58,29 @@
 </EditForm>
 
 @code {
+    private EmployeeManager _employeeManager;
     public Employee SelectedEmployee { get; set; } = new();
     public IEnumerable<Employee> Employees = new List<Employee>();
     public int EmployeeId { get; set; }
-    public string Visibility { get; set; } = "None";
-    public string ActionType { get; set; } = "Edit Details";
+    public string ComboBoxVisibility { get; set; } = "None";
+    public string ActionType { get; set; } = EDIT;
+    const string EDIT = "Edit Details";
+    const string NEW = "New Employee";
 
     protected override void OnInitialized()
     {
+        _employeeManager = new EmployeeManager(_mapper, _employeeRepo);
         LoadData();
     }
-    public void OnSubmit()
-    {
 
-    }
     public void SetAction()
     {
         //To clear all fields and selection
         SelectedEmployee = new Employee();
         EmployeeId = 0;
-        
-        ActionType = ActionType == "New Employee" ? "Edit Details" : "New Employee";
-        Visibility = ActionType == "Edit Details" ? "None" : "Normal";
+
+        ActionType = ActionType == NEW ? EDIT : NEW;
+        ComboBoxVisibility = ActionType == EDIT ? "None" : "Normal";
         StateHasChanged();
     }
 
@@ -85,19 +89,28 @@
         SelectedEmployee = Employees.Single(e => e.Id == EmployeeId);
     }
 
-    private void LoadData()
+    public async void OnSubmit()
     {
-        Employees = new List<Employee>()
-        {
-            new Employee { Id=1, FirstName="O.A.", LastName="Mosco", DOB =new DateTime(1984, 06, 04), Email="oamoacovit", Phone="020805032"},
-            new Employee { Id=2, FirstName="Chavi", LastName="Mosco", DOB =new DateTime(1987, 11, 13), Email="chavi@", Phone="020805032"},
-            new Employee { Id = 3, FirstName="Fred", LastName="Monkey", DOB =new DateTime(1999, 06, 04), Email="gialdj@", Phone="020805032"}
-        };
+        var dtoEmpoyee = _mapper.Map<InternationalWagesManager.DTO.Employee>(SelectedEmployee);
+        if (ActionType == EDIT)
+            await _employeeManager.AddEmployee(dtoEmpoyee);
+        else
+            _employeeManager.UpdateEmployee(dtoEmpoyee);
+
+        SelectedEmployee = new Employee();
+    }
+
+    private async void LoadData()
+    {
+        Employees = _mapper.Map<List<Employee>>(await _employeeManager.GetEmployees());
+        StateHasChanged();
     }
 
     //public async Task ClearSelection()
     //{
     //    await _jsRuntime.InvokeVoidAsync("selectIndex", "employee", 0);
     //}
+
+   
 }
 

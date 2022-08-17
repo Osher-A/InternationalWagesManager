@@ -1,6 +1,10 @@
 ﻿using InternationalWagesManager.Models;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Controllers;
+using AutoMapper;
+using System.Reflection;
+using InternationalWagesManager.DAL;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,13 +18,16 @@ builder.Services.AddCors(opt =>
         builder.AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
-    });
+    });             
 });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MyDbContext>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 var app = builder.Build();
 
@@ -29,10 +36,24 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // Global exception handler
+    app.UseExceptionHandler("/error-development");
+}
+else
+{
+   app.UseExceptionHandler("/error");
 }
 
+
 app.UseHttpsRedirection();
-app.UseCors();
+app.UseCors(cors => cors
+.AllowAnyMethod()
+.AllowAnyHeader()
+.SetIsOriginAllowed(origin => true)
+.AllowCredentials()
+);
+
 app.UseAuthorization();
 
 app.MapControllers();

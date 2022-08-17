@@ -11,10 +11,11 @@ namespace InternationalWagesManager.DAL
             _db = dbContext;
         }
 
-        public void AddEmployee(Employee newEmployee)
+        public async Task<int> AddEmployee(Employee newEmployee)
         {
-            _db.Employees.Add(newEmployee);
+            await _db.Employees.AddAsync(newEmployee);
             _db.SaveChanges();
+            return newEmployee.Id;
         }
 
         public void UpdateEmployee(Employee employee)
@@ -29,10 +30,9 @@ namespace InternationalWagesManager.DAL
             _db.SaveChanges();
         }
 
-        public Employee GetEmployee(string email)
+        public async Task<Employee?> GetEmployeeAsync(int id)
         {
-            var employee = _db.Employees.FirstOrDefault(e => e.Email.Trim() == email.Trim());
-            return employee ?? new Employee();
+            return await _db.Employees.FindAsync(id);
         }
 
         public async Task<List<Employee>> GetEmployeesAsync()

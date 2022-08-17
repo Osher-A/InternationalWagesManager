@@ -67,10 +67,10 @@ namespace InternationalWagesManager.ViewModels
             LoadData();
         }
 
-        private void AddOrEditEmployee(object obj)
+        private async void AddOrEditEmployee(object obj)
         {
             if(EditRowHeight == "0")
-            _employeeManager.AddEmployee(SelectedEmployee);
+           await _employeeManager.AddEmployee(SelectedEmployee);
             else
                 _employeeManager.UpdateEmployee(SelectedEmployee);
 
@@ -94,12 +94,12 @@ namespace InternationalWagesManager.ViewModels
                 SelectedEmployee = new Employee() { DOB = null };
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
             // To ensure its empty when called after an update
             Employees = new ObservableCollection<string>() { "Select a employee!"};   
 
-            _modelEmployees = _employeeManager.GetEmployees().ToList();
+            _modelEmployees = await  _employeeManager.GetEmployees();
             foreach (var employee in _modelEmployees)
                 Employees.Add(employee.FullName);
         }
@@ -112,7 +112,7 @@ namespace InternationalWagesManager.ViewModels
         private static void OnStaticPropertyChanged(string propertyName)
         {
             if(StaticPropertyChanged != null)
-            StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(propertyName));
+                 StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

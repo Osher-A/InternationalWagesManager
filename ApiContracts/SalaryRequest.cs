@@ -16,4 +16,3 @@ namespace ApiContracts
         decimal WageRate,
         decimal ExpensesRate);
 }
-ֱֱֱ

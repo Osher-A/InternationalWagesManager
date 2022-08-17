@@ -7,117 +7,102 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InternationalWagesManager.Models;
 using Microsoft.AspNetCore.Cors;
+using ApiContracts;
+using AutoMapper;
+using InternationalWagesManager.DAL;
+using ApiContracts.ResponseStatus;
 
-namespace WebApi.Controllers
+namespace WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class EmployeesController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class EmployeesController : ControllerBase
+    private IMapper _mapper;
+    private IEmployeeRepository _employeeRepo;
+    public EmployeesController(IMapper mapper, IEmployeeRepository employeeRepository)
     {
-        private readonly MyDbContext _context;
-        public EmployeesController(MyDbContext context)
+        _mapper = mapper;
+        _employeeRepo = employeeRepository;
+    }
+
+    // GET: api/Employees
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<EmployeeResponse>>> GetEmployees()
+    {
+        if (await _employeeRepo.GetEmployeesAsync() == null)
         {
-            _context = context;
+            return Problem("Entity set 'MyDbContext.Employees'  is null.");
         }
+        return _mapper.Map<List<Employee>, List<EmployeeResponse>>(await _employeeRepo.GetEmployeesAsync());
+    }
 
-        // GET: api/Employees
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
-        {
-          if (_context.Employees == null)
-          {
-              return NotFound();
-          }
-            return await _context.Employees.ToListAsync();
-        }
-
-        // GET: api/Employees/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
-        {
-          if (_context.Employees == null)
-          {
-              return NotFound();
-          }
-            var employee = await _context.Employees.FindAsync(id);
-
-            if (employee == null)
+    // GET: api/Employees/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<EmployeeResponse>> GetEmployee(int id)
+    {
+        if (id < 1)
+            return BadRequest(new ErrorResponse()
             {
-                return NotFound();
-            }
+                ErrorMessage = "Invalid id",
+                StatusCode = StatusCodes.Status400BadRequest
+            });
+        var result = await _employeeRepo.GetEmployeeAsync(id);
 
-            return employee;
-        }
+        if (result == null)
+            return NotFound();
 
-        // PUT: api/Employees/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
-        {
-            if (id != employee.Id)
-            {
-                return BadRequest();
-            }
+        return _mapper.Map<EmployeeResponse>(result);
+    }
 
-            _context.Entry(employee).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployeeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+    // POST: api/employees/AddEmployee
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPost ("AddEmployee")]
+    public async Task<ActionResult<EmployeeResponse>> AddEmployee([FromBody] EmployeeRequest employee)
+    {
+      int employeeId =  await _employeeRepo.AddEmployee(_mapper.Map<Employee>(employee));
 
-            return NoContent();
-        }
+        var employeeResponse = new EmployeeResponse(employeeId, employee.FirstName,
+            employee.LastName, employee.DOB, employee.Phone, employee.Email);
+        
+        return CreatedAtAction(nameof(GetEmployee), new { id = employeeId }, employee);
 
-        // POST: api/Employees
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost ("/AddEmployee")]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
-        {
-          if (_context.Employees == null)
-          {
-              return Problem("Entity set 'MyDbContext.Employees'  is null.");
-          }
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
+    }
 
-            return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
-        }
+    // PUT: api/Employees/5
+    [HttpPut("{id}")]
+    public IActionResult UpdateEmployee(int id, EmployeeRequest employee)
+    {
+        if (id < 1)
+            return BadRequest();
 
-        // DELETE: api/Employees/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmployee(int id)
-        {
-            if (_context.Employees == null)
-            {
-                return NotFound();
-            }
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+        if (!EmployeeExists(id))
+            return NotFound();
 
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+        Employee modelEmployee = _mapper.Map<Employee>(employee);
+        modelEmployee.Id = id;
+        _employeeRepo.UpdateEmployee(modelEmployee);
 
-            return NoContent();
-        }
+        return CreatedAtAction(nameof(GetEmployee), new { id = modelEmployee.Id }, employee);
+    }
 
-        private bool EmployeeExists(int id)
-        {
-            return (_context.Employees?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+    // DELETE: api/Employees/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteEmployee(int id)
+    {
+        var employee = await _employeeRepo.GetEmployeeAsync(id);
+
+        if (employee == null)
+            return NotFound();
+
+       _employeeRepo.DeleteEmployee(employee);
+
+        return NoContent();
+    }
+
+    private bool EmployeeExists(int id)
+    {
+        return  _employeeRepo.GetEmployeeAsync(id)  != null ;
     }
 }

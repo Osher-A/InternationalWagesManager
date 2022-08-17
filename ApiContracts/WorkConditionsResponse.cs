@@ -15,3 +15,4 @@ namespace ApiContracts
         int ExpensesCurrencyId,
         int PayCurrencyId,
         decimal Deductions);
+}
