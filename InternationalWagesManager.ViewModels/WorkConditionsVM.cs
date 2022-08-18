@@ -117,7 +117,7 @@ namespace InternationalWagesManager.ViewModels
                 Employees.Add(employee.FullName);
 
             Currencies = new List<string>() { "Select a currency!" };
-            _modelCurrencies = _currenciesManager.GetAllCurrencies().ToList();
+            _modelCurrencies = (await _currenciesManager.GetAllCurrencies()).ToList();
             foreach(var currency in _modelCurrencies)
                 Currencies.Add(currency.Name);
         }

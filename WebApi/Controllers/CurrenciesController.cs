@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InternationalWagesManager.Models;
+using InternationalWagesManager.DAL;
+using ApiContracts;
+using AutoMapper;
 
 namespace WebApi.Controllers
 {
@@ -13,33 +16,35 @@ namespace WebApi.Controllers
     [ApiController]
     public class CurrenciesController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private IMapper _mapper;
+        private ICurrenciesRepository _currenciesRepository;
 
-        public CurrenciesController(MyDbContext context)
+        public CurrenciesController(IMapper mapper, ICurrenciesRepository currenciesRepository)
         {
-            _context = context;
+            _mapper = mapper;
+            _currenciesRepository = currenciesRepository;
         }
 
         // GET: api/Currencies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Currency>>> GetCurrencies()
+        public async Task<ActionResult<IEnumerable<CurrencyResponse>>> GetCurrencies()
         {
-          if (_context.Currencies == null)
+          if (await _currenciesRepository.GetAllCurrenciesAsync() == null)
           {
-              return NotFound();
+                return Problem("Entity set 'MyDbContext.Currencies' is null.");
           }
-            return await _context.Currencies.ToListAsync();
+            return _mapper.Map<List<CurrencyResponse>>(await _currenciesRepository.GetAllCurrenciesAsync());
         }
 
         // GET: api/Currencies/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Currency>> GetCurrency(int id)
+        public async Task<ActionResult<CurrencyResponse>> GetCurrency(int id)
         {
-          if (_context.Currencies == null)
+          if (await _currenciesRepository.GetAllCurrenciesAsync() == null)
           {
-              return NotFound();
-          }
-            var currency = await _context.Currencies.FindAsync(id);
+                return Problem("Entity set 'MyDbContext.Currencies' is null.");
+            }
+            var currency = await GetCurrencyResponse(id);
 
             if (currency == null)
             {
@@ -49,75 +54,55 @@ namespace WebApi.Controllers
             return currency;
         }
 
-        // PUT: api/Currencies/5
+        // POST: api/Currencies/addcurrency
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCurrency(int id, Currency currency)
+        [HttpPost("AddCurrency")]
+        public ActionResult AddCurrency(CurrencyRequest currencyRequest)
         {
-            if (id != currency.Id)
-            {
-                return BadRequest();
-            }
+            var modelCurrency = GetModelCurrency(currencyRequest);
+            _currenciesRepository.AddCurrency(modelCurrency);
 
-            _context.Entry(currency).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CurrencyExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok();
         }
 
-        // POST: api/Currencies
+        // PUT: api/Currencies/update/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Currency>> PostCurrency(Currency currency)
+        [HttpPut("Update/{id}")]
+        public async Task<IActionResult> UpdateCurrency(int id, CurrencyRequest currencyRequest)
         {
-          if (_context.Currencies == null)
-          {
-              return Problem("Entity set 'MyDbContext.Currencies'  is null.");
-          }
-            _context.Currencies.Add(currency);
-            await _context.SaveChangesAsync();
+            if (GetCurrencyResponse(id) == null)
+            {
+                return NotFound();
+            }
 
-            return CreatedAtAction("GetCurrency", new { id = currency.Id }, currency);
+            var modelCurrency = GetModelCurrency(currencyRequest);
+            modelCurrency.Id = id;
+
+            _currenciesRepository.UpdateCurrency(modelCurrency);
+
+            return CreatedAtAction(nameof(GetCurrency), new {Id = id}, currencyRequest);
         }
 
-        // DELETE: api/Currencies/5
-        [HttpDelete("{id}")]
+
+        // DELETE: api/Currencies/delete/5
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteCurrency(int id)
         {
-            if (_context.Currencies == null)
-            {
+           var modelCurrency = (await _currenciesRepository.GetAllCurrenciesAsync()).SingleOrDefault(cr => cr.Id == id);
+            if (modelCurrency == null)
                 return NotFound();
-            }
-            var currency = await _context.Currencies.FindAsync(id);
-            if (currency == null)
-            {
-                return NotFound();
-            }
 
-            _context.Currencies.Remove(currency);
-            await _context.SaveChangesAsync();
+            _currenciesRepository.DeleteCurrency(modelCurrency);
 
             return NoContent();
         }
 
-        private bool CurrencyExists(int id)
-        {
-            return (_context.Currencies?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+       
+
+        private async Task<CurrencyResponse> GetCurrencyResponse(int id) =>
+             _mapper.Map<CurrencyResponse>((await _currenciesRepository.GetAllCurrenciesAsync()).SingleOrDefault(cr => cr.Id == id));
+        
+        private Currency GetModelCurrency(CurrencyRequest currencyRequest) =>
+            _mapper.Map<Currency>(currencyRequest);
     }
 }

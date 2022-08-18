@@ -17,16 +17,15 @@ namespace InternationalWagesManager.Domain
         {
             _mapper = mapper;
             _currenciesRepo = currenciesRepo;
-            AllCurrencies = GetAllCurrencies();
         }   
 
-        public List<DTO.Currency> GetAllCurrencies()
+        public async Task<List<DTO.Currency>> GetAllCurrencies()
         {
-            var dtoCurrencies = _mapper.Map<List<Models.Currency>, List<DTO.Currency>>(_currenciesRepo.GetAllCurrencies());
+            var dtoCurrencies = _mapper.Map<List<Models.Currency>, List<DTO.Currency>>(await _currenciesRepo.GetAllCurrenciesAsync());
             return dtoCurrencies;
         }
 
-        public string GetCurrencyName(int? CurrencyId) =>
-            AllCurrencies.Find(c => c.Id == CurrencyId)?.Name ?? "";
+        public async Task<string> GetCurrencyName(int? CurrencyId) =>
+           (await GetAllCurrencies()).Find(c => c.Id == CurrencyId)?.Name ?? "";
     }
 }

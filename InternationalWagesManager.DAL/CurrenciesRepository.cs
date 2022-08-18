@@ -1,4 +1,5 @@
 ﻿using InternationalWagesManager.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,27 @@ namespace InternationalWagesManager.DAL
             _db = db;
         }
 
-        public List<Currency> GetAllCurrencies()
+        public async Task<List<Currency>> GetAllCurrenciesAsync()
         {
-            return _db.Currencies.ToList();
+            return await _db.Currencies.ToListAsync();
+        }
+
+        public void AddCurrency(Currency currency)
+        {
+            _db.Currencies.Add(currency);
+            _db.SaveChanges();
+        }
+
+        public void UpdateCurrency(Currency currency)
+        {
+            _db.Currencies.Update(currency);
+            _db.SaveChanges();
+        }
+
+        public void DeleteCurrency(Currency currency)
+        {
+            _db.Currencies.Remove(currency);
+            _db.SaveChanges();
         }
     }
 }

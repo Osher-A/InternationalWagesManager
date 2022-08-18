@@ -18,8 +18,8 @@ namespace WebApi
             CreateMap<WorkConditionsResponse, WorkConditions>().ReverseMap();
             CreateMap<PaymentRequest, Payment>().ReverseMap();
             CreateMap<PaymentResponse, Payment>().ReverseMap();
-            CreateMap<CurrencyRequest, Payment>().ReverseMap();
-            CreateMap<CurrencyResponse, Payment>().ReverseMap();
+            CreateMap<CurrencyRequest, Currency>().ReverseMap();
+            CreateMap<CurrencyResponse, Currency>().ReverseMap();
         }
     }
 }

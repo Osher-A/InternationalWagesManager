@@ -4,6 +4,7 @@ using WebApi.Controllers;
 using AutoMapper;
 using System.Reflection;
 using InternationalWagesManager.DAL;
+using ApiContracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MyDbContext>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
 
 var app = builder.Build();
 

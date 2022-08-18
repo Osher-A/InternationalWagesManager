@@ -11,7 +11,7 @@ namespace InternationalWagesManager.DAL
             _db = dbContext;
         }
 
-        public async Task<int> AddEmployee(Employee newEmployee)
+        public async Task<int> AddEmployeeAsync(Employee newEmployee)
         {
             await _db.Employees.AddAsync(newEmployee);
             _db.SaveChanges();

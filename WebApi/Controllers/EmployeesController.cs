@@ -61,7 +61,7 @@ public class EmployeesController : ControllerBase
     [HttpPost ("AddEmployee")]
     public async Task<ActionResult<EmployeeResponse>> AddEmployee([FromBody] EmployeeRequest employee)
     {
-      int employeeId =  await _employeeRepo.AddEmployee(_mapper.Map<Employee>(employee));
+      int employeeId =  await _employeeRepo.AddEmployeeAsync(_mapper.Map<Employee>(employee));
 
         var employeeResponse = new EmployeeResponse(employeeId, employee.FirstName,
             employee.LastName, employee.DOB, employee.Phone, employee.Email);

@@ -36,7 +36,7 @@ public class EmployeeApiRepo : IEmployeeRepository
         return employees;
     }
 
-    public async Task<int> AddEmployee(Employee newEmployee)
+    public async Task<int> AddEmployeeAsync(Employee newEmployee)
     {
         var bodyContent = BodyForRequest(newEmployee);
         string endPoint = "/AddEmployee";
@@ -71,8 +71,8 @@ public class EmployeeApiRepo : IEmployeeRepository
 
     private StringContent BodyForRequest(Employee employee)
     {
-        var jsonString = JsonConvert.SerializeObject(employee);
-        return  new StringContent(jsonString, Encoding.UTF8, "application/json");
+        var jsonContent = JsonConvert.SerializeObject(employee);
+        return  new StringContent(jsonContent, Encoding.UTF8, "application/json");
     }
    
     private async Task<(bool, string)> ResponseStatusAndContent(string url)

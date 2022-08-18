@@ -51,8 +51,8 @@ namespace InternationalWagesManager.Domain
         {
             _salaryComponents = salaryComponents;
             _workConditions = GetWorkConditions(salaryComponents.EmployeeId, salaryComponents.Date);
-            var employerCurrencyWage = await ApiExchangeRate(WageEndPoint(), GetCurrencyName(_workConditions.PayCurrencyId));
-            var employerCurrencyExpenses = await ApiExchangeRate(ExpensesEndPoint(), GetCurrencyName(_workConditions.PayCurrencyId));
+            var employerCurrencyWage = await ApiExchangeRate(await WageEndPoint(), await GetCurrencyName(_workConditions.PayCurrencyId));
+            var employerCurrencyExpenses = await ApiExchangeRate(await ExpensesEndPoint(), await GetCurrencyName(_workConditions.PayCurrencyId));
             SetUpSalaryData(employerCurrencyWage, employerCurrencyExpenses);
             AddSalaryToRepo();
         }
@@ -81,20 +81,20 @@ namespace InternationalWagesManager.Domain
             }
             return exchangeRate;
         }
-        private string WageEndPoint()
+        private async Task<string> WageEndPoint()
         {
             var workHours = _salaryComponents.TotalHours + _salaryComponents.BonusHours;
             _employeeCurrencyWage = (decimal)((workHours * _workConditions.PayRate) + _salaryComponents.BonusWage);
-            string wageCurrency = GetCurrencyName(_workConditions.WageCurrencyId);
-            string payCurrency = GetCurrencyName(_workConditions.PayCurrencyId);
+            string wageCurrency = await GetCurrencyName(_workConditions.WageCurrencyId);
+            string payCurrency = await GetCurrencyName(_workConditions.PayCurrencyId);
             _baseUrl = $"http://api.frankfurter.app/{_salaryComponents.Date?.Date.ToString("yyyy-MM-dd")}";
             return $"?amount={_employeeCurrencyWage.ToString()}&from={wageCurrency}&to={payCurrency}";
         }
-        private string ExpensesEndPoint()
+        private async Task<string> ExpensesEndPoint()
         {
             _expenses = (decimal)_salaryComponents.Expenses;
-            string expensesCurrency = GetCurrencyName(_workConditions.ExpensesCurrencyId);
-            string payCurrency = GetCurrencyName(_workConditions.PayCurrencyId);
+            string expensesCurrency = await GetCurrencyName(_workConditions.ExpensesCurrencyId);
+            string payCurrency = await GetCurrencyName(_workConditions.PayCurrencyId);
             return $"?amount={_expenses.ToString()}&from={expensesCurrency}&to{payCurrency}";
         }
         private void SetUpSalaryData(decimal employerCurrencyWages, decimal employerCurrencyExpenses)
@@ -115,7 +115,7 @@ namespace InternationalWagesManager.Domain
             _salaryRepo.AddSalary(modelSalary);
         }
 
-        private string GetCurrencyName(int? currencyId) =>
-            _currenciesManager.GetCurrencyName(currencyId);
+        private async Task<string> GetCurrencyName(int? currencyId) =>
+           await _currenciesManager.GetCurrencyName(currencyId);
     }
 }

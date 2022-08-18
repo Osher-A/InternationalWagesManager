@@ -20,7 +20,7 @@ namespace InternationalWagesManager.Domain
         {
             if(!string.IsNullOrWhiteSpace(employee.FirstName) && !string.IsNullOrWhiteSpace(employee.LastName)
                 && !string.IsNullOrWhiteSpace(employee.Email))
-               await _employeeRepo.AddEmployee(_mapper.Map<DTO.Employee, Models.Employee>(employee));
+               await _employeeRepo.AddEmployeeAsync(_mapper.Map<DTO.Employee, Models.Employee>(employee));
         }
 
         public void UpdateEmployee(DTO.Employee employee)

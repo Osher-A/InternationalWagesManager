@@ -6,6 +6,9 @@ namespace InternationalWagesManager.DAL
 {
     public interface ICurrenciesRepository
     {
-        List<Currency> GetAllCurrencies();
+        void AddCurrency(Currency currency);
+        void DeleteCurrency(Currency currency);
+        Task <List<Currency>> GetAllCurrenciesAsync();
+        void UpdateCurrency(Currency currency);
     }
 }
