@@ -1,0 +1,61 @@
+﻿@model InternationalWagesManager.DTO.Employee
+
+@{
+    ViewData["Title"] = "New Employee's details";
+}
+
+
+<Form asp-action="Add"  style="width: 50%; margin: auto;">
+<h2 class="m-5 text-center header ">Employee's Details</h2>
+<div >
+    <table  class="table table-bordered border-2 border-secondary " >
+  <tbody>
+      @*<tr >
+          <th scope="row">Select Employee:</th>
+          <td><select id="employee" class="form-control border-3 border-dark " asp-for="Id">
+              <option value="0" selected>Please select a employee!</option>
+				@foreach(var employee in Model.Employees)
+				{
+					<option value="@employee.Id" >@employee.FullName</option>
+				}
+			</select>
+            </td>
+      </tr>*@
+    <tr>
+      <th scope="row">First name:</th>
+      <td><input type="text" asp-for="FirstName" class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">Last name:</th>
+      <td><input type="text" asp-for="LastName" class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">D.O.B</th>
+      <td><input asp-for="DOB"  class="form-control" /></td>
+    </tr>
+    <tr>
+      <th scope="row">Phone:</th>
+      <td><input asp-for="Phone" class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">Email:</th>
+      <td><input asp-for="Email" class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="height: auto;">
+            <span class="alert-danger text-center fw-bold" asp-validation-for="Email"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+           <button class="btn btn-outline-dark form-control"  type="submit" >Submit</button> </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+ 
+</Form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

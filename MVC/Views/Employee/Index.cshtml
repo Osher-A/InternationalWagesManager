@@ -1,0 +1,62 @@
+﻿@model IEnumerable<InternationalWagesManager.DTO.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center mb-5">Employees</h1>
+
+<table class="table table-bordered table-striped border-4" >
+    <thead>
+        <tr>
+            <th style="width: 15%">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th style="width: 15%">
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th style="width: 15%">
+                @Html.DisplayNameFor(model => model.DOB)
+            </th>
+            <th style="width: 15%">
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th style="width: 15%">
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th style="width: 25%"></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+                    @{
+                        var date = (DateTime)item.DOB;
+                        <td> @date.ToShortDateString() </td>
+                    }
+                  
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a class="btn btn-outline-success " style="width: 30%; margin-right: 2.3%;" asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <a class="btn btn-outline-primary " style="width: 30%; margin-right: 2.3%;" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                <a class="btn btn-outline-danger" style="width: 30%" asp-action="Delete" asp-route-employeeId="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<p>
+    <a class="btn btn-outline-dark" style="width: 50%; margin: 10px 25% 0 25%;" asp-action="Add">Add Employee</a>
+</p>

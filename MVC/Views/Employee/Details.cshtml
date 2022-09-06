@@ -1,0 +1,41 @@
+﻿@model InternationalWagesManager.DTO.Employee
+
+@{
+    ViewData["Title"] = "Employee's details";
+}
+
+
+<Form asp-action="Edit" style="width: 50%; margin: auto;">
+<h2 class="m-5 text-center header ">Employee's Details</h2>
+<div >
+    <table  class="table table-bordered border-2 border-secondary " >
+  <tbody>
+    <tr>
+      <th scope="row">First name:</th>
+      <td><input type="text" readonly asp-for="FirstName" class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">Last name:</th>
+      <td><input type="text" readonly asp-for="LastName" class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">D.O.B</th>
+      <td><input asp-for="DOB" readonly  class="form-control" /></td>
+    </tr>
+    <tr>
+      <th scope="row">Phone:</th>
+      <td><input asp-for="Phone" readonly class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">Email:</th>
+      <td><input asp-for="Email" readonly class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+           <button class="btn btn-outline-dark form-control" asp-action="Index">Back to list</button> </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+ 
+</Form>
