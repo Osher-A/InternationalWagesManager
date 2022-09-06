@@ -5,22 +5,26 @@ using System.Reflection.Metadata;
 using System.Net.Http;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Configuration;
 
 namespace BlazorClient.ApiServices;
 
 public class EmployeeApiRepo : IEmployeeRepository
 {
-    private const string URL = "https://localhost:44364/api/employees";
+    private readonly string _url;
+    
+
     private readonly HttpClient _httpClient;
-    public EmployeeApiRepo(HttpClient httpClient)
+    public EmployeeApiRepo(HttpClient httpClient, IConfiguration configuration)
     {
         _httpClient = httpClient;
+        _url =   configuration.GetSection("BaseAPIUrl").Value! + "/employees";
     }
-   
+
     public async Task<Employee?> GetEmployeeAsync(int id)
     {
         string endPoint = $@"/{id}";
-        var response = await ResponseStatusAndContent(URL + endPoint);
+        var response = await ResponseStatusAndContent(_url + endPoint);
         var employee = new Employee();
         if (response.Item1)
             employee = JsonConvert.DeserializeObject<Employee>(response.Item2);
@@ -29,7 +33,7 @@ public class EmployeeApiRepo : IEmployeeRepository
 
     public async Task<List<Employee>> GetEmployeesAsync()
     {
-        var response = await ResponseStatusAndContent(URL);
+        var response = await ResponseStatusAndContent(_url);
         List<Employee> employees = new List<Employee>();
         if (response.Item1)
             employees = JsonConvert.DeserializeObject<List<Employee>>(response.Item2)!;
@@ -40,7 +44,7 @@ public class EmployeeApiRepo : IEmployeeRepository
     {
         var bodyContent = BodyForRequest(newEmployee);
         string endPoint = "/AddEmployee";
-        var response = await _httpClient.PostAsync(URL + endPoint, bodyContent);
+        var response = await _httpClient.PostAsync(_url + endPoint, bodyContent);
         string  responseResult = response.Content.ReadAsStringAsync().Result;
 
         if (response.IsSuccessStatusCode)
@@ -55,7 +59,7 @@ public class EmployeeApiRepo : IEmployeeRepository
     {
         var bodyContent = BodyForRequest(employee);
         string endPoint = "/" + employee.Id.ToString();
-        await _httpClient.PutAsync(URL + endPoint, bodyContent);
+        await _httpClient.PutAsync(_url + endPoint, bodyContent);
        
         // to do: validation 
         
@@ -64,7 +68,7 @@ public class EmployeeApiRepo : IEmployeeRepository
     public async void DeleteEmployee(Employee employee)
     {
         string endPoint = "/" + employee.Id.ToString();
-       await  _httpClient.DeleteAsync(URL + endPoint);
+       await  _httpClient.DeleteAsync(_url + endPoint);
 
         // to do: validation 
     }
@@ -75,9 +79,9 @@ public class EmployeeApiRepo : IEmployeeRepository
         return  new StringContent(jsonContent, Encoding.UTF8, "application/json");
     }
    
-    private async Task<(bool, string)> ResponseStatusAndContent(string url)
+    private async Task<(bool, string)> ResponseStatusAndContent(string _url)
     {
-        var response = await _httpClient.GetAsync(url);
+        var response = await _httpClient.GetAsync(_url);
         return (response.IsSuccessStatusCode, await response.Content.ReadAsStringAsync());
     }
 

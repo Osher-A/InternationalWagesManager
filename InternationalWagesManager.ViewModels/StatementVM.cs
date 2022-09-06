@@ -117,7 +117,7 @@ namespace InternationalWagesManager.ViewModels
         private async void LoadData()
         {
             Employees = new() { "Select a employee!" };
-            _employees = await _employeeManager.GetEmployees();
+            _employees = await _employeeManager.GetEmployeesAsync();
 
             foreach (var employee in _employees)
                 Employees.Add(employee.FullName);

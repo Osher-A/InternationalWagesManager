@@ -20,6 +20,7 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="BlazorStyled" Version="3.1.0" />
     <PackageReference Include="BootstrapBlazor" Version="6.8.23" />
+    <PackageReference Include="ElmahCore" Version="2.1.2" />
     <PackageReference Include="Expression.Interaction" Version="3.0.40218" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />

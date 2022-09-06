@@ -55,7 +55,10 @@
   </tbody>
 </table>
 </div>
+<ValidationSummary />
 </EditForm>
+
+
 
 @code {
     private EmployeeManager _employeeManager;
@@ -93,7 +96,7 @@
     {
         var dtoEmpoyee = _mapper.Map<InternationalWagesManager.DTO.Employee>(SelectedEmployee);
         if (ActionType == EDIT)
-            await _employeeManager.AddEmployee(dtoEmpoyee);
+            await _employeeManager.AddEmployeeAsync(dtoEmpoyee);
         else
             _employeeManager.UpdateEmployee(dtoEmpoyee);
 
@@ -102,7 +105,7 @@
 
     private async void LoadData()
     {
-        Employees = _mapper.Map<List<Employee>>(await _employeeManager.GetEmployees());
+        Employees = _mapper.Map<List<Employee>>(await _employeeManager.GetEmployeesAsync());
         StateHasChanged();
     }
 

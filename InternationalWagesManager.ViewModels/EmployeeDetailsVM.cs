@@ -70,7 +70,7 @@ namespace InternationalWagesManager.ViewModels
         private async void AddOrEditEmployee(object obj)
         {
             if(EditRowHeight == "0")
-           await _employeeManager.AddEmployee(SelectedEmployee);
+           await _employeeManager.AddEmployeeAsync(SelectedEmployee);
             else
                 _employeeManager.UpdateEmployee(SelectedEmployee);
 
@@ -99,7 +99,7 @@ namespace InternationalWagesManager.ViewModels
             // To ensure its empty when called after an update
             Employees = new ObservableCollection<string>() { "Select a employee!"};   
 
-            _modelEmployees = await  _employeeManager.GetEmployees();
+            _modelEmployees = await  _employeeManager.GetEmployeesAsync();
             foreach (var employee in _modelEmployees)
                 Employees.Add(employee.FullName);
         }

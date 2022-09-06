@@ -16,7 +16,7 @@ namespace InternationalWagesManager.Domain
              _employeeRepo = employeeRepo;
         }
 
-        public async Task AddEmployee(DTO.Employee employee)
+        public async Task AddEmployeeAsync(DTO.Employee employee)
         {
             if(!string.IsNullOrWhiteSpace(employee.FirstName) && !string.IsNullOrWhiteSpace(employee.LastName)
                 && !string.IsNullOrWhiteSpace(employee.Email))
@@ -28,8 +28,14 @@ namespace InternationalWagesManager.Domain
             var modelEmployee = _mapper.Map<DTO.Employee, Models.Employee>(employee);
             _employeeRepo.UpdateEmployee(modelEmployee);
         }
+
+        public void DeleteEmployee(DTO.Employee employee)
+        {
+            var modelEmployee = _mapper.Map<DTO.Employee, Models.Employee>(employee);
+            _employeeRepo.DeleteEmployee(modelEmployee);
+        }
         
-        public async Task<List<DTO.Employee>> GetEmployees()
+        public async Task<List<DTO.Employee>> GetEmployeesAsync()
         {
             var listOfEmployees = new List<DTO.Employee>();
             var modelEmployees = await _employeeRepo.GetEmployeesAsync();

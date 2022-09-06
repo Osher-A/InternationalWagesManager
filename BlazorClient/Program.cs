@@ -15,6 +15,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IEmployeeRepository, EmployeeApiRepo>();
 //ApiTester();
+
 await builder.Build().RunAsync();
 
  async void ApiTester()
@@ -24,9 +25,6 @@ await builder.Build().RunAsync();
         var repo = scope.ServiceProvider.GetRequiredService<IEmployeeRepository>();
         var employees = await repo.GetEmployeesAsync();
         var a = employees.Count;
-
     }
-
-
 }
 

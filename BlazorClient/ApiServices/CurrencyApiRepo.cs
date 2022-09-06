@@ -7,17 +7,18 @@ namespace BlazorClient.ApiServices
 {
     public class CurrencyApiRepo : ICurrenciesRepository
     {
-        private const string URL = "https://localhost:44364/api/currencies";
+        private readonly string _url;
         private readonly HttpClient _httpClient;
 
-        public CurrencyApiRepo(HttpClient httpClient)
+        public CurrencyApiRepo(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            _url = configuration.GetSection("BaseAPIUrl").Value! + "/currencies";
         }
 
         public async Task <List<Currency>> GetAllCurrenciesAsync()
         {
-            var response = await _httpClient.GetAsync(URL);
+            var response = await _httpClient.GetAsync(_url);
             var jsonContent = await response.Content.ReadAsStringAsync();
             var currencyList = new List<Currency>();
             if(response.IsSuccessStatusCode)
@@ -30,7 +31,7 @@ namespace BlazorClient.ApiServices
             string endPoint = "addcurrency";
             var jsonContent = JsonConvert.SerializeObject(currency);
             var body = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
-            var response = _httpClient.PostAsync(URL + endPoint, body);
+            var response = _httpClient.PostAsync(_url + endPoint, body);
 
             // todo: Validation
         }
@@ -38,7 +39,7 @@ namespace BlazorClient.ApiServices
         public async void DeleteCurrency(Currency currency)
         {
             string endPoint = $"delete/{currency.Id}";
-            var response = await _httpClient.DeleteAsync(URL + endPoint);
+            var response = await _httpClient.DeleteAsync(_url + endPoint);
 
             // to do: validation
         }
@@ -48,7 +49,7 @@ namespace BlazorClient.ApiServices
             string endPoint = $"update/{currency.Id}";
             var jsonContent = JsonConvert.SerializeObject(currency);
             var body = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
-            await _httpClient.PutAsync(URL + endPoint, body);
+            await _httpClient.PutAsync(_url + endPoint, body);
            
             //to do: validation
         }
