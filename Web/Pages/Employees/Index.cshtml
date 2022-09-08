@@ -1,0 +1,50 @@
+﻿@page "/" 
+
+@model Web.Pages.Employees.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center mb-5">Employees</h1>
+
+<table class="table table-bordered table-striped border-4" >
+    <thead>
+        <tr>
+            <th style="width: 15%">
+                @Html.DisplayNameFor(model => model.Employees[0].FullName)
+            </th>
+            <th style="width: 15%">
+                @Html.DisplayNameFor(model => model.Employees[0].Phone)
+            </th>
+            <th style="width: 15%">
+                @Html.DisplayNameFor(model => model.Employees[0].Email)
+            </th>
+            <th style="width: 35%"></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Employees) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a class="btn btn-outline-success " style="width: 30%; margin-right: 2.3%;" asp-page="./Details" asp-route-id="@item.Id">Details</a> 
+                <a class="btn btn-outline-primary " style="width: 30%; margin-right: 2.3%;" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> 
+                <a class="btn btn-outline-danger" style="width: 30%" asp-page="Delete" asp-route-employeeId="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<p>
+    <a class="btn btn-outline-dark" style="width: 50%; margin: 10px 25% 0 25%;" asp-page="./Add">Add Employee</a>
+</p>

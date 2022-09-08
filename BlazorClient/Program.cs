@@ -18,6 +18,8 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeApiRepo>();
 
 await builder.Build().RunAsync();
 
+
+
  async void ApiTester()
 {
     using (var scope = builder.Services.BuildServiceProvider().CreateScope())

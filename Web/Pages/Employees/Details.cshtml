@@ -1,0 +1,41 @@
+﻿@page
+@model Web.Pages.Employees.DetailsModel
+@{
+    ViewData["Title"] = "Employee's details";
+}
+
+
+<div  style="width: 50%; margin: auto;">
+<h2 class="m-5 text-center header ">Employee's Details</h2>
+<div >
+    <table  class="table table-bordered border-2 border-secondary " >
+  <tbody>
+    <tr>
+      <th scope="row">First name:</th>
+      <td><input type="text" readonly asp-for="Employee.FirstName" class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">Last name:</th>
+      <td><input type="text" readonly asp-for="Employee.LastName" class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">D.O.B</th>
+      <td><input asp-for="Employee.DOB" readonly  class="form-control" /></td>
+    </tr>
+    <tr>
+      <th scope="row">Phone:</th>
+      <td><input asp-for="Employee.Phone" readonly class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+      <th scope="row">Email:</th>
+      <td><input asp-for="Employee.Email" readonly class="form-control" style="background-color: transparent"/></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+           <a class="btn btn-outline-dark form-control" asp-page="/employees/index">Back to list</a> </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+ 
+</div>

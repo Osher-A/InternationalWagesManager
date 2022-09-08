@@ -14,6 +14,7 @@ namespace InternationalWagesManager.DTO
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+        [Display (Name = "Name")]
         public string FullName
         {
             get
