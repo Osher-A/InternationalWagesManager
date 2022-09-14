@@ -9,15 +9,14 @@
     xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    MaxWidth="1000"
-    MaxHeight="800"
+    Width="1150"
     mc:Ignorable="d"
     d:Height="800"
     d:Width="1000"
     ResizeMode="CanResizeWithGrip"
     Title="International Wages"
     WindowStartupLocation="CenterScreen">
-    <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}" Height="{Binding RelativeSource={RelativeSource AncestorType=WebBrowser}, Path=ActualHeight}">
+    <Grid Height="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=ActualHeight}">
 
         <Grid.Resources>
             <Style BasedOn="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}" TargetType="TextBlock">
@@ -44,6 +43,8 @@
         </Grid.ColumnDefinitions>
 
         <TreeView Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}" Background="BlanchedAlmond">
+            
+            
             <TreeViewItem
                 Margin="0,25,0,0"
                 FontSize="15"
@@ -56,11 +57,29 @@
                                 Height="15"
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
+                                Kind="PeopleFill" />
+                            <Label
+                                Content="Employees"
+                                IsEnabled="True"
+                                MouseDown="TreeViewViewEmployees_MouseDown"
+                                 />
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <icons:PackIconBootstrapIcons
+                                Width="15"
+                                Height="15"
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
                                 Kind="Plus" />
                             <Label
                                 Content="Add"
                                 IsEnabled="True"
-                                MouseEnter="TreeViewAddEmployee_MouseEnter" />
+                                MouseDown="TreeViewAddEmployee_MouseDown"
+                                 />
                         </StackPanel>
                     </TreeViewItem.Header>
                 </TreeViewItem>
@@ -76,14 +95,14 @@
                             <Label
                                 Content="Edit"
                                 IsEnabled="True"
-                                MouseEnter="TreeViewEditEmployee_MouseEnter" />
+                                MouseDown="TreeViewEditEmployee_MouseDown" />
                         </StackPanel>
                     </TreeViewItem.Header>
                 </TreeViewItem>
             </TreeViewItem>
 
             <TreeViewItem FontSize="15" Header="Work Conditions">
-                <TreeViewItem MouseEnter="TreeViewAddWorkConditions_MouseEnter">
+                <TreeViewItem >
                     <TreeViewItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <icons:PackIconBootstrapIcons
@@ -92,7 +111,8 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Kind="Plus" />
-                            <Label Content="Add" />
+                            <Label Content="Add"
+                                   MouseDown="TreeViewAddWorkConditions_MouseDown"/>
                         </StackPanel>
                     </TreeViewItem.Header>
                 </TreeViewItem>
@@ -125,7 +145,7 @@
             </TreeViewItem>
 
             <TreeViewItem FontSize="15" Header="Monthly Salary">
-                <TreeViewItem MouseEnter="TreeViewAddSalaryComponents_MouseEnter">
+                <TreeViewItem>
                     <TreeViewItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <icons:PackIconBootstrapIcons
@@ -134,7 +154,8 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Kind="Plus" />
-                            <Label Content="Add" />
+                            <Label Content="Add"
+                                    MouseDown="TreeViewAddSalaryComponents_MouseEnter"/>
                         </StackPanel>
                     </TreeViewItem.Header>
                 </TreeViewItem>
@@ -154,7 +175,7 @@
             </TreeViewItem>
 
             <TreeViewItem FontSize="15" Header="Payments">
-                <TreeViewItem MouseEnter="TreeViewAddPayment_MouseEnter">
+                <TreeViewItem >
                     <TreeViewItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <icons:PackIconBootstrapIcons
@@ -163,7 +184,8 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Kind="Plus" />
-                            <Label Content="Add" />
+                            <Label Content="Add"
+                                   MouseDown="TreeViewAddPayment_MouseDown"/>
                         </StackPanel>
                     </TreeViewItem.Header>
                 </TreeViewItem>
@@ -183,7 +205,7 @@
             </TreeViewItem>
 
             <TreeViewItem FontSize="15" Header="Statement">
-                <TreeViewItem MouseEnter="TreeViewStatement_MouseEnter">
+                <TreeViewItem>
                     <TreeViewItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <icons:PackIconBootstrapIcons
@@ -192,7 +214,8 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Kind="CashCoin" />
-                            <Label Content="Transactions" />
+                            <Label Content="Transactions" 
+                                    MouseDown="TreeViewStatement_MouseDown"/>
                         </StackPanel>
                     </TreeViewItem.Header>
                 </TreeViewItem>

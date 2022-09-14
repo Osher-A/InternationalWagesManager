@@ -15,9 +15,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace InternationalWagesManager.ViewModels
+namespace InternationalWagesManager.ViewModels.Employees.UpsertVM
 {
-    public class EmployeeDetailsVM : INotifyPropertyChanged
+    public class UpsertVM : INotifyPropertyChanged
     {
         private EmployeeManager _employeeManager;
         private Employee _selectedEmployee = new Employee() { DOB = null };
@@ -36,14 +36,14 @@ namespace InternationalWagesManager.ViewModels
         {
             get { return _editRowHeight; }
             set
-            { 
-                _editRowHeight = value; 
+            {
+                _editRowHeight = value;
                 OnStaticPropertyChanged(nameof(EditRowHeight));
             }
         }
         private string _comboBoxSelectedIndex = "0";
-        public string ComboBoxSelectedIndex 
-        { 
+        public string ComboBoxSelectedIndex
+        {
             get { return _comboBoxSelectedIndex; }
             set
             {
@@ -58,9 +58,9 @@ namespace InternationalWagesManager.ViewModels
         public ICommand EditCommand { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        public static event PropertyChangedEventHandler?  StaticPropertyChanged;
+        public static event PropertyChangedEventHandler? StaticPropertyChanged;
 
-        public EmployeeDetailsVM(EmployeeManager employeeManager)
+        public UpsertVM(EmployeeManager employeeManager)
         {
             _employeeManager = employeeManager;
             AddAndEditCommand = new CustomCommand(AddOrEditEmployee, CanAddOrEditEmployee);
@@ -69,8 +69,8 @@ namespace InternationalWagesManager.ViewModels
 
         private async void AddOrEditEmployee(object obj)
         {
-            if(EditRowHeight == "0")
-           await _employeeManager.AddEmployeeAsync(SelectedEmployee);
+            if (EditRowHeight == "0")
+                await _employeeManager.AddEmployeeAsync(SelectedEmployee);
             else
                 _employeeManager.UpdateEmployee(SelectedEmployee);
 
@@ -97,9 +97,9 @@ namespace InternationalWagesManager.ViewModels
         private async void LoadData()
         {
             // To ensure its empty when called after an update
-            Employees = new ObservableCollection<string>() { "Select a employee!"};   
+            Employees = new ObservableCollection<string>() { "Select a employee!" };
 
-            _modelEmployees = await  _employeeManager.GetEmployeesAsync();
+            _modelEmployees = await _employeeManager.GetEmployeesAsync();
             foreach (var employee in _modelEmployees)
                 Employees.Add(employee.FullName);
         }
@@ -111,8 +111,8 @@ namespace InternationalWagesManager.ViewModels
 
         private static void OnStaticPropertyChanged(string propertyName)
         {
-            if(StaticPropertyChanged != null)
-                 StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(propertyName));
+            if (StaticPropertyChanged != null)
+                StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

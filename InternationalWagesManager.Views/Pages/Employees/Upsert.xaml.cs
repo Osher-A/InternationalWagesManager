@@ -2,6 +2,7 @@
 using InternationalWagesManager.DAL;
 using InternationalWagesManager.Domain;
 using InternationalWagesManager.ViewModels;
+using InternationalWagesManager.ViewModels.Employees.UpsertVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +21,13 @@ using System.Windows.Shapes;
 namespace InternationalWagesManager.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for EmployeeDetails.xaml
+    /// Interaction logic for Upsert.xaml
     /// </summary>
-    public partial class EmployeeDetails : Page
+    public partial class Upsert : Page
     {
-        public EmployeeDetails(EmployeeManager employeeManager)
+        public Upsert(EmployeeManager employeeManager)
         {
-            this.DataContext = new EmployeeDetailsVM(employeeManager);
+            this.DataContext = new UpsertVM(employeeManager);
             InitializeComponent();
         }
     }

@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternationalWagesManager.Domain", "InternationalWagesManager.Domain\InternationalWagesManager.Domain.csproj", "{8195597F-6143-4DDA-9572-6559CAF3E3E0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternationalWagesManager.ViewModels", "InternationalWagesManager.ViewModels\InternationalWagesManager.ViewModels.csproj", "{12BE14D9-62E9-4C76-88B5-11742B55A957}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternationalWagesManager.WPFViewModels", "InternationalWagesManager.ViewModels\InternationalWagesManager.WPFViewModels.csproj", "{12BE14D9-62E9-4C76-88B5-11742B55A957}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorClient", "BlazorClient\BlazorClient.csproj", "{DA231B59-45B9-4BD3-BF61-6CEE30E9F468}"
 EndProject

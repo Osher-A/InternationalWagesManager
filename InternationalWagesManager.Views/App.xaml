@@ -30,7 +30,7 @@
 
             <Style TargetType="TextBox" BasedOn="{StaticResource MahApps.Styles.TextBox}">
                 <Setter Property="Height" Value="45"/>
-                <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType=ColumnDefinition}, Path=ActualWidth}"/>
+                <!--<Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType=ColumnDefinition}, Path=ActualWidth}"/>-->
                 <Setter Property="Margin" Value="3"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="FontSize" Value="15"/>
@@ -38,7 +38,7 @@
 
             <Style TargetType="ComboBox" BasedOn="{StaticResource MahApps.Styles.ComboBox}">
                 <Setter Property="Height" Value="45"/>
-                <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType=ColumnDefinition}, Path=ActualWidth}"/>
+                <!--<Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType=ColumnDefinition}, Path=ActualWidth}"/>-->
                 <Setter Property="Margin" Value="3"/>
                 <Setter Property="FontSize" Value="14"/>
             </Style>

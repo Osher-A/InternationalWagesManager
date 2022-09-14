@@ -42,7 +42,7 @@
     <ProjectReference Include="..\InternationalWagesManager.Domain\InternationalWagesManager.Domain.csproj" />
     <ProjectReference Include="..\InternationalWagesManager.DTO\InternationalWagesManager.DTO.csproj" />
     <ProjectReference Include="..\InternationalWagesManager.Models\InternationalWagesManager.Models.csproj" />
-    <ProjectReference Include="..\InternationalWagesManager.ViewModels\InternationalWagesManager.ViewModels.csproj" />
+    <ProjectReference Include="..\InternationalWagesManager.ViewModels\InternationalWagesManager.WPFViewModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>

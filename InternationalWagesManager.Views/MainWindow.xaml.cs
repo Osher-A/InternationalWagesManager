@@ -15,8 +15,11 @@ using System.Windows.Shapes;
 using AutoMapper;
 using InternationalWagesManager.DAL;
 using InternationalWagesManager.Domain;
-using InternationalWagesManager.ViewModels;
+using InternationalWagesManager.DTO;
+using InternationalWagesManager.ViewModels.Employees;
+using InternationalWagesManager.ViewModels.Employees.UpsertVM;
 using InternationalWagesManager.Views.Pages;
+using InternationalWagesManager.Views.Pages.Employees;
 using MahApps.Metro.Controls;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -51,43 +54,54 @@ namespace InternationalWagesManager.Views
             _currenciesManager = currenciesManager;
             _paymentsManager = paymentsManager;
             _balanceManager = balanceManager;
+            ListVM.DetailsWindowEvent += (Employee selectedEmployee) => MainWindowFrame.Content = new Pages.Employees.Details(selectedEmployee, employeeManager);
+            DetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
             InitializeComponent();
         }
 
         private void MainWindowFrame_Loaded(object sender , RoutedEventArgs e)
         {
             // MainWindowFrame.Content = new HomePage(_employeeRepository, _mapper);
+            //  MainWindowFrame.Content = new Upsert(_employeeManager);
+            MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
+
+            UpsertVM.EditRowHeight = "0";
         }
 
-        private void TreeViewAddEmployee_MouseEnter(object sender, MouseEventArgs e)
+        private void TreeViewViewEmployees_MouseDown(object sender, EventArgs e)
         {
-            MainWindowFrame.Content = new EmployeeDetails(_employeeManager);
-            EmployeeDetailsVM.EditRowHeight = "0";
-        }
-        private void TreeViewEditEmployee_MouseEnter(object sender, MouseEventArgs e)
-        {
-            MainWindowFrame.Content = new EmployeeDetails(_employeeManager);
-            EmployeeDetailsVM.EditRowHeight = "Auto";
+            MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
         }
 
-        private void TreeViewAddWorkConditions_MouseEnter(object sender, MouseEventArgs e)
+        private void TreeViewAddEmployee_MouseDown(object sender, EventArgs e)
         {
-            MainWindowFrame.Content = new WorkConditions(_employeeManager, _workConditionsManager, _currenciesManager);
+            MainWindowFrame.Content = new Upsert(_employeeManager);
+            UpsertVM.EditRowHeight = "0";
+        }
+        private void TreeViewEditEmployee_MouseDown(object sender, EventArgs e)
+        {
+            MainWindowFrame.Content = new Upsert(_employeeManager);
+            UpsertVM.EditRowHeight = "Auto";
         }
 
-        private void TreeViewAddSalaryComponents_MouseEnter(object sender, MouseEventArgs e)
+        private void TreeViewAddWorkConditions_MouseDown(object sender, EventArgs e)
         {
-            MainWindowFrame.Content = new SalaryComponents(_employeeManager, _salaryComponentsManager);
+            MainWindowFrame.Content = new Pages.WorkConditions(_employeeManager, _workConditionsManager, _currenciesManager);
         }
 
-        private void TreeViewAddPayment_MouseEnter(object sender, MouseEventArgs e)
+        private void TreeViewAddSalaryComponents_MouseEnter(object sender, EventArgs e)
+        {
+            MainWindowFrame.Content = new Pages.SalaryComponents(_employeeManager, _salaryComponentsManager);
+        }
+
+        private void TreeViewAddPayment_MouseDown(object sender, EventArgs e)
         {
             MainWindowFrame.Content = new Payments(_employeeManager, _paymentsManager);
         }
 
-        private void TreeViewStatement_MouseEnter(object sender, MouseEventArgs e)
+        private void TreeViewStatement_MouseDown(object sender, EventArgs e)
         {
-            MainWindowFrame.Content = new Statement(_salaryManager, _paymentsManager, _balanceManager, _employeeManager);
+            MainWindowFrame.Content = new Pages.Statement(_salaryManager, _paymentsManager, _balanceManager, _employeeManager);
         }
        
     }
