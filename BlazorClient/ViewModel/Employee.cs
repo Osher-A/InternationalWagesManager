@@ -5,7 +5,7 @@ namespace BlazorClient.ViewModel
     public class Employee
     {
         public int Id { get; set; }
-        [Required (ErrorMessage = "This is a required field!")]
+        [Required (ErrorMessage = "First Name is a required field!")]
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }

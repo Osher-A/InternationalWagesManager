@@ -59,12 +59,12 @@ namespace MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm] Employee employee)
+        public  IActionResult Edit([FromForm] Employee employee)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            await _employeeManager.AddEmployeeAsync(employee);
+            _employeeManager.UpdateEmployee(employee);
 
             return RedirectToAction(nameof(Index));
         }
