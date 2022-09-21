@@ -25,8 +25,6 @@ namespace InternationalWagesManager.ViewModels.Employees
                 OnPropertyChanged(nameof(SelectedEmployee));
             }
         }
-        public static ActionType ActionType { get; set; }
-
 
         private static string _buttonText;
         public static string ButtonText
@@ -41,8 +39,11 @@ namespace InternationalWagesManager.ViewModels.Employees
                     case ActionType.Delete:
                         _buttonText = "Confirm";
                         break;
-                    default:
+                    case ActionType.Edit:
                         _buttonText = "Submit Changes";
+                        break;
+                    default:
+                        _buttonText = "Submit";
                         break;
                 }
                 return _buttonText;
@@ -53,10 +54,10 @@ namespace InternationalWagesManager.ViewModels.Employees
                 OnStaticPropertyChanged(nameof(ButtonText));
             }
         }
+        public static ActionType ActionType { get; set; }
+        public static Action BackAction { get; set; }
         public ICommand BackCommand { get; set; }
         public ICommand SubmitCommand { get; set; }
-
-        public static Action BackAction { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public static event PropertyChangedEventHandler? StaticPropertyChanged;
@@ -91,14 +92,19 @@ namespace InternationalWagesManager.ViewModels.Employees
                     BackAction?.Invoke();
                     break;
                 case ActionType.Delete:
-                    _employeeManager.DeleteEmployee(SelectedEmployee);
-                    BackAction?.Invoke();
+                    DeleteEmployee();
                     break;
                 default:
                     break;
             } ;
         }
 
+        private async void DeleteEmployee()
+        {
+          await _employeeManager.DeleteEmployeeAsync(SelectedEmployee);
+            BackAction?.Invoke();
+        }
+        
         private void BackToList(object obj)
         {
             BackAction?.Invoke();

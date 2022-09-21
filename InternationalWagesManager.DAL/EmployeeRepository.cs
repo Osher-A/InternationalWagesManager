@@ -22,6 +22,7 @@ namespace InternationalWagesManager.DAL
         {
             _db.Employees.Update(employee);
             _db.SaveChanges();
+            _db.Entry(employee).State = EntityState.Detached;
         }
 
         public void DeleteEmployee(Employee employee)

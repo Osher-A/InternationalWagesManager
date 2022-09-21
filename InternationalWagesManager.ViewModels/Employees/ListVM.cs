@@ -50,16 +50,41 @@ namespace InternationalWagesManager.ViewModels.Employees
             }
         }
 
+        private string _progressRingVisibility = "Visible";
+        public string ProgressRingVisibility
+        {
+            get => _progressRingVisibility;
+            set
+            {
+                _progressRingVisibility = value;
+                OnPropertyChanged(nameof(ProgressRingVisibility));
+            }
+        }
+
+
         public ICommand DetailsCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+        public ICommand AddCommand { get; set; }
         public ListVM(EmployeeManager employeeManager)
         {
             _employeeManager = employeeManager;
             DetailsCommand = new CustomCommand(GetDetails, CanGetDetails);
             UpdateCommand = new CustomCommand(UpdateDetails, CanUpdateDetails);
             DeleteCommand = new CustomCommand(DeleteEmployee, CanDeleteEmployee);
+            AddCommand = new CustomCommand(AddEmployee, CanAddEmployee);
             LoadData();
+        }
+
+        private void AddEmployee(object obj)
+        {
+            DetailsVM.ActionType = ActionType.Add;
+            DetailsWindowEvent?.Invoke(SelectedEmployee);
+        }
+
+        private bool CanAddEmployee(object obj)
+        {
+            return true;
         }
 
         private void DeleteEmployee(object obj)
@@ -102,6 +127,7 @@ namespace InternationalWagesManager.ViewModels.Employees
             var employees = await _employeeManager.GetEmployeesAsync();
             AllEmployees = employees.ToObservableCollection();
             DataGridVisibility = "visible";
+            ProgressRingVisibility = "collapsed";
         }
 
         private void OnPropertyChanged(string propertyName)

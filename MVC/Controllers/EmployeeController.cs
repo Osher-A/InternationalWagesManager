@@ -76,7 +76,7 @@ namespace MVC.Controllers
             if (employee == null)
                 return NotFound();
 
-            _employeeManager.DeleteEmployee(employee);
+            _employeeManager.DeleteEmployeeAsync(employee);
 
             return RedirectToAction(nameof(Index));
         }

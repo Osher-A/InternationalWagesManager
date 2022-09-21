@@ -48,7 +48,7 @@
             <TreeViewItem
                 Margin="0,25,0,0"
                 FontSize="15"
-                Header="Employee details">
+                Header="Employee Manager">
                 <TreeViewItem>
                     <TreeViewItem.Header>
                         <StackPanel Orientation="Horizontal">

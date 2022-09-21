@@ -119,7 +119,7 @@
     {
         if (SelectedEmployee.Id == 0 || SelectedEmployee.Id == null)
             throw new NotImplementedException();
-        _employeeManager.DeleteEmployee(_mapper.Map<InternationalWagesManager.DTO.Employee>(SelectedEmployee));
+        _employeeManager.DeleteEmployeeAsync(_mapper.Map<InternationalWagesManager.DTO.Employee>(SelectedEmployee));
     }
 
     private void OnCancel()

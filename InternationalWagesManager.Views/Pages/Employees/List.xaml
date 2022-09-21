@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:InternationalWagesManager.Views.Pages.Employees"
       xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:viewModel="clr-namespace:InternationalWagesManager.ViewModels;assembly=InternationalWagesManager.ViewModels"
       mc:Ignorable="d" 
@@ -18,41 +19,52 @@
         </ResourceDictionary>
     </Page.Resources>-->
     <Grid>
-        <mahApps:ProgressRing BorderBrush="#CCA0522D"  ></mahApps:ProgressRing>
-        <Border MaxHeight="450" MaxWidth="900" BorderThickness="3" BorderBrush="Black" CornerRadius="5"  HorizontalAlignment="Center" Visibility="{Binding DataGridVisibility}">
-            <StackPanel>
-                <DataGrid AutoGenerateColumns="False" GridLinesVisibility="None" ItemsSource="{Binding AllEmployees}" SelectedItem="{Binding SelectedEmployee, Mode=OneWayToSource}" Background="BlanchedAlmond" Style="{StaticResource MahApps.Styles.DataGrid}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Employee Name" IsReadOnly="True" Binding="{Binding FullName}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Phone" IsReadOnly="True" Binding="{Binding Phone}"/>
-                        <DataGridTextColumn Header="Email" IsReadOnly="True" Binding="{Binding Email}"/>
+        <mahApps:ProgressRing BorderBrush="#CCA0522D" Visibility="{Binding ProgressRingVisibility}" ></mahApps:ProgressRing>
+        <DockPanel  LastChildFill="False">
+            <TextBlock DockPanel.Dock="Top" Text="Employees details" FontSize="25"  Foreground="#CCA0522D" FontFamily="{StaticResource MahApps.Fonts.Family.Header}" HorizontalAlignment="Center" Margin="15"/>
+            <Border x:Name="Border" DockPanel.Dock="Top" MaxHeight="450" MaxWidth="900" BorderThickness="3" BorderBrush="Black" CornerRadius="5"  HorizontalAlignment="Center" Visibility="{Binding DataGridVisibility}">
+                <StackPanel>
+                    <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="None" ItemsSource="{Binding AllEmployees}" SelectedItem="{Binding SelectedEmployee, Mode=OneWayToSource}" Background="BlanchedAlmond" Style="{StaticResource MahApps.Styles.DataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Employee Name" IsReadOnly="True" Binding="{Binding FullName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Phone" IsReadOnly="True" Binding="{Binding Phone}"/>
+                            <DataGridTextColumn Header="Email" IsReadOnly="True" Binding="{Binding Email}"/>
 
-                        <DataGridTemplateColumn >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate  >
-                                    <Button Content="Details"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Page}, Path=DataContext.DetailsCommand}"  Style="{StaticResource MahApps.Styles.Button.MetroSquare}" Background="BlanchedAlmond" Width="100"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                            <DataGridTemplateColumn >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate  >
+                                        <Button Content="Details"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Page}, Path=DataContext.DetailsCommand}"  Style="{StaticResource MahApps.Styles.Button.MetroSquare}" Background="BlanchedAlmond" Width="100"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
-                        <DataGridTemplateColumn >
-                            <DataGridTemplateColumn.CellTemplate >
-                                <DataTemplate>
-                                    <Button Content="Edit" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Page}, Path=DataContext.UpdateCommand}" Style="{StaticResource MahApps.Styles.Button.MetroSquare}" Background="BlanchedAlmond" Width="100"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                            <DataGridTemplateColumn >
+                                <DataGridTemplateColumn.CellTemplate >
+                                    <DataTemplate>
+                                        <Button Content="Edit" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Page}, Path=DataContext.UpdateCommand}" Style="{StaticResource MahApps.Styles.Button.MetroSquare}" Background="BlanchedAlmond" Width="100"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
-                        <DataGridTemplateColumn >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page}, Path=DataContext.DeleteCommand}" Style="{StaticResource MahApps.Styles.Button.MetroSquare}" Background="BlanchedAlmond" Width="100"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
-        </Border>
+                            <DataGridTemplateColumn >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page}, Path=DataContext.DeleteCommand}" Style="{StaticResource MahApps.Styles.Button.MetroSquare}" Background="BlanchedAlmond" Width="100"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+            <Button DockPanel.Dock="Bottom" Command="{Binding AddCommand}" Style="{StaticResource MahApps.Styles.Button.ToolBar}" HorizontalAlignment="Center"  Height="40" Width="200" Margin="0,5,30,50">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <icons:BootstrapIcons Kind="PersonPlus" Height="20" Width="20" />
+                        <TextBlock Text="Add Employee" FontSize="15" Foreground="#CCA0522D" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </DockPanel>
     </Grid>
 </Page>

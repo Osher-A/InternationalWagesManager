@@ -18,8 +18,9 @@
 
   <ItemGroup>
     <Reference Include="MyLibrary">
-      <HintPath>..\..\Wpf\MyLibrary\bin\Debug\netcoreapp3.1\MyLibrary.dll</HintPath>
+      <HintPath>..\..\..\MyLibrary\bin\Debug\net6.0-windows\MyLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
 
+  
 </Project>

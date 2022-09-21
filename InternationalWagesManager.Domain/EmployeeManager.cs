@@ -9,6 +9,10 @@ namespace InternationalWagesManager.Domain
     {
         private readonly IMapper _mapper;
         private readonly IEmployeeRepository _employeeRepo;
+
+        public Func<string, Task<bool>> AlertFunc { get; set; }
+        public Action<string> SuccessMessage { get; set; }
+        public Action<string> ErrorMessage { get; set; }
         public EmployeeManager(IMapper mapper, IEmployeeRepository employeeRepo)
         {
             _mapper = mapper;
@@ -20,19 +24,50 @@ namespace InternationalWagesManager.Domain
         {
             if(!string.IsNullOrWhiteSpace(employee.FirstName) && !string.IsNullOrWhiteSpace(employee.LastName)
                 && !string.IsNullOrWhiteSpace(employee.Email))
-               await _employeeRepo.AddEmployeeAsync(_mapper.Map<DTO.Employee, Models.Employee>(employee));
+
+                try
+                {
+                    await _employeeRepo.AddEmployeeAsync(_mapper.Map<DTO.Employee, Models.Employee>(employee));
+                }
+                catch (Exception e)
+                {
+                    ErrorMessage?.Invoke("Database Error! ");
+                    throw;
+                }
         }
 
         public void UpdateEmployee(DTO.Employee employee)
         {
             var modelEmployee = _mapper.Map<DTO.Employee, Models.Employee>(employee);
-            _employeeRepo.UpdateEmployee(modelEmployee);
+            try
+            {
+                _employeeRepo.UpdateEmployee(modelEmployee);
+                SuccessMessage?.Invoke("Successful operation! ");
+            }
+            catch (Exception e)
+            {
+                ErrorMessage?.Invoke("DataBase Error!" );
+            }
         }
 
-        public void DeleteEmployee(DTO.Employee employee)
+        public async Task DeleteEmployeeAsync(DTO.Employee employee)
         {
             var modelEmployee = _mapper.Map<DTO.Employee, Models.Employee>(employee);
-            _employeeRepo.DeleteEmployee(modelEmployee);
+            var userConfirmation = await AlertFunc?.Invoke("Are you sure you want to delete this Employee's details, with all associated data??")!;
+            if (userConfirmation == true)
+            {
+                try
+                {
+                    _employeeRepo.DeleteEmployee(modelEmployee);
+                    SuccessMessage?.Invoke("Successful operation");
+                }
+                catch (Exception e)
+                {
+                    ErrorMessage?.Invoke("Database Error!" );
+                    throw;
+                }
+            }
+           
         }
         
         public async Task<List<DTO.Employee>> GetEmployeesAsync()

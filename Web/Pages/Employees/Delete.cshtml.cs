@@ -30,7 +30,7 @@ namespace Web.Pages.Employees
             if(Employee == null || employeeId == 0)
                 return BadRequest();
 
-            _employeeManager.DeleteEmployee(Employee);
+            _employeeManager.DeleteEmployeeAsync(Employee);
 
             return RedirectToPage("./index");
         }
