@@ -16,58 +16,53 @@ namespace InternationalWagesManager.Domain
         public EmployeeManager(IMapper mapper, IEmployeeRepository employeeRepo)
         {
             _mapper = mapper;
-
-             _employeeRepo = employeeRepo;
+            _employeeRepo = employeeRepo;
         }
 
         public async Task AddEmployeeAsync(DTO.Employee employee)
         {
-            if(!string.IsNullOrWhiteSpace(employee.FirstName) && !string.IsNullOrWhiteSpace(employee.LastName)
-                && !string.IsNullOrWhiteSpace(employee.Email))
+            if(ValidInput(employee))
 
                 try
                 {
-                    await _employeeRepo.AddEmployeeAsync(_mapper.Map<DTO.Employee, Models.Employee>(employee));
+                    await _employeeRepo.AddEmployeeAsync(MapToModel(employee));
+                    SuccessMessage?.Invoke("Successfully added! ");
                 }
                 catch (Exception e)
                 {
                     ErrorMessage?.Invoke("Database Error! ");
-                    throw;
                 }
         }
 
         public void UpdateEmployee(DTO.Employee employee)
         {
-            var modelEmployee = _mapper.Map<DTO.Employee, Models.Employee>(employee);
             try
             {
-                _employeeRepo.UpdateEmployee(modelEmployee);
-                SuccessMessage?.Invoke("Successful operation! ");
+                _employeeRepo.UpdateEmployee(MapToModel(employee));
+                SuccessMessage?.Invoke("Successful update! ");
             }
             catch (Exception e)
             {
-                ErrorMessage?.Invoke("DataBase Error!" );
+                ErrorMessage?.Invoke("DataBase Error!");
             }
         }
 
+       
         public async Task DeleteEmployeeAsync(DTO.Employee employee)
         {
-            var modelEmployee = _mapper.Map<DTO.Employee, Models.Employee>(employee);
-            var userConfirmation = await AlertFunc?.Invoke("Are you sure you want to delete this Employee's details, with all associated data??")!;
-            if (userConfirmation == true)
+            bool confirmed = await UserConfirmation();
+            if (confirmed)
             {
                 try
                 {
-                    _employeeRepo.DeleteEmployee(modelEmployee);
-                    SuccessMessage?.Invoke("Successful operation");
+                    _employeeRepo.DeleteEmployee(MapToModel(employee));
+                    SuccessMessage?.Invoke("Successfully Deleted");
                 }
                 catch (Exception e)
                 {
-                    ErrorMessage?.Invoke("Database Error!" );
-                    throw;
+                    ErrorMessage?.Invoke("Database Error!");
                 }
             }
-           
         }
         
         public async Task<List<DTO.Employee>> GetEmployeesAsync()
@@ -81,5 +76,23 @@ namespace InternationalWagesManager.Domain
             }
             return listOfEmployees;
         }
+
+        private bool ValidInput(DTO.Employee employee)
+        {
+            return !string.IsNullOrWhiteSpace(employee.FirstName) && !string.IsNullOrWhiteSpace(employee.LastName)
+                && !string.IsNullOrWhiteSpace(employee.Email);
+        }
+        private Employee MapToModel(DTO.Employee employee)
+        {
+            return _mapper.Map<Employee>(employee);
+        }
+
+        private async Task<bool> UserConfirmation()
+        {
+            if(AlertFunc == null)
+                return false;
+            return await AlertFunc("Are you sure you want to delete this Employee's details, with all associated data??")!;
+        }
+
     }
 }

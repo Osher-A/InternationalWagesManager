@@ -5,6 +5,10 @@ using AutoMapper;
 using System.Reflection;
 using InternationalWagesManager.DAL;
 using ApiContracts;
+using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 

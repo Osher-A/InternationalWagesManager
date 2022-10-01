@@ -27,7 +27,7 @@ namespace InternationalWagesManager.ViewModels.Employees
                 OnPropertyChanged(nameof(AllEmployees));
             }
         }
-        private Employee _selectedEmployee;
+        private Employee _selectedEmployee = new Employee();
         public Employee SelectedEmployee
         {
             get { return _selectedEmployee; }
@@ -61,7 +61,6 @@ namespace InternationalWagesManager.ViewModels.Employees
             }
         }
 
-
         public ICommand DetailsCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
@@ -69,22 +68,17 @@ namespace InternationalWagesManager.ViewModels.Employees
         public ListVM(EmployeeManager employeeManager)
         {
             _employeeManager = employeeManager;
-            DetailsCommand = new CustomCommand(GetDetails, CanGetDetails);
-            UpdateCommand = new CustomCommand(UpdateDetails, CanUpdateDetails);
-            DeleteCommand = new CustomCommand(DeleteEmployee, CanDeleteEmployee);
-            AddCommand = new CustomCommand(AddEmployee, CanAddEmployee);
+            DetailsCommand = new CustomCommand(GetDetails, canExecute: (object obj) => true);
+            UpdateCommand = new CustomCommand(UpdateDetails, canExecute: (object obj) => true);
+            DeleteCommand = new CustomCommand(DeleteEmployee, canExecute: (object obj) => true);
+            AddCommand = new CustomCommand(AddEmployee, canExecute: (object obj) => true);
             LoadData();
         }
 
         private void AddEmployee(object obj)
         {
             DetailsVM.ActionType = ActionType.Add;
-            DetailsWindowEvent?.Invoke(SelectedEmployee);
-        }
-
-        private bool CanAddEmployee(object obj)
-        {
-            return true;
+            DetailsWindowEvent?.Invoke(new Employee()) ;
         }
 
         private void DeleteEmployee(object obj)
@@ -93,32 +87,20 @@ namespace InternationalWagesManager.ViewModels.Employees
             DetailsWindowEvent?.Invoke(SelectedEmployee);
         }
 
-        private bool CanDeleteEmployee(object obj)
-        {
-            return true;
-        }
-
+       
         private void UpdateDetails(object obj)
         {
             DetailsVM.ActionType = ActionType.Edit;
             DetailsWindowEvent?.Invoke(SelectedEmployee); 
         }
 
-        private bool CanUpdateDetails(object obj)
-        {
-            return true;
-        }
-
+        
         private void GetDetails(object obj)
         {
             DetailsVM.ActionType = ActionType.Details;
             DetailsWindowEvent?.Invoke(SelectedEmployee);
         }
 
-        private bool CanGetDetails(object obj)
-        {
-            return true;
-        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
        

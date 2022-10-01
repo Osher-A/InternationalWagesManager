@@ -5,7 +5,7 @@ namespace InternationalWagesManager.DTO
 {
     public class Employee : INotifyPropertyChanged
     {
-        private string email;
+        private string _email;
 
         public int Id { get; set; }
         [Required]
@@ -18,9 +18,10 @@ namespace InternationalWagesManager.DTO
         [EmailAddress]
         public string Email
         {
-            get => email; set
+            get => _email; 
+            set
             {
-                email = value;
+                _email = value;
                 OnPropertyChanged(nameof(Email));
             }
         }
