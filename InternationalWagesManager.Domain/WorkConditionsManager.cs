@@ -27,10 +27,22 @@ namespace InternationalWagesManager.Domain
                 _wCRepo.AddWorkConditions(modelWorkConditions);
         }
 
+        public WorkConditions GetWorkConditions(int workConditionId)
+        {
+            var dtoWorkConditions = _mapper.Map<Models.WorkConditions, DTO.WorkConditions>(_wCRepo.GetWorkConditions(workConditionId));
+            return dtoWorkConditions;
+        }
+
         public void UpdateWorkConditions(DTO.WorkConditions workConditions)
         {
             if (workConditions.EmployeeId != 0)
                 _wCRepo.UpdateWorkConditions(_mapper.Map<DTO.WorkConditions, Models.WorkConditions>(workConditions));
+        }
+
+        public void DeleteWorkConditions(int id)
+        {
+            if (id != 0)
+                _wCRepo.DeleteWorkConditions(id);
         }
 
         public DTO.WorkConditions LatestWorkConditions(int employeeId)
@@ -48,7 +60,7 @@ namespace InternationalWagesManager.Domain
             return searchByDate ?? new DTO.WorkConditions();
         }
 
-        private List<WorkConditions> GetAllEmployeesWC(int employeeId)
+        public List<WorkConditions> GetAllEmployeesWC(int employeeId)
         {
             return _mapper.Map<List<Models.WorkConditions>, List<DTO.WorkConditions>>
                  (_wCRepo.GetAllWorkConditions(employeeId));

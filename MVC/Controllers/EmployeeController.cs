@@ -69,7 +69,9 @@ namespace MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete([FromQuery] int employeeId)
+        [HttpGet]
+        [Route("employee/delete/{employeeId}")]
+        public async Task<IActionResult> Delete(int employeeId)
         {
             Employee? employee = await GetEmployee(employeeId);
 

@@ -1,4 +1,5 @@
 ﻿using InternationalWagesManager.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,21 +29,27 @@ namespace InternationalWagesManager.DAL
             _db.SaveChanges();
         }
 
-        public void DeleteWorkConditions(WorkConditions workConditions)
+        public void DeleteWorkConditions(int id)
         {
-            _db.WorkConditions.Remove(workConditions);
+            _db.WorkConditions.Remove(_db.WorkConditions.Find(id));
             _db.SaveChanges();
         }
 
         public WorkConditions GetWorkConditions(int employeeId, DateTime date)
         {
             var result = _db.WorkConditions
+                 .Include(wc => wc.PayCurrency)
+                .Include(wc => wc.WageCurrency)
+                .Include(wc => wc.ExpensesCurrency)
                 .FirstOrDefault(wc => wc.EmployeeId == employeeId
                 && wc.Date.Year == date.Year
                 && wc.Date.Month == date.Month);
 
             if(result == null)
-                result = _db.WorkConditions.FirstOrDefault(wc => wc.EmployeeId == employeeId
+                result = _db.WorkConditions
+                 .Include(wc => wc.PayCurrency)
+                .Include(wc => wc.WageCurrency)
+                .Include(wc => wc.ExpensesCurrency).FirstOrDefault(wc => wc.EmployeeId == employeeId
                 && wc.Date.Year == date.Year);
 
             return result ?? new();
@@ -50,7 +57,26 @@ namespace InternationalWagesManager.DAL
 
         public List<WorkConditions> GetAllWorkConditions(int employeeId)
         {
-            return _db.WorkConditions.Where(wc => wc.EmployeeId == employeeId).ToList() ?? new();
+            return _db.WorkConditions
+                .Include(wc => wc.PayCurrency)
+                .Include(wc => wc.WageCurrency)
+                .Include(wc => wc.ExpensesCurrency)
+                .Where(wc => wc.EmployeeId == employeeId)
+                .ToList() ?? new();
+        }
+
+        public WorkConditions GetWorkConditions(int workConditionId)
+        {
+            var workConditions = _db.WorkConditions
+                 .Include(wc => wc.PayCurrency)
+                .Include(wc => wc.WageCurrency)
+                .Include(wc => wc.ExpensesCurrency)
+                .FirstOrDefault(wc => wc.Id == workConditionId);
+            if (workConditions != null)
+                return workConditions;
+
+            else
+                return new WorkConditions();
         }
     }
 }

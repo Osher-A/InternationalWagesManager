@@ -1,0 +1,84 @@
+﻿@model MVC.ViewModels.EditWorkConditionsVM
+@{
+    ViewData["Title"] = "Update Work Conditions";
+}
+
+
+<Form asp-action="Edit"  style="width: 100%; margin: auto;">
+<h2 class="m-5 text-center header ">Updating work conditions</h2>
+<div >
+    <table  class="table table-bordered border-2 border-secondary " style="table-layout:fixed; width: 100%;">
+        <thead>
+            <tr>
+                <th >
+                    @Html.DisplayNameFor(model => model.WorkConditions.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkConditions.PayRate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkConditions.PayCurrency)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkConditions.ExpensesCurrency)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.WorkConditions.WageCurrency)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkConditions.Deductions)
+                </th>
+                <th/>
+            </tr>
+        </thead>
+  <tbody>
+              
+        <tr>
+            <td><input type="date"  asp-for="@Model.WorkConditions.Date" class="form-control" style="background-color: transparent"/></td>
+            <td><input type="number" asp-for=@Model.WorkConditions.PayRate class="form-control" style="background-color: transparent"/></td>
+            <td>
+                 <select asp-for="@Model.WorkConditions.PayCurrencyId" class="form-control" style="background-color: transparent" >
+                        @{
+                            foreach(var currency in Model.Currencies)
+                            {
+                                            <option value="@currency.Id" >@currency.Name</option>
+                            }
+
+                        }
+                    </select>
+            <td>
+                <select asp-for="@Model.WorkConditions.ExpensesCurrencyId" class="form-control" style="background-color: transparent" >
+                        @{
+                            foreach(var currency in Model.Currencies)
+                            {
+                                            <option value="@currency.Id" >@currency.Name</option>
+                            }
+
+                        }
+                    </select>
+            <td>
+                <select asp-for="@Model.WorkConditions.WageCurrencyId" class="form-control" style="background-color: transparent" >
+                        @{
+                            foreach(var currency in Model.Currencies)
+                            {
+                                            <option value="@currency.Id" >@currency.Name</option>
+                            }
+
+                        }
+                    </select>
+            <td><input type="number" asp-for=@Model.WorkConditions.Deductions class="form-control" style="background-color: transparent"/></td>
+            <td>
+            <button type="submit"   class="btn btn-danger" style="width: 48%;">Save</button>
+            <button type="button" asp-action="Index"  class="btn btn-success" style="width: 48%;">Cancel</button>
+            </td>
+            <td hidden><input type="number" asp-for=@Model.WorkConditions.EmployeeId /></td>
+            <td hidden><input type="number" asp-for=@Model.WorkConditions.Id /></td>
+        </tr>
+                 
+                
+    
+  </tbody>
+</table>
+</div>
+</Form>
+

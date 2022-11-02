@@ -27,5 +27,10 @@ namespace InternationalWagesManager.Domain
 
         public async Task<string> GetCurrencyName(int? CurrencyId) =>
            (await GetAllCurrencies()).Find(c => c.Id == CurrencyId)?.Name ?? "";
+
+        public int GetCurrencyId(string currencyName)
+        {
+           return GetAllCurrencies().Result.FirstOrDefault(c => c.Name == currencyName)!.Id;
+        }
     }
 }

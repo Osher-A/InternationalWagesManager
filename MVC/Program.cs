@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MyDbContext>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IWConditionsRepository, WConditionsRepository>();
+builder.Services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
 builder.Services.AddAutoMapper(Assembly.Load(typeof(DTOConvertor).Assembly.FullName));
 
 builder.Services.AddElmah<SqlErrorLog>(options =>
