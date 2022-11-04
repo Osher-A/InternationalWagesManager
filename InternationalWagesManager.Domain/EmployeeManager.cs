@@ -64,6 +64,18 @@ namespace InternationalWagesManager.Domain
                 }
             }
         }
+
+        public void DeleteEmployee(DTO.Employee employee)
+        {
+            try
+            {
+                _employeeRepo.DeleteEmployee(MapToModel(employee));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         
         public async Task<List<DTO.Employee>> GetEmployeesAsync()
         {

@@ -25,14 +25,14 @@ namespace Web.Pages.Employees
             return Page();
         }
 
-        public IActionResult OnPost(int employeeId)
+        public IActionResult OnPost(Employee employee)
         {
-            if(Employee == null || employeeId == 0)
+            if(employee == null || employee.Id == 0)
                 return BadRequest();
 
-            _employeeManager.DeleteEmployeeAsync(Employee);
+            _employeeManager.DeleteEmployee(employee);
 
-            return RedirectToPage("./index");
+            return RedirectToPage("index");
         }
     }
 }

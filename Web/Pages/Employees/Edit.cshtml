@@ -5,7 +5,7 @@
 }
 
 
-<Form asp-action="Edit" style="width: 50%; margin: auto;">
+<Form method="post" style="width: 50%; margin: auto;">
 <h2 class="m-5 text-center header ">Update Details</h2>
 <div >
     <table  class="table table-bordered border-2 border-secondary " >
@@ -34,6 +34,7 @@
         <td colspan="2" style="height: auto;">
             <span class="alert-danger text-center fw-bold" asp-validation-for="Employee.Email"/>
         </td>
+        <td hidden><input asp-for="Employee.Id"/></td>
     </tr>
     <tr>
         <td colspan="2">

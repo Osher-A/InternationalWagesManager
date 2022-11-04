@@ -11,8 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IWConditionsRepository, WConditionsRepository>();
+builder.Services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
 builder.Services.AddDbContext<MyDbContext>();
 builder.Services.AddScoped<EmployeeManager>();
+builder.Services.AddScoped<CurrenciesManager>();
+builder.Services.AddScoped<WorkConditionsManager>();
 
 var app = builder.Build();
 

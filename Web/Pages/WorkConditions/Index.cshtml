@@ -1,0 +1,36 @@
+﻿@page
+@model Web.Pages.WorkConditions.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center mb-5">Work Conditions</h1>
+
+<table class="table table-bordered table-striped border-4" >
+    <thead>
+        <tr>
+            <th style="width: 25%">
+               Employee's Name
+            </th>
+            <th style="width: 25%"></th>
+            <th style="width: 25%"></th>
+        </tr>
+    </thead>
+    <tbody>
+ @foreach (var item in Model.Employees) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    <a class="btn btn-outline-success form-control "  asp-page="./Details" asp-route-employeeId="@item.Id">View Details</a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary form-control"  asp-page="./Create" asp-route-employeeId="@item.Id">Add Condition</a>
+
+                </td>
+            </tr>
+}
+    </tbody>
+</table>
+

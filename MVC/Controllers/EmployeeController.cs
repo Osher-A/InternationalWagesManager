@@ -70,7 +70,7 @@ namespace MVC.Controllers
         }
 
         [HttpGet]
-        [Route("employee/delete/{employeeId}")]
+        [Route("{employeeId}")]
         public async Task<IActionResult> Delete(int employeeId)
         {
             Employee? employee = await GetEmployee(employeeId);
@@ -78,7 +78,7 @@ namespace MVC.Controllers
             if (employee == null)
                 return NotFound();
 
-            _employeeManager.DeleteEmployeeAsync(employee);
+            _employeeManager.DeleteEmployee(employee);
 
             return RedirectToAction(nameof(Index));
         }

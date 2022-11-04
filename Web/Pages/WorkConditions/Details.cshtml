@@ -1,0 +1,60 @@
+﻿@page
+@model Web.Pages.WorkConditions.DetailsModel
+@{
+    ViewData["Title"] = "Employee's Work Conditions";
+}
+
+
+<Form method="post"  style="width: 100%; margin: auto;">
+<h2 class="m-5 text-center header ">@Model.Employee.FirstName's work conditions</h2>
+<div >
+    <table  class="table table-bordered border-2 border-secondary " style="table-layout:fixed; width: 100%;">
+        <thead>
+            <tr>
+                <th >
+                    @Html.DisplayNameFor(model => model.WorkConditions[0].Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkConditions[0].PayRate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkConditions[0].PayCurrency)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkConditions[0].ExpensesCurrency)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.WorkConditions[0].WageCurrency)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkConditions[0].Deductions)
+                </th>
+                <th/>
+            </tr>
+        </thead>
+  <tbody>
+                @{
+                    foreach(var workConditon in Model.WorkConditions)
+                    {
+                                            <tr>
+                                                <td><input type="date" readonly asp-for="@workConditon.Date" class="form-control" style="background-color: transparent"/></td>
+                                                <td><input type="number" readonly asp-for=@workConditon.PayRate class="form-control" style="background-color: transparent"/></td>
+                                                <td><input type="text" readonly asp-for=@workConditon.PayCurrency.Name class="form-control" style="background-color: transparent"/></td>
+                                                <td><input type="text" readonly asp-for=@workConditon.ExpensesCurrency.Name class="form-control" style="background-color: transparent"/></td>
+                                                <td><input type="text" readonly asp-for=@workConditon.WageCurrency.Name class="form-control" style="background-color: transparent"/></td>
+                                                <td><input type="number" readonly asp-for=@workConditon.Deductions class="form-control" style="background-color: transparent"/></td>
+                                                <td>
+                                                <a  asp-page="./Delete" asp-route-id="@workConditon.Id"  class="btn btn-danger" style="width: 48%;">Delete</a>
+                                                <a asp-page="./Edit" asp-route-id="@workConditon.Id"   class="btn btn-success" style="width: 48%;">Edit</a>
+                                                </td>
+                                                <td hidden ><input type="number" asp-for=@workConditon.EmployeeId/></td>
+                                                <td hidden ><input type="number" asp-for=@workConditon.Id/></td>
+                                            </tr>
+                    }
+                }
+    
+  </tbody>
+</table>
+</div>
+</Form>
+

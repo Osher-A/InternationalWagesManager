@@ -95,15 +95,7 @@
     string PageVisiblility = "None";
     string SpinnerVisiblility = "Normal";
 
-    private async Task<bool> ShowConfirmMessage(string message)
-    {
-        if ( await MessageService.Confirm( message, "Warning") )
-        {
-            return true; 
-        }
-        return false;
-
-    }
+   
 
 
     protected override void OnInitialized()
@@ -152,6 +144,16 @@
             _employeeManager.UpdateEmployee(dtoEmployee);
 
         SelectedEmployee = new Employee();
+    }
+
+     private async Task<bool> ShowConfirmMessage(string message)
+    {
+        if ( await MessageService.Confirm( message, "Warning") )
+        {
+            return true; 
+        }
+        return false;
+
     }
 
     private async void TostrMessage(string message)

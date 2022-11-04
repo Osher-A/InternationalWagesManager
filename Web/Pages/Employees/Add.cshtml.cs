@@ -20,14 +20,12 @@ namespace Web.Pages.Employees
            
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(Employee Employee)
         {
-            if (!ModelState.IsValid )
-                return Page();
 
            await _employeeManager.AddEmployeeAsync(Employee);
 
-            return RedirectToPage("./index");
+            return RedirectToPage("index");
         }
     }
 }
