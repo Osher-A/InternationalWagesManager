@@ -171,7 +171,8 @@
 
     private async void LoadData()
     {
-        Employees = _mapper.Map<List<Employee>>(await _employeeManager.GetEmployeesAsync());
+        var employees = await _employeeManager.GetEmployeesAsync();
+        Employees = _mapper.Map<List<Employee>>(employees);
         SpinnerVisiblility = "None";
         PageVisiblility = "Normal";
         StateHasChanged();

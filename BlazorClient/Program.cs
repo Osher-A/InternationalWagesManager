@@ -5,6 +5,8 @@ using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using InternationalWagesManager.DAL;
+using InternationalWagesManager.Domain;
+using InternationalWagesManager.Models;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Reflection;
@@ -18,6 +20,10 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("BaseAPIUrl")) });
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IEmployeeRepository, EmployeeApiRepo>();
+builder.Services.AddScoped<ICurrenciesRepository, CurrencyApiRepo>();
+builder.Services.AddScoped<IWConditionsRepository, WorkConditionsApiRepo>();
+
+
 
 builder.Services
     .AddBlazorise(options =>

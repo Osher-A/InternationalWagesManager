@@ -4,11 +4,11 @@ namespace InternationalWagesManager.DAL
 {
     public interface IWConditionsRepository
     {
-        void AddWorkConditions(WorkConditions workConditions);
+        Task<int> AddWorkConditions(WorkConditions workConditions);
         void DeleteWorkConditions(int id);
-        List<WorkConditions> GetAllWorkConditions(int employeeId);
-        WorkConditions GetWorkConditions(int employeeId, DateTime date);
+        Task<List<WorkConditions>> GetAllWorkConditions(int employeeId);
+        Task<WorkConditions> GetWorkConditions(int employeeId, DateTime date);
         void UpdateWorkConditions(WorkConditions workConditions);
-        WorkConditions GetWorkConditions(int workConditionId);
+        Task<WorkConditions> GetWorkConditions(int workConditionId);
     }
 }

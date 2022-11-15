@@ -17,10 +17,11 @@ namespace InternationalWagesManager.DAL
             _db = db;
         }
 
-        public void AddWorkConditions(WorkConditions workConditions)
+        public async Task<int> AddWorkConditions(WorkConditions workConditions)
         {
             _db.WorkConditions.Add(workConditions);
-            _db.SaveChanges();
+            _db.SaveChangesAsync();
+            return  workConditions.Id;
         }
 
         public void UpdateWorkConditions(WorkConditions workConditions)
@@ -35,13 +36,13 @@ namespace InternationalWagesManager.DAL
             _db.SaveChanges();
         }
 
-        public WorkConditions GetWorkConditions(int employeeId, DateTime date)
+        public async Task<WorkConditions> GetWorkConditions(int employeeId, DateTime date)
         {
             var result = _db.WorkConditions
                  .Include(wc => wc.PayCurrency)
                 .Include(wc => wc.WageCurrency)
                 .Include(wc => wc.ExpensesCurrency)
-                .FirstOrDefault(wc => wc.EmployeeId == employeeId
+                .FirstOrDefaultAsync(wc => wc.EmployeeId == employeeId
                 && wc.Date.Year == date.Year
                 && wc.Date.Month == date.Month);
 
@@ -49,34 +50,34 @@ namespace InternationalWagesManager.DAL
                 result = _db.WorkConditions
                  .Include(wc => wc.PayCurrency)
                 .Include(wc => wc.WageCurrency)
-                .Include(wc => wc.ExpensesCurrency).FirstOrDefault(wc => wc.EmployeeId == employeeId
+                .Include(wc => wc.ExpensesCurrency).FirstOrDefaultAsync(wc => wc.EmployeeId == employeeId
                 && wc.Date.Year == date.Year);
 
-            return result ?? new();
+            return await result ?? new();
         }
 
-        public List<WorkConditions> GetAllWorkConditions(int employeeId)
+        public async Task<List<WorkConditions>> GetAllWorkConditions(int employeeId)
         {
-            return _db.WorkConditions
+            return await _db.WorkConditions
                 .Include(wc => wc.PayCurrency)
                 .Include(wc => wc.WageCurrency)
                 .Include(wc => wc.ExpensesCurrency)
                 .Where(wc => wc.EmployeeId == employeeId)
-                .ToList() ?? new();
+                .ToListAsync() ?? new();
         }
 
-        public WorkConditions GetWorkConditions(int workConditionId)
+        public async Task<WorkConditions> GetWorkConditions(int workConditionId)
         {
             var workConditions = _db.WorkConditions
                  .Include(wc => wc.PayCurrency)
                 .Include(wc => wc.WageCurrency)
                 .Include(wc => wc.ExpensesCurrency)
-                .FirstOrDefault(wc => wc.Id == workConditionId);
+                .FirstOrDefaultAsync(wc => wc.Id == workConditionId);
             if (workConditions != null)
-                return workConditions;
+                return await workConditions;
 
             else
-                return new WorkConditions();
+                return  new WorkConditions();
         }
     }
 }

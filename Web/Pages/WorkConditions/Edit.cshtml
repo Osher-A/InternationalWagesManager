@@ -70,7 +70,7 @@
             <td><input type="number" asp-for=@Model.WorkConditions.Deductions class="form-control" style="background-color: transparent"/></td>
             <td>
             <button type="submit"  class="btn btn-danger" style="width: 48%;">Save</button>
-            <button type="button" asp-page="./Index"  class="btn btn-success" style="width: 48%;">Cancel</button>
+            <a  asp-page="./index"  class="btn btn-success" style="width: 48%;">Cancel</a>
             </td>
             <td hidden><input type="number" asp-for=@Model.WorkConditions.EmployeeId /></td>
             <td hidden><input type="number" asp-for=@Model.WorkConditions.Id /></td>

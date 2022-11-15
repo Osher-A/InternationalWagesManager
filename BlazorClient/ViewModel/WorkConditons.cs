@@ -11,13 +11,13 @@ namespace BlazorClient.ViewModel
         [Required]
         public float? PayRate { get; set; }
         public Currency WageCurrency { get; set; }
-        [Required]
+        [Range(1, int.MaxValue , ErrorMessage = "Field Required")]
         public int WageCurrencyId { get; set; }
         public Currency ExpensesCurrency { get; set; }
-        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Field Required")]
         public int? ExpensesCurrencyId { get; set; }
         public Currency PayCurrency { get; set; }
-        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Field Required")]
         public int? PayCurrencyId { get; set; }
         public decimal? Deductions { get; set; }
     }

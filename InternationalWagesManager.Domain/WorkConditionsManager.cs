@@ -29,7 +29,7 @@ namespace InternationalWagesManager.Domain
 
         public WorkConditions GetWorkConditions(int workConditionId)
         {
-            var dtoWorkConditions = _mapper.Map<Models.WorkConditions, DTO.WorkConditions>(_wCRepo.GetWorkConditions(workConditionId));
+            var dtoWorkConditions = _mapper.Map<Models.WorkConditions, DTO.WorkConditions>(_wCRepo.GetWorkConditions(workConditionId).Result);
             return dtoWorkConditions;
         }
 
@@ -63,7 +63,7 @@ namespace InternationalWagesManager.Domain
         public List<WorkConditions> GetAllEmployeesWC(int employeeId)
         {
             return _mapper.Map<List<Models.WorkConditions>, List<DTO.WorkConditions>>
-                 (_wCRepo.GetAllWorkConditions(employeeId));
+                 (_wCRepo.GetAllWorkConditions(employeeId).Result);
         }
     }
 }

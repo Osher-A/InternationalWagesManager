@@ -1,22 +1,18 @@
-﻿@page "/workconditions/details"
+﻿@page "/upsert/{EmployeeId}"
+@page "/upsert/{EmployeeId}/{WorkConditionsId}"
 
-<EditForm  Model="this" OnValidSubmit="OnSubmit" style="width: 50%; margin: 3% auto auto auto;">
+@using AutoMapper;
+@using InternationalWagesManager
+@inject IMapper _mapper;
+@inject ICurrenciesRepository _currenciesRepo;
+@inject IWConditionsRepository _wcRepository;
+
+
+<EditForm Model="this.WorkConditons" OnValidSubmit="OnSubmit" style="width: 50%; margin: 3% auto auto auto;">
+    <DataAnnotationsValidator/>
     <h2 class="text-center m-4 header ">Work Conditions</h2>
     <table class="mt-2 table table-bordered border-2 border-secondary">
         <tbody>
-            <tr>
-                <th scope="row">Select an Employee:</th>
-                <td>
-                    <InputSelect @bind-Value=WorkConditons.EmployeeId class="form-control">
-                        <option value="0">Select a Employee</option>
-                        @foreach(var employee in Employees)
-                        {
-                            <option value="@employee.Id">@employee.FullName</option>
-                        }
-
-                    </InputSelect>
-                </td>
-            </tr>
             <tr>
                 <th scope="row">Date:</th>
                 <td>
@@ -27,6 +23,7 @@
                 <th scope="row">Pay rate:</th>
                 <td>
                     <InputNumber @bind-Value=WorkConditons.PayRate class="form-control"/>
+                    <ValidationMessage For="@(() => this.WorkConditons.PayRate)"/>
                 </td>
             </tr>
             <tr>
@@ -34,11 +31,12 @@
                 <td>
                     <InputSelect @bind-Value=WorkConditons.WageCurrencyId class="form-control">
                         <option value="0">Select a Currency</option>
-                        @foreach (var currency in Currencies)
+                        @foreach (var currency in _currencies)
                         {
                             <option value="@currency.Id">@currency.Name</option>
                         }
                     </InputSelect>
+                    <ValidationMessage For="@(() => this.WorkConditons.WageCurrencyId)"/>
                 </td>
             </tr>
             <tr>
@@ -46,11 +44,12 @@
                 <td>
                     <InputSelect @bind-Value=WorkConditons.ExpensesCurrencyId class="form-control">
                         <option value="0">Select a Currency</option>
-                        @foreach (var currency in Currencies)
+                        @foreach (var currency in _currencies)
                         {
                             <option value="@currency.Id">@currency.Name</option>
                         }
                     </InputSelect>
+                    <ValidationMessage For="@(() => this.WorkConditons.ExpensesCurrencyId )"/>
                 </td>
             </tr>
             <tr>
@@ -58,57 +57,57 @@
                 <td>
                     <InputSelect @bind-Value=WorkConditons.PayCurrencyId class="form-control">
                         <option value="0">Select a Currency</option>
-                        @foreach(var currency in Currencies)
+                        @foreach (var currency in _currencies)
                         {
                             <option value="@currency.Id">@currency.Name</option>
                         }
                     </InputSelect>
+                    <ValidationMessage For="@(() => this.WorkConditons.PayCurrencyId )" />
                 </td>
             </tr>
             <tr>
                 <th scope="row">Deductions:</th>
                 <td>
-                    <InputNumber @bind-Value=WorkConditons.Deductions class="form-control"/>
+                    <InputNumber @bind-Value=WorkConditons.Deductions class="form-control" />
+                    <ValidationMessage For="@(() => this.WorkConditons.Deductions)"/>
                 </td>
             </tr>
             <tr>
-                <th/>
+                <th />
                 <td>
                     <button class="btn btn-primary form-control">Submit</button>
                 </td>
             </tr>
-            
+
         </tbody>
 
     </table>
 
 </EditForm>
 
-
 @code {
-    private int EmployeeId { get; set; } = 0;
-    private List<Employee> Employees { get; set; } = new List<Employee>();
+    [Parameter]
+    public string EmployeeId { get; set; }
+    [Parameter]
+    public int WorkConditionsId { get; set; }
     private WorkConditons WorkConditons { get; set; } = new WorkConditons();
-    private List<Currency> Currencies { get; set; } = new List<Currency>();
+    private List<ViewModel.Currency> _currencies  = new List<Currency>();
 
     protected override void OnInitialized()
     {
         LoadData();
     }
 
-    private void LoadData()
+    private async void LoadData()
     {
-        Employees = new List<Employee>()
-        {
-            new Employee { Id=1, FirstName="O.A.", LastName="Mosco", DOB =new DateTime(1984, 06, 04), Email="oamoacovit", Phone="020805032"},
-            new Employee { Id=2, FirstName="Chavi", LastName="Mosco", DOB =new DateTime(1987, 11, 13), Email="chavi@", Phone="020805032"},
-            new Employee { Id = 3, FirstName="Fred", LastName="Monkey", DOB =new DateTime(1999, 06, 04), Email="gialdj@", Phone="020805032"}
-        };
+        var currenciesManager = new CurrenciesManager(_mapper, _currenciesRepo);
+        _currencies = _mapper.Map<List<ViewModel.Currency>>( await currenciesManager.GetAllCurrencies());
     }
 
     private void OnSubmit()
     {
-
+        var wcManager = new WorkConditionsManager(_mapper, _wcRepository);
+        wcManager.AddWorkConditions(_mapper.Map<InternationalWagesManager.DTO.WorkConditions>(this.WorkConditons));
     }
 
 
