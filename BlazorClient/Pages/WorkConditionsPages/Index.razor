@@ -28,7 +28,7 @@
                                     <tr>
                                         <td>@employee.FirstName</td>
                                         <td>
-                                            <button class="btn btn-primary form-control" @onclick=OnDetailsClicked >Details</button>
+                                            <NavLink class="btn btn-primary form-control" href="@($"/details/{employee.Id}")">Details</NavLink>
                                         </td>
                                         <td><NavLink class="btn btn-success form-control" href="@string.Format("/upsert/{0}", employee.Id)" >Add Conditions</NavLink></td>
                                     </tr>
@@ -53,8 +53,5 @@
         PageVisiblility = "Normal";
     }
 
-    private void OnDetailsClicked(MouseEventArgs e)
-    {
-
-    }
+   
 }

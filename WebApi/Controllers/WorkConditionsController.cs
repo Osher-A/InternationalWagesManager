@@ -5,7 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using InternationalWagesManager.DAL;
 using InternationalWagesManager.Models;
+using InternationalWagesManager;
+using AutoMapper;
+using ApiContracts;
+using InternationalWagesManager.DTO;
+using ApiContracts.ResponseStatus;
 
 namespace WebApi.Controllers
 {
@@ -13,111 +19,143 @@ namespace WebApi.Controllers
     [ApiController]
     public class WorkConditionsController : ControllerBase
     {
-        private readonly MyDbContext _context;
-
-        public WorkConditionsController(MyDbContext context)
+        private IWConditionsRepository _wcRepository;
+        private IMapper _mapper;
+        private ILogger<WorkConditionsController> _logger;
+        public WorkConditionsController(ILogger<WorkConditionsController> logger,IMapper mapper, IWConditionsRepository wConditionsRepository)
         {
-            _context = context;
-        }
-
-        // GET: api/WorkConditions
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<WorkConditions>>> GetWorkConditions()
-        {
-          if (_context.WorkConditions == null)
-          {
-              return NotFound();
-          }
-            return await _context.WorkConditions.ToListAsync();
+            _mapper = mapper;
+            _logger = logger;
+            _wcRepository = wConditionsRepository;
         }
 
         // GET: api/WorkConditions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkConditions>> GetWorkConditions(int id)
+        public async Task<ActionResult<IEnumerable<WorkConditionsResponse>>> GetWorkConditions([FromRoute] int id)
         {
-          if (_context.WorkConditions == null)
-          {
-              return NotFound();
-          }
-            var workConditions = await _context.WorkConditions.FindAsync(id);
-
-            if (workConditions == null)
+            if (id == 0)
+                return BadRequestResponse();
+            try
             {
-                return NotFound();
+                var data = _mapper.Map<WorkConditionsResponse>(await _wcRepository.GetWorkConditionsAsync(id));
+                if (data == null || data?.Id == 0)
+                    return NotFound();
+                return Ok(data);
             }
-
-            return workConditions;
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return Problem("Server Error", statusCode: StatusCodes.Status500InternalServerError);
         }
 
-        // PUT: api/WorkConditions/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkConditions(int id, WorkConditions workConditions)
-        {
-            if (id != workConditions.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(workConditions).State = EntityState.Modified;
+        // GET: api/WorkConditions/employee/5
+        [HttpGet("employee/{employeeId}")]
+        public async Task<ActionResult<WorkConditionsResponse>> GetEmployeesWC([FromRoute]int employeeId)
+        {
+            if (employeeId == 0)
+                return BadRequestResponse();
 
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WorkConditionsExists(id))
-                {
+                var data = _mapper.Map<List<WorkConditionsResponse>>(await _wcRepository.GetAllEmployeesWCAsync(employeeId));
+                if (data?.Count < 1)
                     return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
+
+              return Ok(data);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return ServerErrorResponse();
+         
+        }
+
+        // PUT: api/WorkConditions/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateWorkConditions(int id, WorkConditionsRequest workConditions)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            if (id != workConditions.EmployeeId || await WorkConditionsExists(workConditions.Id))
+            {
+                return BadRequestResponse();
+            }
+            try
+            {
+                _wcRepository.UpdateWorkConditions(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e.Message);
+                return ServerErrorResponse();
+            }
             return NoContent();
         }
 
         // POST: api/WorkConditions
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<WorkConditions>> PostWorkConditions(WorkConditions workConditions)
+        public async Task<ActionResult<WorkConditionsRequest>> PostWorkConditions(WorkConditionsRequest workConditions)
         {
-          if (_context.WorkConditions == null)
-          {
-              return Problem("Entity set 'MyDbContext.WorkConditions'  is null.");
-          }
-            _context.WorkConditions.Add(workConditions);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                await _wcRepository.AddWorkConditions(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return ServerErrorResponse();
+            }
 
-            return CreatedAtAction("GetWorkConditions", new { id = workConditions.Id }, workConditions);
+            return CreatedAtAction(nameof(GetEmployeesWC), new { id = workConditions.Id }, workConditions);
         }
 
         // DELETE: api/WorkConditions/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorkConditions(int id)
         {
-            if (_context.WorkConditions == null)
-            {
-                return NotFound();
-            }
-            var workConditions = await _context.WorkConditions.FindAsync(id);
-            if (workConditions == null)
-            {
-                return NotFound();
-            }
+            if(!(await WorkConditionsExists(id)))
+                return BadRequestResponse();
 
-            _context.WorkConditions.Remove(workConditions);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _wcRepository.DeleteWorkConditions(id);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return ServerErrorResponse();
+            }
 
             return NoContent();
         }
 
-        private bool WorkConditionsExists(int id)
+        private async Task<bool> WorkConditionsExists(int id)
         {
-            return (_context.WorkConditions?.Any(e => e.Id == id)).GetValueOrDefault();
+            try
+            {
+                return (await _wcRepository.GetWorkConditionsAsync(id)).Id != 0;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return false;
         }
+
+        private ActionResult BadRequestResponse()
+        {
+            return BadRequest(new ErrorResponse
+            {
+                ErrorMessage = "Invalid id",
+                StatusCode = StatusCodes.Status400BadRequest
+            });
+        }
+        private ActionResult ServerErrorResponse() => Problem("Server Error", statusCode: StatusCodes.Status500InternalServerError);
     }
 }

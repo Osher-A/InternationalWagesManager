@@ -17,7 +17,7 @@ namespace BlazorClient.ApiServices
             _url = configuration.GetSection("BaseAPIUrl").Value! + "/workConditions";
         }
 
-        public async Task<WorkConditions?> GetWorkConditions(int workConditionId)
+        public async Task<WorkConditions?> GetWorkConditionsAsync(int workConditionId)
         {
             string endPoint = $@"/{workConditionId}";
             var response = await ResponseStatusAndContent(_url + endPoint);
@@ -26,14 +26,14 @@ namespace BlazorClient.ApiServices
                 workConditions = JsonConvert.DeserializeObject<WorkConditions>(response.Item2);
             return workConditions;
         }
-        public async Task<WorkConditions> GetWorkConditions(int employeeId, DateTime date)
+        public async Task<WorkConditions> GetEmployeesWCToDateAsync(int employeeId, DateTime date)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<WorkConditions>> GetAllWorkConditions(int employeeId)
+        public async Task<List<WorkConditions>> GetAllEmployeesWCAsync(int employeeId)
         {
-            string endPoint = $"/{employeeId}";
+            string endPoint = $"/employee/{employeeId}";
             var response = await ResponseStatusAndContent(_url + endPoint);
             List<WorkConditions> workConditions = new List<WorkConditions>();
             if (response.Item1)

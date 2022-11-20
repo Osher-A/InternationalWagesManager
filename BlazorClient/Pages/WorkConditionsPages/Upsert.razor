@@ -1,5 +1,5 @@
-﻿@page "/upsert/{EmployeeId}"
-@page "/upsert/{EmployeeId}/{WorkConditionsId}"
+﻿@page "/upsert/{EmployeeId:int}"
+@page "/upsert/{EmployeeId}/{WorkConditionsId:int}"
 
 @using AutoMapper;
 @using InternationalWagesManager
@@ -87,7 +87,7 @@
 
 @code {
     [Parameter]
-    public string EmployeeId { get; set; }
+    public int EmployeeId { get; set; }
     [Parameter]
     public int WorkConditionsId { get; set; }
     private WorkConditons WorkConditons { get; set; } = new WorkConditons();
@@ -102,12 +102,19 @@
     {
         var currenciesManager = new CurrenciesManager(_mapper, _currenciesRepo);
         _currencies = _mapper.Map<List<ViewModel.Currency>>( await currenciesManager.GetAllCurrencies());
+        StateHasChanged();
     }
 
     private void OnSubmit()
     {
-        var wcManager = new WorkConditionsManager(_mapper, _wcRepository);
-        wcManager.AddWorkConditions(_mapper.Map<InternationalWagesManager.DTO.WorkConditions>(this.WorkConditons));
+        if(EmployeeId != 0 && WorkConditionsId == 0)
+        {
+            this.WorkConditons.EmployeeId = EmployeeId;
+            var wcManager = new WorkConditionsManager(_mapper, _wcRepository);
+            wcManager.AddWorkConditions(_mapper.Map<InternationalWagesManager.DTO.WorkConditions>(this.WorkConditons));
+        }
+        this.WorkConditons = new();
+
     }
 
 

@@ -1,0 +1,69 @@
+﻿@page "/details/{EmployeeId:int}"
+
+
+@using AutoMapper
+@inject IEmployeeRepository _employeeRepository
+@inject IWConditionsRepository _wcRepository
+@inject IMapper _mapper
+
+<div class="spinner-border text-primary" style="visibility: @SpinnerVisibility"></div>
+<div style="visibility: @PageVisibility;">
+    <h3 class="text-center accordion-header">Details of @Employee.FullName WorkConditions</h3>
+    <table class="table table-bordered" style="margin:auto; table-layout: fixed; width: 100%;">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Pay Rate</th>
+                <th>Wage Currency</th>
+                <th>Expenses Currency</th>
+                <th>Pay Currency</th>
+                <th>Deductions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var workConditions in Employee.WorkConditons)
+            {
+                <tr>
+                    <td>@workConditions?.Date</td>
+                </tr>
+                <tr>
+                    <td>@workConditions?.PayRate</td>
+                </tr>
+                <tr>
+                    <td>@workConditions?.WageCurrency?.Description</td>
+                </tr>
+                <tr>
+                    <td>@workConditions?.ExpensesCurrency?.Description</td>
+                </tr>
+                <tr>
+                    <td>@workConditions?.PayCurrency?.Description</td>
+                </tr>
+                <tr>
+                    <td>@workConditions?.Deductions</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public int EmployeeId { get; set; }
+    public Employee Employee { get; set; } = new Employee();
+    private string PageVisibility = "Hidden";
+    private string SpinnerVisibility = "Normal";
+
+    protected async override Task OnInitializedAsync()
+    {
+        var employeeManager = new EmployeeManager(_mapper, _employeeRepository);
+        var wcManager = new WorkConditionsManager(_mapper, _wcRepository);
+
+        Employee.FirstName = (await employeeManager.GetEmployeesAsync()).FirstOrDefault(e => e.Id == EmployeeId)!.FullName;
+        Employee.WorkConditons = _mapper.Map<List<WorkConditons>>(await wcManager.GetAllEmployeesWCAsync(EmployeeId));
+
+        StateHasChanged();
+
+        SpinnerVisibility = "Hidden";
+        PageVisibility = "Normal";
+    }
+}

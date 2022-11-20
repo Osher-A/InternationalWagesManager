@@ -29,7 +29,7 @@ namespace InternationalWagesManager.Domain
 
         public WorkConditions GetWorkConditions(int workConditionId)
         {
-            var dtoWorkConditions = _mapper.Map<Models.WorkConditions, DTO.WorkConditions>(_wCRepo.GetWorkConditions(workConditionId).Result);
+            var dtoWorkConditions = _mapper.Map<Models.WorkConditions, DTO.WorkConditions>(_wCRepo.GetWorkConditionsAsync(workConditionId).Result);
             return dtoWorkConditions;
         }
 
@@ -45,25 +45,25 @@ namespace InternationalWagesManager.Domain
                 _wCRepo.DeleteWorkConditions(id);
         }
 
-        public DTO.WorkConditions LatestWorkConditions(int employeeId)
+        public async Task<DTO.WorkConditions> LatestWorkConditions(int employeeId)
         {
-            return GetAllEmployeesWC(employeeId).OrderByDescending(wc => wc.Date).First();
+            return (await GetAllEmployeesWCAsync(employeeId)).OrderByDescending(wc => wc.Date).First();
         }
 
-        public DTO.WorkConditions WorkConditionsToDate(int employeeId, DateTime? date)
+        public async Task<DTO.WorkConditions> WorkConditionsToDateAsync(int employeeId, DateTime? date)
         {
-            var searchByDate = GetAllEmployeesWC(employeeId).FirstOrDefault(wc => wc.Date?.Date == date?.Date);
+            var searchByDate = (await GetAllEmployeesWCAsync(employeeId)).FirstOrDefault(wc => wc.Date?.Date == date?.Date);
             if (searchByDate == null)
-                searchByDate = GetAllEmployeesWC(employeeId).FirstOrDefault(wc => wc.Date?.Year == date?.Year && wc.Date?.Month == date?.Month);
+                searchByDate = (await GetAllEmployeesWCAsync(employeeId)).FirstOrDefault(wc => wc.Date?.Year == date?.Year && wc.Date?.Month == date?.Month);
             if (searchByDate == null)
-                searchByDate = GetAllEmployeesWC(employeeId).OrderByDescending(wc => wc.Date).FirstOrDefault(sc => sc.Date?.Year == date?.Year);
+                searchByDate = (await GetAllEmployeesWCAsync(employeeId)).OrderByDescending(wc => wc.Date).FirstOrDefault(sc => sc.Date?.Year == date?.Year);
             return searchByDate ?? new DTO.WorkConditions();
         }
 
-        public List<WorkConditions> GetAllEmployeesWC(int employeeId)
+        public async Task<List<WorkConditions>> GetAllEmployeesWCAsync(int employeeId)
         {
             return _mapper.Map<List<Models.WorkConditions>, List<DTO.WorkConditions>>
-                 (_wCRepo.GetAllWorkConditions(employeeId).Result);
+                 (await _wCRepo.GetAllEmployeesWCAsync(employeeId));
         }
     }
 }

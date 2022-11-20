@@ -9,6 +9,7 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using InternationalWagesManager.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,10 +31,15 @@ builder.Services.AddCors(opt =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<MyDbContext>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddDbContext<MyDbContext>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
+builder.Services.AddScoped<IWConditionsRepository, WConditionsRepository>();
+builder.Services.AddScoped<ISalaryComponentsRepository, SalaryComponentsRepository>();
+builder.Services.AddScoped<IPaymentsRepository, PaymentsRepository>();
+
+
 
 var app = builder.Build();
 

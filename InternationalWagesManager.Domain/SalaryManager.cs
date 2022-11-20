@@ -50,14 +50,14 @@ namespace InternationalWagesManager.Domain
         public async Task AddSalaryAsync(DTO.SalaryComponents salaryComponents)
         {
             _salaryComponents = salaryComponents;
-            _workConditions = GetWorkConditions(salaryComponents.EmployeeId, salaryComponents.Date);
+            _workConditions = await GetWorkConditionsAsync(salaryComponents.EmployeeId, salaryComponents.Date);
             var employerCurrencyWage = await ApiExchangeRate(await WageEndPoint(), await GetCurrencyName(_workConditions.PayCurrencyId));
             var employerCurrencyExpenses = await ApiExchangeRate(await ExpensesEndPoint(), await GetCurrencyName(_workConditions.PayCurrencyId));
             SetUpSalaryData(employerCurrencyWage, employerCurrencyExpenses);
             AddSalaryToRepo();
         }
-        private DTO.WorkConditions GetWorkConditions(int employeeId, DateTime? date) =>
-            _workConditionsManager.WorkConditionsToDate(employeeId, date);
+        private async Task<DTO.WorkConditions> GetWorkConditionsAsync(int employeeId, DateTime? date) =>
+           await _workConditionsManager.WorkConditionsToDateAsync(employeeId, date);
         
         private async Task<decimal> ApiExchangeRate(string endPoint, string payCurrency)
         {

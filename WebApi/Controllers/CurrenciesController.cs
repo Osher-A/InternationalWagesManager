@@ -9,6 +9,7 @@ using InternationalWagesManager.Models;
 using InternationalWagesManager.DAL;
 using ApiContracts;
 using AutoMapper;
+using ApiContracts.ResponseStatus;
 
 namespace WebApi.Controllers
 {
@@ -16,11 +17,13 @@ namespace WebApi.Controllers
     [ApiController]
     public class CurrenciesController : ControllerBase
     {
+        private ILogger<CurrenciesController> _logger;
         private IMapper _mapper;
         private ICurrenciesRepository _currenciesRepository;
 
-        public CurrenciesController(IMapper mapper, ICurrenciesRepository currenciesRepository)
+        public CurrenciesController(ILogger<CurrenciesController> logger, IMapper mapper, ICurrenciesRepository currenciesRepository)
         {
+            _logger = logger;
             _mapper = mapper;
             _currenciesRepository = currenciesRepository;
         }
@@ -29,10 +32,17 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CurrencyResponse>>> GetCurrencies()
         {
-          if (await _currenciesRepository.GetAllCurrenciesAsync() == null)
-          {
-                return Problem("Entity set 'MyDbContext.Currencies' is null.");
-          }
+            try
+            {
+                if (await _currenciesRepository.GetAllCurrenciesAsync() == null)
+                    return Problem("There is no data in the database.");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return ServerErrorResponse();
+            }
+
             return _mapper.Map<List<CurrencyResponse>>(await _currenciesRepository.GetAllCurrenciesAsync());
         }
 
@@ -40,18 +50,25 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CurrencyResponse>> GetCurrency(int id)
         {
-          if (await _currenciesRepository.GetAllCurrenciesAsync() == null)
-          {
-                return Problem("Entity set 'MyDbContext.Currencies' is null.");
-            }
-            var currency = await GetCurrencyResponse(id);
+            if (id == 0)
+                return BadRequestResponse();
 
-            if (currency == null)
+            try
             {
-                return NotFound();
-            }
+                if (await _currenciesRepository.GetAllCurrenciesAsync() == null)
+                    return Problem("There is no data  in the database.");
 
-            return currency;
+                var currency = await GetCurrencyResponse(id);
+                if (currency == null)
+                    return NotFound();
+
+                return currency;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return ServerErrorResponse();
         }
 
         // POST: api/Currencies/addcurrency
@@ -59,10 +76,21 @@ namespace WebApi.Controllers
         [HttpPost("AddCurrency")]
         public ActionResult AddCurrency(CurrencyRequest currencyRequest)
         {
-            var modelCurrency = GetModelCurrency(currencyRequest);
-            _currenciesRepository.AddCurrency(modelCurrency);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            return Ok();
+            try
+            {
+                var modelCurrency = GetModelCurrency(currencyRequest);
+                _currenciesRepository.AddCurrency(modelCurrency);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return ServerErrorResponse();
         }
 
         // PUT: api/Currencies/update/5
@@ -70,17 +98,27 @@ namespace WebApi.Controllers
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> UpdateCurrency(int id, CurrencyRequest currencyRequest)
         {
-            if (GetCurrencyResponse(id) == null)
+            if (id == 0)
+                return BadRequestResponse();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
             {
-                return NotFound();
+                if (GetCurrencyResponse(id) == null)
+                    return NotFound();
+
+                var modelCurrency = GetModelCurrency(currencyRequest);
+                modelCurrency.Id = id;
+                _currenciesRepository.UpdateCurrency(modelCurrency);
+                return CreatedAtAction(nameof(GetCurrency), new { Id = id }, currencyRequest);
             }
-
-            var modelCurrency = GetModelCurrency(currencyRequest);
-            modelCurrency.Id = id;
-
-            _currenciesRepository.UpdateCurrency(modelCurrency);
-
-            return CreatedAtAction(nameof(GetCurrency), new {Id = id}, currencyRequest);
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return ServerErrorResponse();
         }
 
 
@@ -88,21 +126,36 @@ namespace WebApi.Controllers
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteCurrency(int id)
         {
-           var modelCurrency = (await _currenciesRepository.GetAllCurrenciesAsync()).SingleOrDefault(cr => cr.Id == id);
-            if (modelCurrency == null)
-                return NotFound();
-
-            _currenciesRepository.DeleteCurrency(modelCurrency);
-
-            return NoContent();
+            if (id == 0)
+                return BadRequestResponse();
+            try
+            {
+                var modelCurrency = (await _currenciesRepository.GetAllCurrenciesAsync()).SingleOrDefault(cr => cr.Id == id);
+                if (modelCurrency == null)
+                    return NotFound();
+                _currenciesRepository.DeleteCurrency(modelCurrency);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            return ServerErrorResponse();
         }
 
-       
-
         private async Task<CurrencyResponse> GetCurrencyResponse(int id) =>
-             _mapper.Map<CurrencyResponse>((await _currenciesRepository.GetAllCurrenciesAsync()).SingleOrDefault(cr => cr.Id == id));
-        
+            _mapper.Map<CurrencyResponse>((await _currenciesRepository.GetAllCurrenciesAsync()).SingleOrDefault(cr => cr.Id == id));
+
         private Currency GetModelCurrency(CurrencyRequest currencyRequest) =>
             _mapper.Map<Currency>(currencyRequest);
+        private ActionResult ServerErrorResponse() => Problem("Server Error", statusCode: StatusCodes.Status500InternalServerError);
+        private ActionResult BadRequestResponse()
+        {
+            return BadRequest(new ErrorResponse
+            {
+                ErrorMessage = "Invalid id",
+                StatusCode = StatusCodes.Status400BadRequest
+            });
+        }
     }
 }
