@@ -4,66 +4,134 @@
 @using AutoMapper
 @inject IEmployeeRepository _employeeRepository
 @inject IWConditionsRepository _wcRepository
+@inject ICurrenciesRepository _currenciesRepository
 @inject IMapper _mapper
 
-<div class="spinner-border text-primary" style="visibility: @SpinnerVisibility"></div>
-<div style="visibility: @PageVisibility;">
-    <h3 class="text-center accordion-header">Details of @Employee.FullName WorkConditions</h3>
+<style>
+    input, select{
+        border: 0;
+        box-shadow: none;
+        outline:none;
+    }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            display: none;
+            -webkit-appearance: none;
+        }
+</style>
+
+<div class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status" style="@($"display: {SpinnerVisibility}; margin: 20%;")">
+        <text class="visually-hidden">Loading...</text>
+    </div>
+</div>
+<div style="@($"display: {PageVisibility}")">
+    <h3 class="text-center header mb-4 " style="font-family: 'MS UI Gothic'">Details of <span class="text-primary text-capitalize">@(Employee.FirstName)'s</span> WorkConditions</h3>
     <table class="table table-bordered" style="margin:auto; table-layout: fixed; width: 100%;">
         <thead>
             <tr>
                 <th>Date</th>
                 <th>Pay Rate</th>
                 <th>Wage Currency</th>
-                <th>Expenses Currency</th>
+                <th>Expenses</th>
                 <th>Pay Currency</th>
                 <th>Deductions</th>
+                <th style="width:20%"></th>
             </tr>
         </thead>
         <tbody>
             @foreach(var workConditions in Employee.WorkConditons)
             {
-                <tr>
-                    <td>@workConditions?.Date</td>
-                </tr>
-                <tr>
-                    <td>@workConditions?.PayRate</td>
-                </tr>
-                <tr>
-                    <td>@workConditions?.WageCurrency?.Description</td>
-                </tr>
-                <tr>
-                    <td>@workConditions?.ExpensesCurrency?.Description</td>
-                </tr>
-                <tr>
-                    <td>@workConditions?.PayCurrency?.Description</td>
-                </tr>
-                <tr>
-                    <td>@workConditions?.Deductions</td>
+                <tr >
+                    <td ><InputDate @bind-Value=workConditions.Date /></td>
+                    <td><input type="number" @bind-value=workConditions.PayRate /></td>
+                    <td>
+                        <InputSelect @bind-Value=workConditions.WageCurrency.Id>
+                            @{
+                                foreach(var currency in Currencies)
+                                {
+                                    <option value="@currency.Id">@currency.Name</option>
+                                }
+                            }
+                        </InputSelect>
+                    </td>  
+                    <td>
+                        <InputSelect @bind-Value=workConditions.ExpensesCurrency.Id>
+                        @{
+                            foreach (var currency in Currencies)
+                            {
+                                <option value="@currency.Id">@currency.Name</option>
+                            }
+                        }
+                        </InputSelect>
+                    </td>
+                    <td>
+                        <InputSelect @bind-Value=workConditions.PayCurrency.Id>
+                        @{
+                            foreach (var currency in Currencies)
+                            {
+                                <option value="@currency.Id">@currency.Name</option>
+                            }
+                        }
+                        </InputSelect>
+                    </td>
+                    <td><InputNumber @bind-Value=workConditions.Deductions /></td>
+                    <td>
+                        <button class="btn btn-primary" style="width: 48%;"  @onclick="(args) => OnEdit(args, workConditions)">Edit</button>
+                        <button class="btn btn-danger" style="width: 48%;" @onclick="(args)=> OnDelete(args, workConditions)">Delete</button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+    <NavLink class="btn btn-primary form-control mt-3" style="width: 20%;" href="/workconditions">Back</NavLink>
 </div>
 
 @code {
     [Parameter]
     public int EmployeeId { get; set; }
     public Employee Employee { get; set; } = new Employee();
-    private string PageVisibility = "Hidden";
+    public List<Currency> Currencies { get; set; }
+    private string PageVisibility = "None";
     private string SpinnerVisibility = "Normal";
+    private EmployeeManager _employeeManager;
+    private WorkConditionsManager _workConditionsManager;
+    private CurrenciesManager _currenciesManager;
 
     protected async override Task OnInitializedAsync()
     {
-        var employeeManager = new EmployeeManager(_mapper, _employeeRepository);
-        var wcManager = new WorkConditionsManager(_mapper, _wcRepository);
+        _employeeManager = new EmployeeManager(_mapper, _employeeRepository);
+        _workConditionsManager = new WorkConditionsManager(_mapper, _wcRepository);
+        _currenciesManager = new CurrenciesManager(_mapper, _currenciesRepository);
 
-        Employee.FirstName = (await employeeManager.GetEmployeesAsync()).FirstOrDefault(e => e.Id == EmployeeId)!.FullName;
-        Employee.WorkConditons = _mapper.Map<List<WorkConditons>>(await wcManager.GetAllEmployeesWCAsync(EmployeeId));
+        await LoadData();
 
         StateHasChanged();
 
-        SpinnerVisibility = "Hidden";
+        SpinnerVisibility = "None";
         PageVisibility = "Normal";
+    }
+
+    private async void OnDelete(MouseEventArgs e,WorkConditons workConditons)
+    {
+        _workConditionsManager.DeleteWorkConditions(workConditons.Id);
+        await LoadData();
+        StateHasChanged();
+    }
+    private async void OnEdit(MouseEventArgs e, WorkConditons workConditions)
+    {
+        workConditions.ExpensesCurrencyId = workConditions.ExpensesCurrency.Id;
+        workConditions.WageCurrencyId = workConditions.WageCurrency.Id;
+        workConditions.PayCurrencyId = workConditions.PayCurrency.Id;
+
+        await _workConditionsManager.UpdateWorkConditions(_mapper.Map<InternationalWagesManager.DTO.WorkConditions>(workConditions));
+        await LoadData();
+        StateHasChanged();
+    }
+
+    private async Task LoadData()
+    {
+        Employee.FirstName = (await _employeeManager.GetEmployeesAsync()).FirstOrDefault(e => e.Id == EmployeeId)!.FirstName;
+        Employee.WorkConditons = _mapper.Map<List<WorkConditons>>(await _workConditionsManager.GetAllEmployeesWCAsync(EmployeeId));
+        Currencies = _mapper.Map<List<Currency>>(await _currenciesManager.GetAllCurrencies());
     }
 }

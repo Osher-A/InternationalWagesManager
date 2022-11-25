@@ -40,7 +40,7 @@ namespace MVC.Controllers
 
             viewModel.Employee = employee;
             
-            viewModel.WorkConditions = _workConditionsManager.GetAllEmployeesWCAsync(employeeId);
+            viewModel.WorkConditions = await _workConditionsManager.GetAllEmployeesWCAsync(employeeId);
             return View(viewModel);
         }
 

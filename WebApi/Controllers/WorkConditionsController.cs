@@ -52,7 +52,7 @@ namespace WebApi.Controllers
 
         // GET: api/WorkConditions/employee/5
         [HttpGet("employee/{employeeId}")]
-        public async Task<ActionResult<WorkConditionsResponse>> GetEmployeesWC([FromRoute]int employeeId)
+        public async Task<ActionResult<WorkConditionsResponse>> GetEmployeesWC(int employeeId)
         {
             if (employeeId == 0)
                 return BadRequestResponse();
@@ -75,18 +75,17 @@ namespace WebApi.Controllers
         }
 
         // PUT: api/WorkConditions/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateWorkConditions(int id, WorkConditionsRequest workConditions)
+        [HttpPut("{employeeId}")]
+        public async Task<IActionResult> UpdateWorkConditions(int employeeId, WorkConditionsRequest workConditions)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (id != workConditions.EmployeeId || await WorkConditionsExists(workConditions.Id))
-            {
+            if (employeeId != workConditions.EmployeeId || !await WorkConditionsExists(workConditions.Id))
                 return BadRequestResponse();
-            }
+
             try
             {
-                _wcRepository.UpdateWorkConditions(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
+               await _wcRepository.UpdateWorkConditionsAsync(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
             }
             catch (Exception e)
             {
@@ -100,11 +99,12 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<WorkConditionsRequest>> PostWorkConditions(WorkConditionsRequest workConditions)
         {
+            int newId;
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
-                await _wcRepository.AddWorkConditions(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
+                newId = await _wcRepository.AddWorkConditions(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
             }
             catch (Exception e)
             {
@@ -112,7 +112,7 @@ namespace WebApi.Controllers
                 return ServerErrorResponse();
             }
 
-            return CreatedAtAction(nameof(GetEmployeesWC), new { id = workConditions.Id }, workConditions);
+            return CreatedAtAction(nameof(GetEmployeesWC), new { id = newId }, workConditions);
         }
 
         // DELETE: api/WorkConditions/5

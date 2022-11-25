@@ -11,8 +11,8 @@ namespace ApiContracts
         int EmployeeId,
         DateTime Date,
         float PayRate,
-        int WageCurrencyId,
-        int ExpensesCurrencyId,
-        int PayCurrencyId,
+        CurrencyResponse WageCurrency,
+        CurrencyResponse ExpensesCurrency,
+        CurrencyResponse PayCurrency,
         decimal Deductions);
 }

@@ -55,11 +55,13 @@ namespace BlazorClient.ApiServices
             return 0;
         }
 
-        public async void UpdateWorkConditions(WorkConditions workConditions)
+        public async Task UpdateWorkConditionsAsync(WorkConditions workConditions)
         {
             var bodyContent = BodyForRequest(workConditions);
-            string endPoint = "/" + workConditions.Id.ToString();
-            await _httpClient.PutAsync(_url + endPoint, bodyContent);
+            string endPoint = "/" + workConditions.EmployeeId.ToString();
+            var response = await _httpClient.PutAsync(_url + endPoint, bodyContent);
+            if (response.IsSuccessStatusCode)
+                return;
 
             // to do: validation 
 

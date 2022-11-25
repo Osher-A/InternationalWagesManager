@@ -20,7 +20,7 @@ namespace Web.Pages.WorkConditions
             Employee = (await _employeeManager.GetEmployeesAsync()).FirstOrDefault(e => e.Id == employeeId)!;
             if (Employee == null)
                 return NotFound("Employee does not exist");
-           WorkConditions = _workConditionsManager.GetAllEmployeesWCAsync(employeeId);
+           WorkConditions = await _workConditionsManager.GetAllEmployeesWCAsync(employeeId);
            return Page(); 
 
         }

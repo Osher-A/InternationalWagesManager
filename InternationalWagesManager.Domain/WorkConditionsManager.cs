@@ -33,10 +33,10 @@ namespace InternationalWagesManager.Domain
             return dtoWorkConditions;
         }
 
-        public void UpdateWorkConditions(DTO.WorkConditions workConditions)
+        public async Task UpdateWorkConditions(DTO.WorkConditions workConditions)
         {
             if (workConditions.EmployeeId != 0)
-                _wCRepo.UpdateWorkConditions(_mapper.Map<DTO.WorkConditions, Models.WorkConditions>(workConditions));
+               await _wCRepo.UpdateWorkConditionsAsync(_mapper.Map<DTO.WorkConditions, Models.WorkConditions>(workConditions));
         }
 
         public void DeleteWorkConditions(int id)

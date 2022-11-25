@@ -57,15 +57,15 @@ namespace InternationalWagesManager.DAL
 
         public async Task<int> AddWorkConditions(WorkConditions workConditions)
         {
-            _db.WorkConditions.Add(workConditions);
-            _db.SaveChangesAsync();
+            await _db.WorkConditions.AddAsync(workConditions);
+            await _db.SaveChangesAsync();
             return workConditions.Id;
         }
 
-        public void UpdateWorkConditions(WorkConditions workConditions)
+        public async Task UpdateWorkConditionsAsync(WorkConditions workConditions)
         {
             _db.WorkConditions.Update(workConditions);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
         public void DeleteWorkConditions(int id)

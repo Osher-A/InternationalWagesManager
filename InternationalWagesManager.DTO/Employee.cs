@@ -37,6 +37,8 @@ namespace InternationalWagesManager.DTO
             }
         }
 
+        public List<WorkConditions> WorkConditions { get; set; } = new List<WorkConditions>();
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)

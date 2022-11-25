@@ -1,0 +1,31 @@
+[33m2772de4[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m refactor webApi Employee,WorkConditions & Currencies Controllers
+[33m7f79b9d[m add BlazorClient WorkCondition Index & Upsert Pages & ApiRepository
+[33m89d26a1[m add WorkConditions Razor pages
+[33md12acd7[m add MVC WorkConditions Controller & Views
+[33m1d2d4e3[m add blazorize message box & Spinner to BlazorClient & version updates
+[33m3df25d8[m fix db bug & completing wpf employees view
+[33mab84b5c[m adding buttons for employees page in BlazorClient
+[33m8257069[m update employees pages of wpf proj
+[33me158b6d[m add razor pages project with Employees pages
+[33md272447[m add MVC app, Employee Controllers & Views
+[33mad4a260[m some refactoring
+[33m63e88db[m add CurrencyApiRespository & modify ICurrencyRepository
+[33m5c7a495[m implementing EmployeeApiRepository, binding (BC) EmployeeDetails page to Api
+[33ma5ae751[m add WebApi project & ApiContracts
+[33m1b765e4[m add rest of pages for BlazorClient
+[33mb267942[m add BlazorClient proj with EmployeeDetails page
+[33m39e1bf4[m add Statement Domain & VM plus sorting out DI
+[33mc9b1ebb[m add currencies Model & Domain...
+[33mcbcfe7e[m add Salary Domain
+[33mc9f2c7e[m update model
+[33mbc1c922[m add Payments VM & Domain
+[33m86b83e3[m add SalaryComponents VM & Domain
+[33m6460e4f[m add WorkCondition VM & Domain
+[33m2c5de50[m add Interfaces for repositories, EmployeeDetails View Model & Domain EmployeeManager etc
+[33meb870ee[m add initial pages
+[33m0425832[m add DAL, dependency injections, AutoMapper config
+[33mad9465e[m add Data Access Layer classes
+[33mdfddebf[m add DTO classes
+[33m4419c01[m add model classes
+[33m3817b7d[m initial Views files aranged for wpf and blazor
+[33m1876f01[m[33m ([m[1;31morigin/main[m[33m)[m Initial commit
