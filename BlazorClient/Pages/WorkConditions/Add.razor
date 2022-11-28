@@ -1,5 +1,4 @@
-﻿@page "/upsert/{EmployeeId:int}"
-@page "/upsert/{EmployeeId}/{WorkConditionsId:int}"
+﻿@page "/add/{EmployeeId:int}"
 
 @using AutoMapper;
 @using InternationalWagesManager
@@ -7,7 +6,7 @@
 @inject ICurrenciesRepository _currenciesRepo;
 @inject IWConditionsRepository _wcRepository;
 
-
+<PageTitle>Add work conditions</PageTitle>
 <EditForm Model="this.WorkConditons" OnValidSubmit="OnSubmit" style="width: 50%; margin: 3% auto auto auto;">
     <DataAnnotationsValidator/>
     <h2 class="text-center m-4 header ">Work Conditions</h2>
@@ -90,8 +89,6 @@
 @code {
     [Parameter]
     public int EmployeeId { get; set; }
-    [Parameter]
-    public int WorkConditionsId { get; set; }
     private WorkConditons WorkConditons { get; set; } = new WorkConditons();
     private List<ViewModel.Currency> _currencies  = new List<Currency>();
 
@@ -109,15 +106,12 @@
 
     private void OnSubmit()
     {
-        if(EmployeeId != 0 && WorkConditionsId == 0)
+        if(EmployeeId != 0)
         {
             this.WorkConditons.EmployeeId = EmployeeId;
             var wcManager = new WorkConditionsManager(_mapper, _wcRepository);
             wcManager.AddWorkConditions(_mapper.Map<InternationalWagesManager.DTO.WorkConditions>(this.WorkConditons));
         }
         this.WorkConditons = new();
-
     }
-
-
 }

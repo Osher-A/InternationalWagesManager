@@ -1,0 +1,97 @@
+﻿@page "/employees/details/{EmployeeId:int}"
+
+@using AutoMapper;
+@using InternationalWagesManager
+@inject IMapper _mapper;
+@inject IEmployeeRepository _employeeRepository;
+@inject NavigationManager _navigation
+
+<PageTitle>Employees details</PageTitle>
+
+<EditForm Model="this.Employee"  style="width: 50%; margin: 3% auto auto auto;">
+    <DataAnnotationsValidator />
+    <h2 class="text-center m-4 header ">Employee</h2>
+    <table class="mt-2 table table-bordered border-2 border-secondary">
+        <tbody>
+            <tr>
+                <th scope="row">First name:</th>
+                <td>
+                    <InputText @bind-Value=Employee.FirstName class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Last name:</th>
+                <td>
+                    <InputText @bind-Value=Employee.LastName class="form-control" />
+                    <ValidationMessage For="@(() => this.Employee.FullName)" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">D.O.B:</th>
+                <td>
+                    <InputDate @bind-Value=Employee.DOB class="form-control">
+                    </InputDate>
+                    <ValidationMessage For="@(() => this.Employee.DOB)" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Phone:</th>
+                <td><InputText @bind-Value=Employee.Phone class="form-control" style="background-color: transparent" /></td>
+            </tr>
+            <tr>
+                <th scope="row">Email:</th>
+                <td>
+                    <InputText @bind-Value=Employee.Email class="form-control">
+                    </InputText>
+                    <ValidationMessage For="@(() => this.Employee.Email )" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <button class="btn btn-primary form-control"  @onclick="OnEdit">Edit</button>
+                </td>
+                <td>
+                    <button class="btn btn-danger form-control" @onclick="OnDelete">Delete</button>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+    <NavLink class="btn btn-primary form-control mt-3" style="width: 25%;" href="/employees">Back</NavLink>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int EmployeeId { get; set; }
+    private Employee Employee { get; set; } = new();
+    private EmployeeManager _employeeManager;
+
+    protected async override Task OnInitializedAsync()
+    {
+        _employeeManager = new EmployeeManager(_mapper, _employeeRepository);
+       await LoadData();
+    }
+
+    private void OnEdit(MouseEventArgs e)
+    {
+        var dtoEmployee = _mapper.Map<InternationalWagesManager.DTO.Employee>(Employee);
+        _employeeManager.UpdateEmployee(dtoEmployee);
+        Employee = new Employee();
+    }
+
+    private async void OnDelete(MouseEventArgs e)
+    {
+        if (Employee.Id == 0)
+            return;
+
+        await _employeeManager.DeleteEmployeeAsync(_mapper.Map<InternationalWagesManager.DTO.Employee>(Employee));
+        _navigation.NavigateTo(_navigation.BaseUri);
+    }
+
+    private async Task LoadData()
+    {
+        Employee = _mapper.Map<Employee>((await _employeeManager.GetEmployeesAsync()).SingleOrDefault(e => e.Id == EmployeeId));
+    }
+}

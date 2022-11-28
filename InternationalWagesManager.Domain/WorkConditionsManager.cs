@@ -39,6 +39,15 @@ namespace InternationalWagesManager.Domain
                await _wCRepo.UpdateWorkConditionsAsync(_mapper.Map<DTO.WorkConditions, Models.WorkConditions>(workConditions));
         }
 
+        public async Task<bool> DeleteWorkConditionsAsync(int id)
+        {
+            if (id != 0)
+                if (await MessagesManager.UserConfirmation("Are you sure you want to delete these conditions?"))
+                    _wCRepo.DeleteWorkConditions(id);
+
+            return false;
+        }
+
         public void DeleteWorkConditions(int id)
         {
             if (id != 0)

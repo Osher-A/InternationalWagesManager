@@ -2,11 +2,17 @@
 
 
 @using AutoMapper
+@using Blazorise
+@using Microsoft.JSInterop
+
 @inject IEmployeeRepository _employeeRepository
 @inject IWConditionsRepository _wcRepository
 @inject ICurrenciesRepository _currenciesRepository
 @inject IMapper _mapper
+@inject IMessageService MessageService
+@inject IJSRuntime JSRuntime
 
+<PageTitle>Employees details</PageTitle>
 <style>
     input, select{
         border: 0;
@@ -25,7 +31,7 @@
     </div>
 </div>
 <div style="@($"display: {PageVisibility}")">
-    <h3 class="text-center header mb-4 " style="font-family: 'MS UI Gothic'">Details of <span class="text-primary text-capitalize">@(Employee.FirstName)'s</span> WorkConditions</h3>
+    <h3 class="text-center header mb-4 " style="font-family: 'MS UI Gothic'">Details of <span class="text-primary text-capitalize">@(Employee.FirstName)'s</span> Work Conditions</h3>
     <table class="table table-bordered" style="margin:auto; table-layout: fixed; width: 100%;">
         <thead>
             <tr>
@@ -102,7 +108,7 @@
         _employeeManager = new EmployeeManager(_mapper, _employeeRepository);
         _workConditionsManager = new WorkConditionsManager(_mapper, _wcRepository);
         _currenciesManager = new CurrenciesManager(_mapper, _currenciesRepository);
-
+        MessagesManager.AlertFunc += ShowConfirmMessage;
         await LoadData();
 
         StateHasChanged();
@@ -113,9 +119,14 @@
 
     private async void OnDelete(MouseEventArgs e,WorkConditons workConditons)
     {
-        _workConditionsManager.DeleteWorkConditions(workConditons.Id);
-        await LoadData();
-        StateHasChanged();
+        if (await _workConditionsManager.DeleteWorkConditionsAsync(workConditons.Id))
+        {
+            await LoadData();
+            StateHasChanged();
+        }
+        else
+            return;
+
     }
     private async void OnEdit(MouseEventArgs e, WorkConditons workConditions)
     {
@@ -133,5 +144,14 @@
         Employee.FirstName = (await _employeeManager.GetEmployeesAsync()).FirstOrDefault(e => e.Id == EmployeeId)!.FirstName;
         Employee.WorkConditons = _mapper.Map<List<WorkConditons>>(await _workConditionsManager.GetAllEmployeesWCAsync(EmployeeId));
         Currencies = _mapper.Map<List<Currency>>(await _currenciesManager.GetAllCurrencies());
+    }
+    private async Task<bool> ShowConfirmMessage(string message)
+    {
+        if (await MessageService.Confirm(message, "Warning"))
+        {
+            return true;
+        }
+        return false;
+
     }
 }

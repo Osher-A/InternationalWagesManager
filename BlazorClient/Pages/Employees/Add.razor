@@ -1,0 +1,83 @@
+﻿@page "/employees/add"
+
+@using AutoMapper;
+@using InternationalWagesManager
+@inject IMapper _mapper;
+@inject IEmployeeRepository _employeeRepository;
+
+<PageTitle>Add Employee</PageTitle>
+
+<EditForm Model="this.Employee" OnValidSubmit="OnSubmit"  style="width: 50%; margin: 3% auto auto auto;">
+    <DataAnnotationsValidator />
+    <h2 class="text-center m-4 header ">Employee</h2>
+    <table class="mt-2 table table-bordered border-2 border-secondary">
+        <tbody>
+            <tr>
+                <th scope="row">First name:</th>
+                <td>
+                    <InputText @bind-Value=Employee.FirstName class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Last name:</th>
+                <td>
+                    <InputText @bind-Value=Employee.LastName class="form-control" />
+                    <ValidationMessage For="@(() => this.Employee.FullName)" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Wage currency:</th>
+                <td>
+                    <InputDate @bind-Value=Employee.DOB class="form-control">
+                    </InputDate>
+                    <ValidationMessage For="@(() => this.Employee.DOB)" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Phone:</th>
+                <td><InputText @bind-Value=Employee.Phone class="form-control" style="background-color: transparent" /></td>
+            </tr>
+            <tr>
+                <th scope="row">Email:</th>
+                <td>
+                    <InputText @bind-Value=Employee.Email class="form-control">
+                    </InputText>
+                    <ValidationMessage For="@(() => this.Employee.Email )" />
+                </td>
+            </tr>
+           
+            <tr>
+                <td>
+                    <NavLink class="btn btn-success form-control" href="/employees">Cancel</NavLink>
+                </td>
+                <td>
+                    <button class="btn btn-primary form-control">Submit</button>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</EditForm>
+
+@code {
+    private Employee Employee { get; set; } = new ();
+    private EmployeeManager _employeeManager;
+
+    protected override void OnInitialized()
+    {
+        _employeeManager = new EmployeeManager(_mapper, _employeeRepository);
+       
+    }
+
+    private async void OnSubmit()
+    {
+        var dtoEmployee = _mapper.Map<InternationalWagesManager.DTO.Employee>(Employee);
+       await _employeeManager.AddEmployeeAsync(dtoEmployee);
+        
+        this.Employee = new();
+    }
+}
+
+}

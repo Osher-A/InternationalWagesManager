@@ -1,0 +1,59 @@
+﻿@page "/employees"
+@using InternationalWagesManager.DTO
+@using AutoMapper
+
+@inject IMapper _mapper
+@inject IEmployeeRepository _employeeRepository
+
+<PageTitle>Employees index</PageTitle>
+
+<div class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status" style="@($"display: {SpinnerVisiblility}; margin: 20%;")">
+        <text class="visually-hidden">Loading...</text>
+    </div>
+</div>
+<div style="@($"display: {PageVisiblility}")">
+    <h2 class="header text-center m-4" style="font-family: 'MS UI Gothic'">Employees Index</h2>
+    <table class="table table-bordered" style="table-layout: fixed; width: 80%; margin: auto;">
+        <thead>
+            <tr>
+                <th scope="col">Employee name</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var employee in Employees)
+                {
+                    <tr>
+                        <td>@employee.FirstName</td>
+                        <td>
+                            <NavLink class="btn btn-primary form-control" href="@($"/employees/details/{employee.Id}")">View details</NavLink>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div style="width: 80%; margin: auto;">
+        <NavLink class="btn btn-success form-control mt-3" style="width: 20%;" href="/employees/add">Add Employee</NavLink>
+    </div>
+</div>
+
+@code {
+    public List<ViewModel.Employee> Employees { get; set; } = new();
+    private EmployeeManager _employeeManager;
+    string PageVisiblility = "None";
+    string SpinnerVisiblility = "Normal";
+
+    protected async override Task OnInitializedAsync()
+    {
+        _employeeManager = new EmployeeManager(_mapper, _employeeRepository);
+        Employees = _mapper.Map<List<ViewModel.Employee>>(await _employeeManager.GetEmployeesAsync());
+        SpinnerVisiblility = "None";
+        PageVisiblility = "Normal";
+    }
+
+
+}
+
