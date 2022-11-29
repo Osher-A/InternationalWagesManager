@@ -1,6 +1,7 @@
 using AutoMapper;
 using BlazorClient;
 using BlazorClient.ApiServices;
+using BlazorClient.Utilities;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -22,7 +23,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IEmployeeRepository, EmployeeApiRepo>();
 builder.Services.AddScoped<ICurrenciesRepository, CurrencyApiRepo>();
 builder.Services.AddScoped<IWConditionsRepository, WorkConditionsApiRepo>();
-
+builder.Services.AddSingleton<BlazorMessages>();
 
 
 builder.Services

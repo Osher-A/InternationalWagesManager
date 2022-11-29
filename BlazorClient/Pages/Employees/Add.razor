@@ -75,6 +75,7 @@
     {
         var dtoEmployee = _mapper.Map<InternationalWagesManager.DTO.Employee>(Employee);
        await _employeeManager.AddEmployeeAsync(dtoEmployee);
+
         
         this.Employee = new();
     }

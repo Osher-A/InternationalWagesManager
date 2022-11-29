@@ -10,15 +10,11 @@ namespace InternationalWagesManager.Domain
         private readonly IMapper _mapper;
         private readonly IEmployeeRepository _employeeRepo;
 
-        public Func<string, Task<bool>> AlertFunc { get; set; }
-        public Action<string> SuccessMessage { get; set; }
-        public Action<string> ErrorMessage { get; set; }
         public EmployeeManager(IMapper mapper, IEmployeeRepository employeeRepo)
         {
             _mapper = mapper;
             _employeeRepo = employeeRepo;
         }
-
         public async Task AddEmployeeAsync(DTO.Employee employee)
         {
             if(ValidInput(employee))
@@ -26,11 +22,11 @@ namespace InternationalWagesManager.Domain
                 try
                 {
                     await _employeeRepo.AddEmployeeAsync(MapToModel(employee));
-                    SuccessMessage?.Invoke("Successfully added! ");
+                    MessagesManager.SuccessMessage?.Invoke("Successfully added! ");
                 }
                 catch (Exception e)
                 {
-                    ErrorMessage?.Invoke("Database Error! ");
+                    MessagesManager.ErrorMessage?.Invoke("Database Error! ");
                 }
         }
 
@@ -39,11 +35,11 @@ namespace InternationalWagesManager.Domain
             try
             {
                 _employeeRepo.UpdateEmployee(MapToModel(employee));
-                SuccessMessage?.Invoke("Successful update! ");
+                MessagesManager.SuccessMessage?.Invoke("Successful update! ");
             }
             catch (Exception e)
             {
-                ErrorMessage?.Invoke("DataBase Error!");
+                MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
             }
         }
 
@@ -56,11 +52,11 @@ namespace InternationalWagesManager.Domain
                 try
                 {
                     _employeeRepo.DeleteEmployee(MapToModel(employee));
-                    SuccessMessage?.Invoke("Successfully Deleted");
+                    MessagesManager.SuccessMessage?.Invoke("Successfully Deleted");
                 }
                 catch (Exception e)
                 {
-                    ErrorMessage?.Invoke("Database Error!");
+                    MessagesManager.ErrorMessage?.Invoke("Database Error!");
                 }
             }
         }
@@ -101,9 +97,9 @@ namespace InternationalWagesManager.Domain
 
         private async Task<bool> UserConfirmation()
         {
-            if(AlertFunc == null)
+            if(MessagesManager.AlertFunc == null)
                 return false;
-            return await AlertFunc("Are you sure you want to delete this Employee's details, with all associated data??")!;
+            return await MessagesManager.AlertFunc("Are you sure you want to delete this Employee's details, with all associated data??")!;
         }
 
     }

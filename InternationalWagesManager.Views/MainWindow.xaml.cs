@@ -59,9 +59,9 @@ namespace InternationalWagesManager.Views
             _balanceManager = balanceManager;
             ListVM.DetailsWindowEvent += (Employee selectedEmployee) => MainWindowFrame.Content = new Pages.Employees.Details(selectedEmployee, employeeManager);
             DetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
-            _employeeManager.AlertFunc += WarningMessageBox;
-            _employeeManager.SuccessMessage += SuccessToastr;
-            _employeeManager.ErrorMessage += ErrorToastr;
+            MessagesManager.AlertFunc += WarningMessageBox;
+            MessagesManager.SuccessMessage += SuccessToastr;
+            MessagesManager.ErrorMessage += ErrorToastr;
             InitializeComponent();
         }
 

@@ -12,7 +12,7 @@
 @inject IMessageService MessageService
 @inject IJSRuntime JSRuntime
 
-<PageTitle>Employees details</PageTitle>
+<PageTitle>WorkConditions details</PageTitle>
 <style>
     input, select{
         border: 0;
@@ -108,7 +108,6 @@
         _employeeManager = new EmployeeManager(_mapper, _employeeRepository);
         _workConditionsManager = new WorkConditionsManager(_mapper, _wcRepository);
         _currenciesManager = new CurrenciesManager(_mapper, _currenciesRepository);
-        MessagesManager.AlertFunc += ShowConfirmMessage;
         await LoadData();
 
         StateHasChanged();
@@ -145,13 +144,5 @@
         Employee.WorkConditons = _mapper.Map<List<WorkConditons>>(await _workConditionsManager.GetAllEmployeesWCAsync(EmployeeId));
         Currencies = _mapper.Map<List<Currency>>(await _currenciesManager.GetAllCurrencies());
     }
-    private async Task<bool> ShowConfirmMessage(string message)
-    {
-        if (await MessageService.Confirm(message, "Warning"))
-        {
-            return true;
-        }
-        return false;
 
-    }
 }
