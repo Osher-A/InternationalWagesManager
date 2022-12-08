@@ -23,7 +23,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IEmployeeRepository, EmployeeApiRepo>();
 builder.Services.AddScoped<ICurrenciesRepository, CurrencyApiRepo>();
 builder.Services.AddScoped<IWConditionsRepository, WorkConditionsApiRepo>();
-builder.Services.AddSingleton<BlazorMessages>();
+builder.Services.AddScoped<BlazorMessages>();
 
 
 builder.Services

@@ -22,9 +22,9 @@ namespace InternationalWagesManager.Views.Pages
     /// <summary>
     /// Interaction logic for WorkConditions.xaml
     /// </summary>
-    public partial class WorkConditions : Page
+    public partial class WorkConditionss : Page
     {
-        public WorkConditions(EmployeeManager employeeManager, WorkConditionsManager workConditionsManager, CurrenciesManager currenciesManager)
+        public WorkConditionss(EmployeeManager employeeManager, WorkConditionsManager workConditionsManager, CurrenciesManager currenciesManager)
         {
             this.DataContext = new WorkConditionsVM(employeeManager, workConditionsManager, currenciesManager);
 

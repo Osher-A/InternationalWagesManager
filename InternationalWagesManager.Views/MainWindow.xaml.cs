@@ -89,7 +89,7 @@ namespace InternationalWagesManager.Views
         }
 
         private void TreeViewAddWorkConditions_MouseDown(object sender, EventArgs e) =>
-            MainWindowFrame.Content = new Pages.WorkConditions(_employeeManager, _workConditionsManager, _currenciesManager);
+            MainWindowFrame.Content = new Pages.WorkConditions.List(_employeeManager);
 
         private void TreeViewAddSalaryComponents_MouseEnter(object sender, EventArgs e) =>
             MainWindowFrame.Content = new Pages.SalaryComponents(_employeeManager, _salaryComponentsManager);
