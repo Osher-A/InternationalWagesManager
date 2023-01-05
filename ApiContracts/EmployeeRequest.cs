@@ -2,7 +2,7 @@
 
 namespace ApiContracts
 {
-        public record EmployeeRequest(
+    public record EmployeeRequest(
             [Required]
             string FirstName,
             [Required]

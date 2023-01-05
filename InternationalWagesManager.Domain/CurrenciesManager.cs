@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InternationalWagesManager.Domain
 {
@@ -17,7 +12,7 @@ namespace InternationalWagesManager.Domain
         {
             _mapper = mapper;
             _currenciesRepo = currenciesRepo;
-        }   
+        }
 
         public async Task<List<DTO.Currency>> GetAllCurrencies()
         {
@@ -30,7 +25,7 @@ namespace InternationalWagesManager.Domain
 
         public int GetCurrencyId(string currencyName)
         {
-           return GetAllCurrencies().Result.FirstOrDefault(c => c.Name == currencyName)!.Id;
+            return GetAllCurrencies().Result.FirstOrDefault(c => c.Name == currencyName)!.Id;
         }
     }
 }

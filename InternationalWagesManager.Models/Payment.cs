@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InternationalWagesManager.Models
+﻿namespace InternationalWagesManager.Models
 {
-    public class Payment 
+    public class Payment
     {
         public int Id { get; set; }
         public Employee Employee { get; set; }

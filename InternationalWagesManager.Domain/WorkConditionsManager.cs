@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
 using InternationalWagesManager.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InternationalWagesManager.Domain
 {
@@ -30,7 +25,7 @@ namespace InternationalWagesManager.Domain
                     _wCRepo.AddWorkConditions(modelWorkConditions);
                     MessagesManager.SuccessMessage?.Invoke("Successfully added! ");
                 }
-                    
+
             }
             catch (Exception)
             {
@@ -63,7 +58,7 @@ namespace InternationalWagesManager.Domain
 
         public async Task<bool> DeleteWorkConditionsAsync(int id)
         {
-           
+
             try
             {
                 if (id != 0)

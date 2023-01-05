@@ -1,20 +1,15 @@
 ﻿using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
-using InternationalWagesManager.ViewModels.Employees;
+using InternationalWagesManager.ViewModels.WorkConditons;
 using MyLibrary.Extentions;
 using MyLibrary.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace InternationalWagesManager.WPFViewModels.WorkConditions
 {
-    public class ListVM : INotifyPropertyChanged
+    public class WCListVM : INotifyPropertyChanged
     {
         private readonly EmployeeManager _employeeManager;
         private ObservableCollection<Employee> _allEmployees;
@@ -39,7 +34,6 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
             }
         }
 
-        public static WorkConditonsEvent DetailsWindowEvent { get; set; }
         private string _dataGridVisibility = "Hidden";
         public string DataGridVisibility
         {
@@ -64,7 +58,9 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
 
         public ICommand DetailsCommand { get; set; }
         public ICommand AddCommand { get; set; }
-        public ListVM(EmployeeManager employeeManager)
+        public static WorkConditonsEvent DetailsWindowEvent { get; set; }
+
+        public WCListVM(EmployeeManager employeeManager)
         {
             _employeeManager = employeeManager;
             DetailsCommand = new CustomCommand(GetDetails, canExecute: (object obj) => true);
@@ -74,14 +70,14 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
 
         private void AddWorkConditions(object obj)
         {
-            DetailsVM.ActionType = ActionType.Add;
-            DetailsWindowEvent?.Invoke(SelectedEmployee);
+            WCDetailsVM.ActionType = ActionType.Add;
+            DetailsWindowEvent?.Invoke(SelectedEmployee.Id);
         }
 
         private void GetDetails(object obj)
         {
-            DetailsVM.ActionType = ActionType.Details;
-            DetailsWindowEvent?.Invoke(SelectedEmployee);
+            WCDetailsVM.ActionType = ActionType.Details;
+           // DetailsWindowEvent?.Invoke(SelectedEmployee);
         }
 
 
@@ -101,5 +97,5 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
         }
     }
 
-    public delegate void WorkConditonsEvent(Employee employee);
+    public delegate void WorkConditonsEvent(int employeeId);
 }

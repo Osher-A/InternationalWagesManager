@@ -7,8 +7,8 @@ namespace BlazorClient.Utilities
     {
         private IMessageService _messageService;
         private IJSRuntime _jsRuntime;
-        public BlazorMessages(IMessageService messageService, IJSRuntime jSRuntime) 
-        { 
+        public BlazorMessages(IMessageService messageService, IJSRuntime jSRuntime)
+        {
             _messageService = messageService;
             _jsRuntime = jSRuntime;
         }
@@ -22,13 +22,13 @@ namespace BlazorClient.Utilities
 
         }
 
-        public  async void TostrSuccessMessage(string message)
+        public async void TostrSuccessMessage(string message)
         {
             try
             {
                 await _jsRuntime.InvokeVoidAsync("ShowToastr", "Success", message);
             }
-            catch (JSException e)
+            catch (JSException)
             {
             }
         }
@@ -38,7 +38,7 @@ namespace BlazorClient.Utilities
             {
                 await _jsRuntime.InvokeVoidAsync("ShowToastr", "Error", message);
             }
-            catch (JSException e)
+            catch (JSException)
             {
             }
         }

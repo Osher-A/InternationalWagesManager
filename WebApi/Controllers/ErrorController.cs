@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -10,7 +9,7 @@ namespace WebApi.Controllers
     {
         [Route("/error-development")]
         [HttpGet]
-        public IActionResult ErrorDevlopment([FromServices]IHostEnvironment hostEnvironment)
+        public IActionResult ErrorDevlopment([FromServices] IHostEnvironment hostEnvironment)
         {
             if (!hostEnvironment.IsDevelopment())
                 return NotFound();

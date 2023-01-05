@@ -1,4 +1,3 @@
-using AutoMapper;
 using BlazorClient;
 using BlazorClient.ApiServices;
 using BlazorClient.Utilities;
@@ -6,11 +5,8 @@ using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using InternationalWagesManager.DAL;
-using InternationalWagesManager.Domain;
-using InternationalWagesManager.Models;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using System.Reflection;
 
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -41,7 +37,7 @@ await builder.Build().RunAsync();
 
 
 
- async void ApiTester()
+async void ApiTester()
 {
     using (var scope = builder.Services.BuildServiceProvider().CreateScope())
     {

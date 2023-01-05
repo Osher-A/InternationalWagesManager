@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using InternationalWagesManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using InternationalWagesManager.Models;
 
 namespace WebApi.Controllers
 {
@@ -24,10 +19,10 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SalaryComponents>>> GetSalariesComponents()
         {
-          if (_context.SalariesComponents == null)
-          {
-              return NotFound();
-          }
+            if (_context.SalariesComponents == null)
+            {
+                return NotFound();
+            }
             return await _context.SalariesComponents.ToListAsync();
         }
 
@@ -35,10 +30,10 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<SalaryComponents>> GetSalaryComponents(int id)
         {
-          if (_context.SalariesComponents == null)
-          {
-              return NotFound();
-          }
+            if (_context.SalariesComponents == null)
+            {
+                return NotFound();
+            }
             var salaryComponents = await _context.SalariesComponents.FindAsync(id);
 
             if (salaryComponents == null)
@@ -85,10 +80,10 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<SalaryComponents>> PostSalaryComponents(SalaryComponents salaryComponents)
         {
-          if (_context.SalariesComponents == null)
-          {
-              return Problem("Entity set 'MyDbContext.SalariesComponents'  is null.");
-          }
+            if (_context.SalariesComponents == null)
+            {
+                return Problem("Entity set 'MyDbContext.SalariesComponents'  is null.");
+            }
             _context.SalariesComponents.Add(salaryComponents);
             await _context.SaveChangesAsync();
 

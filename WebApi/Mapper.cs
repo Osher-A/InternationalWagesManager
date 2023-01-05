@@ -1,12 +1,12 @@
 ﻿using ApiContracts;
-using InternationalWagesManager.Models;
 using AutoMapper;
+using InternationalWagesManager.Models;
 
 namespace WebApi
 {
     public class Mapper : Profile
     {
-       public Mapper()
+        public Mapper()
         {
             CreateMap<EmployeeRequest, Employee>().ReverseMap();
             CreateMap<EmployeeResponse, Employee>().ReverseMap();

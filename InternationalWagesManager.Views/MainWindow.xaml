@@ -78,7 +78,6 @@
                             <Label
                                 Content="Add"
                                 IsEnabled="True"
-                                MouseDown="TreeViewAddEmployee_MouseDown"
                                  />
                         </StackPanel>
                     </TreeViewItem.Header>
@@ -95,7 +94,7 @@
                             <Label
                                 Content="Edit"
                                 IsEnabled="True"
-                                MouseDown="TreeViewEditEmployee_MouseDown" />
+                                 />
                         </StackPanel>
                     </TreeViewItem.Header>
                 </TreeViewItem>

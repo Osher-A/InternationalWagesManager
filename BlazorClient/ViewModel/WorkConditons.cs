@@ -8,10 +8,10 @@ namespace BlazorClient.ViewModel
         public Employee Employee { get; set; }
         public int EmployeeId { get; set; }
         public DateTime? Date { get; set; }
-        [Required (ErrorMessage = "Field Required")]
+        [Required(ErrorMessage = "Field Required")]
         public float? PayRate { get; set; }
         public Currency WageCurrency { get; set; }
-        [Range(1, int.MaxValue , ErrorMessage = "Field Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Field Required")]
         public int WageCurrencyId { get; set; }
         public Currency ExpensesCurrency { get; set; }
         [Required(ErrorMessage = "Field Required")]

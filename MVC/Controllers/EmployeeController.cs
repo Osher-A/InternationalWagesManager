@@ -3,9 +3,6 @@ using InternationalWagesManager.DAL;
 using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using MVC.ViewModels;
-using System.Drawing.Text;
 
 namespace MVC.Controllers
 {
@@ -19,7 +16,7 @@ namespace MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var employees  = await _employeeManager.GetEmployeesAsync() as IEnumerable<Employee>;
+            var employees = await _employeeManager.GetEmployeesAsync() as IEnumerable<Employee>;
             return View(employees);
         }
 
@@ -38,7 +35,7 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add([FromForm] Employee employee)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest();
 
             await _employeeManager.AddEmployeeAsync(employee);
@@ -47,7 +44,7 @@ namespace MVC.Controllers
         }
         [HttpGet]
         [Route("employee/edit/{employeeId}")]
-        public async Task<IActionResult> Edit([FromRoute]int employeeId)
+        public async Task<IActionResult> Edit([FromRoute] int employeeId)
         {
             Employee? employee = await GetEmployee(employeeId);
 
@@ -59,7 +56,7 @@ namespace MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Edit([FromForm] Employee employee)
+        public IActionResult Edit([FromForm] Employee employee)
         {
             if (!ModelState.IsValid)
                 return BadRequest();

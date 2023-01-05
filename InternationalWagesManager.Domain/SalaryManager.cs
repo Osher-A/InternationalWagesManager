@@ -1,16 +1,7 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
 using InternationalWagesManager.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http;
 using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 
 namespace InternationalWagesManager.Domain
 {
@@ -20,9 +11,9 @@ namespace InternationalWagesManager.Domain
         private readonly ISalaryRepository _salaryRepo;
         private readonly WorkConditionsManager _workConditionsManager;
         private readonly CurrenciesManager _currenciesManager;
-        private SalaryComponents _salaryComponents = new ();
+        private SalaryComponents _salaryComponents = new();
         private WorkConditions _workConditions = new();
-        private readonly Salary _salary = new ();
+        private readonly Salary _salary = new();
         private decimal _employeeCurrencyWage;
         private decimal _expenses;
         private string _baseUrl;
@@ -34,7 +25,7 @@ namespace InternationalWagesManager.Domain
             _currenciesManager = new(mapper, currenciesRepository);
         }
 
-        public List<Salary> GetSalaries(int employeeId, DateTime? fromDate = null, DateTime? toDate = null )
+        public List<Salary> GetSalaries(int employeeId, DateTime? fromDate = null, DateTime? toDate = null)
         {
             var allModelSalaries = _mapper.Map<List<Models.Salary>, List<DTO.Salary>>(_salaryRepo.GetAllSalaries(employeeId));
             if (fromDate != null && toDate != null)
@@ -58,7 +49,7 @@ namespace InternationalWagesManager.Domain
         }
         private async Task<DTO.WorkConditions> GetWorkConditionsAsync(int employeeId, DateTime? date) =>
            await _workConditionsManager.WorkConditionsToDateAsync(employeeId, date);
-        
+
         private async Task<decimal> ApiExchangeRate(string endPoint, string payCurrency)
         {
             using (HttpClient client = new HttpClient())

@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InternationalWagesManager.Domain
 {
@@ -18,7 +13,7 @@ namespace InternationalWagesManager.Domain
             _mapper = mapper;
             _paymentsRepository = paymentsRepository;
         }
-        
+
         public void AddPayment(DTO.Payment payment)
         {
             var modelPayment = _mapper.Map<DTO.Payment, Models.Payment>(payment);
@@ -33,7 +28,7 @@ namespace InternationalWagesManager.Domain
                 return allModelPayments.Where(p => p.Date >= fromDate && p.Date <= toDate).ToList();
             else if (fromDate != null)
                 return allModelPayments.Where(p => p.Date >= fromDate).ToList();
-            else if(toDate != null)
+            else if (toDate != null)
                 return allModelPayments.Where(p => p.Date <= toDate).ToList();
 
             return allModelPayments;

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using InternationalWagesManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using InternationalWagesManager.Models;
 
 namespace WebApi.Controllers
 {
@@ -24,10 +19,10 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Payment>>> GetPayments()
         {
-          if (_context.Payments == null)
-          {
-              return NotFound();
-          }
+            if (_context.Payments == null)
+            {
+                return NotFound();
+            }
             return await _context.Payments.ToListAsync();
         }
 
@@ -35,10 +30,10 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Payment>> GetPayment(int id)
         {
-          if (_context.Payments == null)
-          {
-              return NotFound();
-          }
+            if (_context.Payments == null)
+            {
+                return NotFound();
+            }
             var payment = await _context.Payments.FindAsync(id);
 
             if (payment == null)
@@ -85,10 +80,10 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Payment>> PostPayment(Payment payment)
         {
-          if (_context.Payments == null)
-          {
-              return Problem("Entity set 'MyDbContext.Payments'  is null.");
-          }
+            if (_context.Payments == null)
+            {
+                return Problem("Entity set 'MyDbContext.Payments'  is null.");
+            }
             _context.Payments.Add(payment);
             await _context.SaveChangesAsync();
 

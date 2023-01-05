@@ -1,15 +1,5 @@
-﻿using InternationalWagesManager.Models;
-using Microsoft.EntityFrameworkCore;
-using WebApi.Controllers;
-using AutoMapper;
-using System.Reflection;
-using InternationalWagesManager.DAL;
-using ApiContracts;
-using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using InternationalWagesManager.Domain;
+﻿using InternationalWagesManager.DAL;
+using InternationalWagesManager.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +14,7 @@ builder.Services.AddCors(opt =>
         builder.AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
-    });             
+    });
 });
 
 
@@ -54,7 +44,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-   app.UseExceptionHandler("/error");
+    app.UseExceptionHandler("/error");
 }
 
 

@@ -12,7 +12,7 @@ namespace Web.Pages.WorkConditions
         private readonly CurrenciesManager _currenciesManager;
         private readonly WorkConditionsManager _workConditionsManager;
 
-        public EditModel( CurrenciesManager currenciesManager, WorkConditionsManager workConditionsManager)
+        public EditModel(CurrenciesManager currenciesManager, WorkConditionsManager workConditionsManager)
         {
             _currenciesManager = currenciesManager;
             _workConditionsManager = workConditionsManager;
@@ -27,10 +27,10 @@ namespace Web.Pages.WorkConditions
         public IActionResult OnPost(InternationalWagesManager.DTO.WorkConditions workConditions)
         {
             if (workConditions.Id == 0 || workConditions.EmployeeId == 0)
-                return RedirectToPage(new {id = workConditions.Id});
+                return RedirectToPage(new { id = workConditions.Id });
 
-          _workConditionsManager.UpdateWorkConditions(workConditions);
-         return RedirectToPage("./Details", new { employeeId = workConditions.EmployeeId });
+            _workConditionsManager.UpdateWorkConditions(workConditions);
+            return RedirectToPage("./Details", new { employeeId = workConditions.EmployeeId });
         }
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using InternationalWagesManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using InternationalWagesManager.Models;
 
 namespace WebApi.Controllers
 {
@@ -24,10 +19,10 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Salary>>> GetSalaries()
         {
-          if (_context.Salaries == null)
-          {
-              return NotFound();
-          }
+            if (_context.Salaries == null)
+            {
+                return NotFound();
+            }
             return await _context.Salaries.ToListAsync();
         }
 
@@ -35,10 +30,10 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Salary>> GetSalary(int id)
         {
-          if (_context.Salaries == null)
-          {
-              return NotFound();
-          }
+            if (_context.Salaries == null)
+            {
+                return NotFound();
+            }
             var salary = await _context.Salaries.FindAsync(id);
 
             if (salary == null)
@@ -85,10 +80,10 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Salary>> PostSalary(Salary salary)
         {
-          if (_context.Salaries == null)
-          {
-              return Problem("Entity set 'MyDbContext.Salaries'  is null.");
-          }
+            if (_context.Salaries == null)
+            {
+                return Problem("Entity set 'MyDbContext.Salaries'  is null.");
+            }
             _context.Salaries.Add(salary);
             await _context.SaveChangesAsync();
 

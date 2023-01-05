@@ -17,13 +17,13 @@ namespace Web.Pages.Employees
 
         public void OnGet()
         {
-           
+
         }
 
         public async Task<IActionResult> OnPostAsync(Employee Employee)
         {
 
-           await _employeeManager.AddEmployeeAsync(Employee);
+            await _employeeManager.AddEmployeeAsync(Employee);
 
             return RedirectToPage("index");
         }

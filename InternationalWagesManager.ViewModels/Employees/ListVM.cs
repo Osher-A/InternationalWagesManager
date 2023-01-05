@@ -1,17 +1,13 @@
 ﻿using InternationalWagesManager.Domain;
 using InternationalWagesManager.Domain.Utilities;
 using InternationalWagesManager.DTO;
+using InternationalWagesManager.ViewModels.Employees;
 using MyLibrary.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace InternationalWagesManager.ViewModels.Employees
+namespace InternationalWagesManager.WPFViewModels.Employees
 {
     public class ListVM : INotifyPropertyChanged
     {
@@ -68,17 +64,17 @@ namespace InternationalWagesManager.ViewModels.Employees
         public ListVM(EmployeeManager employeeManager)
         {
             _employeeManager = employeeManager;
-            DetailsCommand = new CustomCommand(GetDetails, canExecute: (object obj) => true);
-            UpdateCommand = new CustomCommand(UpdateDetails, canExecute: (object obj) => true);
-            DeleteCommand = new CustomCommand(DeleteEmployee, canExecute: (object obj) => true);
-            AddCommand = new CustomCommand(AddEmployee, canExecute: (object obj) => true);
+            DetailsCommand = new CustomCommand(GetDetails, canExecute: (obj) => true);
+            UpdateCommand = new CustomCommand(UpdateDetails, canExecute: (obj) => true);
+            DeleteCommand = new CustomCommand(DeleteEmployee, canExecute: (obj) => true);
+            AddCommand = new CustomCommand(AddEmployee, canExecute: (obj) => true);
             LoadData();
         }
 
         private void AddEmployee(object obj)
         {
             DetailsVM.ActionType = ActionType.Add;
-            DetailsWindowEvent?.Invoke(new Employee()) ;
+            DetailsWindowEvent?.Invoke(new Employee());
         }
 
         private void DeleteEmployee(object obj)
@@ -87,14 +83,14 @@ namespace InternationalWagesManager.ViewModels.Employees
             DetailsWindowEvent?.Invoke(SelectedEmployee);
         }
 
-       
+
         private void UpdateDetails(object obj)
         {
             DetailsVM.ActionType = ActionType.Edit;
-            DetailsWindowEvent?.Invoke(SelectedEmployee); 
+            DetailsWindowEvent?.Invoke(SelectedEmployee);
         }
 
-        
+
         private void GetDetails(object obj)
         {
             DetailsVM.ActionType = ActionType.Details;
@@ -103,7 +99,7 @@ namespace InternationalWagesManager.ViewModels.Employees
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
-       
+
         private async void LoadData()
         {
             var employees = await _employeeManager.GetEmployeesAsync();

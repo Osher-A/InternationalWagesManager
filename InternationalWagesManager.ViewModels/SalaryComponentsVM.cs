@@ -1,16 +1,10 @@
-﻿using InternationalWagesManager.DAL;
-using InternationalWagesManager.Domain;
+﻿using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
 using MyLibrary.Utilities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace InternationalWagesManager.ViewModels
+namespace InternationalWagesManager.WPFViewModels
 {
     public class SalaryComponentsVM
     {

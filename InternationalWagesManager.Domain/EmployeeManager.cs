@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
 using InternationalWagesManager.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace InternationalWagesManager.Domain
 {
@@ -17,14 +16,14 @@ namespace InternationalWagesManager.Domain
         }
         public async Task AddEmployeeAsync(DTO.Employee employee)
         {
-            if(ValidInput(employee))
+            if (ValidInput(employee))
 
                 try
                 {
                     await _employeeRepo.AddEmployeeAsync(MapToModel(employee));
                     MessagesManager.SuccessMessage?.Invoke("Successfully added! ");
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     MessagesManager.ErrorMessage?.Invoke("Database Error! ");
                 }
@@ -37,13 +36,13 @@ namespace InternationalWagesManager.Domain
                 _employeeRepo.UpdateEmployee(MapToModel(employee));
                 MessagesManager.SuccessMessage?.Invoke("Successful update! ");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
             }
         }
 
-       
+
         public async Task DeleteEmployeeAsync(DTO.Employee employee)
         {
             bool confirmed = await UserConfirmation();
@@ -54,7 +53,7 @@ namespace InternationalWagesManager.Domain
                     _employeeRepo.DeleteEmployee(MapToModel(employee));
                     MessagesManager.SuccessMessage?.Invoke("Successfully Deleted");
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     MessagesManager.ErrorMessage?.Invoke("Database Error!");
                 }
@@ -72,7 +71,7 @@ namespace InternationalWagesManager.Domain
                 throw;
             }
         }
-        
+
         public async Task<List<DTO.Employee>> GetEmployeesAsync()
         {
             var listOfEmployees = new List<DTO.Employee>();
@@ -97,7 +96,7 @@ namespace InternationalWagesManager.Domain
 
         private async Task<bool> UserConfirmation()
         {
-            if(MessagesManager.AlertFunc == null)
+            if (MessagesManager.AlertFunc == null)
                 return false;
             return await MessagesManager.AlertFunc("Are you sure you want to delete this Employee's details, with all associated data??")!;
         }

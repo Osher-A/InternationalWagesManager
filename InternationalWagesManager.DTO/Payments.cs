@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InternationalWagesManager.DTO
+﻿namespace InternationalWagesManager.DTO
 {
-    public class Payment 
+    public class Payment
     {
         public int Id { get; set; }
         public Employee Employee { get; set; }

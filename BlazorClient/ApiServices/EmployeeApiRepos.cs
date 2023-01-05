@@ -1,24 +1,20 @@
 ﻿using InternationalWagesManager.DAL;
 using InternationalWagesManager.Models;
 using Newtonsoft.Json;
-using System.Reflection.Metadata;
-using System.Net.Http;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
-using System.Configuration;
 
 namespace BlazorClient.ApiServices;
 
 public class EmployeeApiRepo : IEmployeeRepository
 {
     private readonly string _url;
-    
+
 
     private readonly HttpClient _httpClient;
     public EmployeeApiRepo(HttpClient httpClient, IConfiguration configuration)
     {
         _httpClient = httpClient;
-        _url =   configuration.GetSection("BaseAPIUrl").Value! + "/employees";
+        _url = configuration.GetSection("BaseAPIUrl").Value! + "/employees";
     }
 
     public async Task<Employee?> GetEmployeeAsync(int id)
@@ -45,7 +41,7 @@ public class EmployeeApiRepo : IEmployeeRepository
         var bodyContent = BodyForRequest(newEmployee);
         string endPoint = "/AddEmployee";
         var response = await _httpClient.PostAsync(_url + endPoint, bodyContent);
-        string  responseResult = response.Content.ReadAsStringAsync().Result;
+        string responseResult = response.Content.ReadAsStringAsync().Result;
 
         if (response.IsSuccessStatusCode)
         {
@@ -60,15 +56,15 @@ public class EmployeeApiRepo : IEmployeeRepository
         var bodyContent = BodyForRequest(employee);
         string endPoint = "/" + employee.Id.ToString();
         await _httpClient.PutAsync(_url + endPoint, bodyContent);
-       
+
         // to do: validation 
-        
+
     }
 
     public async void DeleteEmployee(Employee employee)
     {
         string endPoint = "/" + employee.Id.ToString();
-       await  _httpClient.DeleteAsync(_url + endPoint);
+        await _httpClient.DeleteAsync(_url + endPoint);
 
         // to do: validation 
     }
@@ -76,9 +72,9 @@ public class EmployeeApiRepo : IEmployeeRepository
     private StringContent BodyForRequest(Employee employee)
     {
         var jsonContent = JsonConvert.SerializeObject(employee);
-        return  new StringContent(jsonContent, Encoding.UTF8, "application/json");
+        return new StringContent(jsonContent, Encoding.UTF8, "application/json");
     }
-   
+
     private async Task<(bool, string)> ResponseStatusAndContent(string _url)
     {
         var response = await _httpClient.GetAsync(_url);
@@ -87,10 +83,10 @@ public class EmployeeApiRepo : IEmployeeRepository
 
 
 
-   
-}
-      
 
-    
+}
+
+
+
 
 

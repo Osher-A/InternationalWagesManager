@@ -16,10 +16,10 @@ namespace Web.Pages.Employees
 
         public async Task<IActionResult> OnGetAsync(int employeeId)
         {
-           var employees = await _employeeManager.GetEmployeesAsync();
-           Employee = employees.Find(e => e.Id == employeeId);
+            var employees = await _employeeManager.GetEmployeesAsync();
+            Employee = employees.Find(e => e.Id == employeeId);
 
-            if(Employee == null)
+            if (Employee == null)
                 return NotFound();
 
             return Page();
@@ -27,7 +27,7 @@ namespace Web.Pages.Employees
 
         public IActionResult OnPost(Employee employee)
         {
-            if(employee == null || employee.Id == 0)
+            if (employee == null || employee.Id == 0)
                 return BadRequest();
 
             _employeeManager.DeleteEmployee(employee);

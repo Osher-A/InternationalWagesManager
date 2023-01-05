@@ -1,6 +1,4 @@
 ﻿using InternationalWagesManager.Models;
-using System;
-using System.Linq;
 
 namespace InternationalWagesManager.DAL
 {
@@ -8,7 +6,7 @@ namespace InternationalWagesManager.DAL
     {
         void AddCurrency(Currency currency);
         void DeleteCurrency(Currency currency);
-        Task <List<Currency>> GetAllCurrenciesAsync();
+        Task<List<Currency>> GetAllCurrenciesAsync();
         void UpdateCurrency(Currency currency);
     }
 }

@@ -1,9 +1,4 @@
 ﻿using InternationalWagesManager.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InternationalWagesManager.DAL
 {
@@ -45,6 +40,6 @@ namespace InternationalWagesManager.DAL
             return _db.Salaries.Where(s => s.EmployeeId == employeeId).ToList() ?? new();
         }
 
-        
+
     }
 }

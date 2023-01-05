@@ -19,7 +19,7 @@ builder.Services.AddElmah<SqlErrorLog>(options =>
 {
     options.ConnectionString = "Server=.\\SQLEXPRESS; Database = IWagesManager; Trusted_Connection = True; MultipleActiveResultSets = true";
     //options.SqlServerDatabaseSchemaName = "Errors";
-   // options.SqlServerDatabaseTableName = "ElmahError";
+    // options.SqlServerDatabaseTableName = "ElmahError";
 });
 
 var app = builder.Build();

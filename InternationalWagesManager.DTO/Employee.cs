@@ -18,7 +18,7 @@ namespace InternationalWagesManager.DTO
         [EmailAddress]
         public string Email
         {
-            get => _email; 
+            get => _email;
             set
             {
                 _email = value;

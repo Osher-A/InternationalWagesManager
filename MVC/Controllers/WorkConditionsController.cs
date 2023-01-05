@@ -1,11 +1,9 @@
-﻿using InternationalWagesManager.DAL;
-using AutoMapper;
+﻿using AutoMapper;
+using InternationalWagesManager.DAL;
 using InternationalWagesManager.Domain;
-using Microsoft.AspNetCore.Http;
+using InternationalWagesManager.DTO;
 using Microsoft.AspNetCore.Mvc;
 using MVC.ViewModels;
-using InternationalWagesManager.DTO;
-using System.Security.Cryptography;
 
 namespace MVC.Controllers
 {
@@ -19,7 +17,7 @@ namespace MVC.Controllers
         {
             _workConditionsManager = new WorkConditionsManager(mapper, workConditonsRepository);
             _employeeManager = new EmployeeManager(mapper, employeeRepository);
-            _currenciesManager = new CurrenciesManager(mapper, currenciesRepository); 
+            _currenciesManager = new CurrenciesManager(mapper, currenciesRepository);
         }
 
 
@@ -39,7 +37,7 @@ namespace MVC.Controllers
                 return NotFound();
 
             viewModel.Employee = employee;
-            
+
             viewModel.WorkConditions = await _workConditionsManager.GetAllEmployeesWCAsync(employeeId);
             return View(viewModel);
         }
@@ -81,12 +79,12 @@ namespace MVC.Controllers
         // POST: WorkConditionsController/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([FromForm]WorkConditions workConditions)
+        public ActionResult Edit([FromForm] WorkConditions workConditions)
         {
             try
             {
                 _workConditionsManager.UpdateWorkConditions(workConditions);
-               return  RedirectToAction(nameof(Details), new {employeeId = workConditions.EmployeeId});
+                return RedirectToAction(nameof(Details), new { employeeId = workConditions.EmployeeId });
             }
             catch
             {
@@ -96,7 +94,7 @@ namespace MVC.Controllers
 
 
         // GET: WorkConditionsController/Delete/5
-       
+
         public ActionResult Delete([FromRoute] int id)
         {
             try
@@ -112,7 +110,7 @@ namespace MVC.Controllers
 
         private int GetCurrencyId(string currencyName)
         {
-           return _currenciesManager.GetCurrencyId(currencyName);
+            return _currenciesManager.GetCurrencyId(currencyName);
         }
     }
 }

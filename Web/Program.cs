@@ -1,9 +1,6 @@
-using InternationalWagesManager.Domain;
-using InternationalWagesManager.Domain.Utilities;
-using InternationalWagesManager.Models;
-using System.Reflection;
-using AutoMapper;
 using InternationalWagesManager.DAL;
+using InternationalWagesManager.Domain;
+using InternationalWagesManager.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

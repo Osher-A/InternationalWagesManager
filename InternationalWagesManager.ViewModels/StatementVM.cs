@@ -2,16 +2,11 @@
 using InternationalWagesManager.Domain.Utilities;
 using InternationalWagesManager.DTO;
 using MyLibrary.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace InternationalWagesManager.ViewModels
+namespace InternationalWagesManager.WPFViewModels
 {
     public class StatementVM : INotifyPropertyChanged
     {
@@ -109,10 +104,10 @@ namespace InternationalWagesManager.ViewModels
             Balance = _balanceManager.GetCurrentBalance(employeeId);
             Statements = _balanceManager.GetStatements(employeeId).ToObservableCollection();
         }
-        
+
         private bool CanGetFullStatement(object obj)
         {
-           return ComboBoxSelectedIndex != "0";
+            return ComboBoxSelectedIndex != "0";
         }
         private async void LoadData()
         {

@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages.Employees
 {

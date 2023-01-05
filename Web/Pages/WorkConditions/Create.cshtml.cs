@@ -20,7 +20,7 @@ namespace Web.Pages.WorkConditions
         {
             WorkConditions = new InternationalWagesManager.DTO.WorkConditions();
             WorkConditions.EmployeeId = employeeId;
-            Currencies =   _currenciesManager.GetAllCurrencies().Result;
+            Currencies = _currenciesManager.GetAllCurrencies().Result;
         }
 
         public IActionResult OnPost(InternationalWagesManager.DTO.WorkConditions workConditions)
@@ -29,7 +29,7 @@ namespace Web.Pages.WorkConditions
                 return Page();
             _workConditionsManager.AddWorkConditions(workConditions);
 
-        return RedirectToPage("./index");
+            return RedirectToPage("./index");
         }
     }
 }

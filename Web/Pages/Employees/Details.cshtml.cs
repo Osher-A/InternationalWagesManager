@@ -22,7 +22,7 @@ namespace Web.Pages.Employees
             var employees = await _employeeManager.GetEmployeesAsync();
             var employee = employees.FirstOrDefault(e => e.Id == id);
 
-            if(employee == null)
+            if (employee == null)
                 return NotFound();
 
             Employee = employee;

@@ -1,20 +1,10 @@
-﻿using BootstrapBlazor.Components;
-using InternationalWagesManager.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using AutoMapper;
-using InternationalWagesManager.DAL;
-using InternationalWagesManager.DTO;
+﻿using InternationalWagesManager.DAL;
 using InternationalWagesManager.Domain;
-using System.Reflection;
 using InternationalWagesManager.Domain.Utilities;
+using InternationalWagesManager.Models;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using System.Windows;
 
 namespace InternationalWagesManager.Views
 {
@@ -51,7 +41,7 @@ namespace InternationalWagesManager.Views
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IWConditionsRepository, WConditionsRepository>();
             services.AddScoped<ISalaryComponentsRepository, SalaryComponentsRepository>();
-            services.AddScoped<IPaymentsRepository , PaymentsRepository>();
+            services.AddScoped<IPaymentsRepository, PaymentsRepository>();
             services.AddScoped<ISalaryRepository, SalaryRepository>();
             services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
             services.AddScoped<EmployeeManager>();

@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using InternationalWagesManager.DAL;
-using InternationalWagesManager.Models;
-using InternationalWagesManager;
-using AutoMapper;
-using ApiContracts;
-using InternationalWagesManager.DTO;
+﻿using ApiContracts;
 using ApiContracts.ResponseStatus;
+using AutoMapper;
+using InternationalWagesManager.DAL;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
@@ -22,7 +13,7 @@ namespace WebApi.Controllers
         private IWConditionsRepository _wcRepository;
         private IMapper _mapper;
         private ILogger<WorkConditionsController> _logger;
-        public WorkConditionsController(ILogger<WorkConditionsController> logger,IMapper mapper, IWConditionsRepository wConditionsRepository)
+        public WorkConditionsController(ILogger<WorkConditionsController> logger, IMapper mapper, IWConditionsRepository wConditionsRepository)
         {
             _mapper = mapper;
             _logger = logger;
@@ -64,28 +55,28 @@ namespace WebApi.Controllers
                     return NotFound();
 
 
-              return Ok(data);
+                return Ok(data);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
             }
             return ServerErrorResponse();
-         
+
         }
 
         // PUT: api/WorkConditions/5
         [HttpPut("{employeeId}")]
         public async Task<IActionResult> UpdateWorkConditions(int employeeId, WorkConditionsRequest workConditions)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             if (employeeId != workConditions.EmployeeId || !await WorkConditionsExists(workConditions.Id))
                 return BadRequestResponse();
 
             try
             {
-               await _wcRepository.UpdateWorkConditionsAsync(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
+                await _wcRepository.UpdateWorkConditionsAsync(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
             }
             catch (Exception e)
             {
@@ -119,7 +110,7 @@ namespace WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorkConditions(int id)
         {
-            if(!(await WorkConditionsExists(id)))
+            if (!(await WorkConditionsExists(id)))
                 return BadRequestResponse();
 
             try

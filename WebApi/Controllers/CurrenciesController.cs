@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using InternationalWagesManager.Models;
-using InternationalWagesManager.DAL;
-using ApiContracts;
-using AutoMapper;
+﻿using ApiContracts;
 using ApiContracts.ResponseStatus;
+using AutoMapper;
+using InternationalWagesManager.DAL;
+using InternationalWagesManager.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {

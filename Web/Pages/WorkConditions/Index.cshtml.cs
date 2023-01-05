@@ -1,6 +1,5 @@
 using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages.WorkConditions

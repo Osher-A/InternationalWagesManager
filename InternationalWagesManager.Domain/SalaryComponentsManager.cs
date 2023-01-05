@@ -1,12 +1,7 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
 using InternationalWagesManager.DTO;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InternationalWagesManager.Domain
 {
@@ -16,7 +11,7 @@ namespace InternationalWagesManager.Domain
         private readonly ISalaryComponentsRepository _salaryComponentsRepository;
         private SalaryManager _salaryManager;
 
-        public SalaryComponentsManager(IMapper mapper, ISalaryComponentsRepository sComponentsRepository, 
+        public SalaryComponentsManager(IMapper mapper, ISalaryComponentsRepository sComponentsRepository,
             ISalaryRepository salaryRepository, IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
         {
             _mapper = mapper;
@@ -42,8 +37,8 @@ namespace InternationalWagesManager.Domain
         public DTO.SalaryComponents SalaryComponentsToDate(int employeeId, DateTime date)
         {
             var searchByDate = GetAllEmployeesSC(employeeId).FirstOrDefault(sc => sc.Date?.Date == date.Date);
-            if(searchByDate == null)
-                searchByDate = GetAllEmployeesSC(employeeId).FirstOrDefault(sc => sc.Date?.Year == date.Year && sc.Date?.Month == date.Month );
+            if (searchByDate == null)
+                searchByDate = GetAllEmployeesSC(employeeId).FirstOrDefault(sc => sc.Date?.Year == date.Year && sc.Date?.Month == date.Month);
             if (searchByDate == null)
                 searchByDate = GetAllEmployeesSC(employeeId).OrderByDescending(sc => sc.Date).FirstOrDefault(sc => sc.Date?.Year == date.Year);
             return searchByDate ?? new DTO.SalaryComponents();
@@ -51,8 +46,8 @@ namespace InternationalWagesManager.Domain
 
         private List<SalaryComponents> GetAllEmployeesSC(int employeeId)
         {
-           return _mapper.Map<List<Models.SalaryComponents>, List<DTO.SalaryComponents>>
-                (_salaryComponentsRepository.GetEmployeeSalaryComponents(employeeId));
+            return _mapper.Map<List<Models.SalaryComponents>, List<DTO.SalaryComponents>>
+                 (_salaryComponentsRepository.GetEmployeeSalaryComponents(employeeId));
         }
     }
 }

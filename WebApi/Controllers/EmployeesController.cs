@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using InternationalWagesManager.Models;
-using Microsoft.AspNetCore.Cors;
-using ApiContracts;
+﻿using ApiContracts;
+using ApiContracts.ResponseStatus;
 using AutoMapper;
 using InternationalWagesManager.DAL;
-using ApiContracts.ResponseStatus;
-using HtmlAgilityPack;
+using InternationalWagesManager.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
 
@@ -40,7 +32,7 @@ public class EmployeesController : ControllerBase
                 return Problem("No Data in database!", statusCode: StatusCodes.Status503ServiceUnavailable);
             return _mapper.Map<List<Employee>, List<EmployeeResponse>>(await _employeeRepo.GetEmployeesAsync());
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _logger.LogError("Server Error");
         }
@@ -155,6 +147,6 @@ public class EmployeesController : ControllerBase
         });
     }
 
-    private ActionResult ServerErrorResponse()  => Problem("Server Error", statusCode: StatusCodes.Status500InternalServerError);
-        
+    private ActionResult ServerErrorResponse() => Problem("Server Error", statusCode: StatusCodes.Status500InternalServerError);
+
 }

@@ -18,7 +18,7 @@ namespace Web.Pages.Employees
         public async void OnGetAsync(int id)
         {
             var employees = await _employeeManager.GetEmployeesAsync();
-            Employee = employees.FirstOrDefault(e => e.Id == id)!; 
+            Employee = employees.FirstOrDefault(e => e.Id == id)!;
         }
 
         public IActionResult OnPostAsync(Employee employee)
@@ -28,7 +28,7 @@ namespace Web.Pages.Employees
 
             _employeeManager.UpdateEmployee(employee);
 
-           return RedirectToPage("./index");
+            return RedirectToPage("./index");
         }
     }
 }

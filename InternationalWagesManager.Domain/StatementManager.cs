@@ -1,13 +1,6 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
 using InternationalWagesManager.DTO;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InternationalWagesManager.Domain
 {
@@ -18,8 +11,8 @@ namespace InternationalWagesManager.Domain
         private List<Salary> _salaryList;
         private List<Payment> _paymentList;
         private List<Statement> _statementList = new List<Statement>();
-        public StatementManager(IMapper mapper, IPaymentsRepository paymentsRepository, ISalaryRepository 
-            salaryRepository ,IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
+        public StatementManager(IMapper mapper, IPaymentsRepository paymentsRepository, ISalaryRepository
+            salaryRepository, IWConditionsRepository wConditionsRepository, ICurrenciesRepository currenciesRepository)
         {
             _paymentsManager = new PaymentsManager(mapper, paymentsRepository);
             _salaryManager = new SalaryManager(mapper, salaryRepository, wConditionsRepository, currenciesRepository);

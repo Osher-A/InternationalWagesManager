@@ -1,17 +1,10 @@
-﻿using InternationalWagesManager.DAL;
-using InternationalWagesManager.Domain;
+﻿using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using MyLibrary.Utilities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace InternationalWagesManager.ViewModels
+namespace InternationalWagesManager.WPFViewModels
 {
     public class PaymentsVM : INotifyPropertyChanged
     {
@@ -21,7 +14,7 @@ namespace InternationalWagesManager.ViewModels
 
         public List<string> Employees { get; set; }
 
-        private Payment _payment = new Payment { Date = null};
+        private Payment _payment = new Payment { Date = null };
         public Payment Payment
         {
             get => _payment;
@@ -63,7 +56,7 @@ namespace InternationalWagesManager.ViewModels
 
         private bool CanAddPayment(object obj)
         {
-            if(ComboBoxSelectedIndex != "0"
+            if (ComboBoxSelectedIndex != "0"
                 && Payment.Date != null && Payment.Amount != null && Payment.Amount != 0)
                 return true;
 
@@ -75,7 +68,7 @@ namespace InternationalWagesManager.ViewModels
             Employees = new() { "Select a employee!" };
             _modelEmployees = await _employeeManager.GetEmployeesAsync();
 
-            foreach(var employee in _modelEmployees)
+            foreach (var employee in _modelEmployees)
                 Employees.Add(employee.FullName);
         }
 
