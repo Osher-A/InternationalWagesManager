@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC", "MVC\MVC.csproj", "{C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{9C0F386F-E73C-4E4E-8977-0B1020326D83}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "AngularClient", "AngularClient\AngularClient.esproj", "{05E0D7C8-A7D5-4E17-9D7A-07DB425F6896}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,12 @@ Global
 		{9C0F386F-E73C-4E4E-8977-0B1020326D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C0F386F-E73C-4E4E-8977-0B1020326D83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C0F386F-E73C-4E4E-8977-0B1020326D83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05E0D7C8-A7D5-4E17-9D7A-07DB425F6896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05E0D7C8-A7D5-4E17-9D7A-07DB425F6896}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05E0D7C8-A7D5-4E17-9D7A-07DB425F6896}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{05E0D7C8-A7D5-4E17-9D7A-07DB425F6896}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05E0D7C8-A7D5-4E17-9D7A-07DB425F6896}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05E0D7C8-A7D5-4E17-9D7A-07DB425F6896}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

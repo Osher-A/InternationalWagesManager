@@ -50,13 +50,9 @@ namespace InternationalWagesManager.Views
         {
             // MainWindowFrame.Content = new HomePage(_employeeRepository, _mapper);
             MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
-
         }
-
         private void TreeViewViewEmployees_MouseDown(object sender, EventArgs e) =>
             MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
-
-       
 
         private void TreeViewAddWorkConditions_MouseDown(object sender, EventArgs e) =>
             MainWindowFrame.Content = new Pages.WorkConditions.WCList(_employeeManager);
