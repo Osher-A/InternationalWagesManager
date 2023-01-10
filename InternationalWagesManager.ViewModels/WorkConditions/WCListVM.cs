@@ -1,6 +1,7 @@
 ﻿using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
 using InternationalWagesManager.ViewModels.WorkConditons;
+using InternationalWagesManager.WPFViewModels.Enums;
 using MyLibrary.Extentions;
 using MyLibrary.Utilities;
 using System.Collections.ObjectModel;
@@ -34,7 +35,7 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
             }
         }
 
-        private string _dataGridVisibility = "Hidden";
+        private string _dataGridVisibility = Visibility.Hidden.ToString();
         public string DataGridVisibility
         {
             get => _dataGridVisibility;
@@ -45,7 +46,7 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
             }
         }
 
-        private string _progressRingVisibility = "Visible";
+        private string _progressRingVisibility = Visibility.Visible.ToString();
         public string ProgressRingVisibility
         {
             get => _progressRingVisibility;
@@ -59,6 +60,7 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
         public ICommand DetailsCommand { get; set; }
         public ICommand AddCommand { get; set; }
         public static WorkConditonsEvent DetailsWindowEvent { get; set; }
+        public static AllWorkConditionsEvent AllWorkConditionsEvent { get; set; }
 
         public WCListVM(EmployeeManager employeeManager)
         {
@@ -70,14 +72,12 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
 
         private void AddWorkConditions(object obj)
         {
-            WCDetailsVM.ActionType = ActionType.Add;
-            DetailsWindowEvent?.Invoke(SelectedEmployee.Id);
+            DetailsWindowEvent?.Invoke(SelectedEmployee.Id, ActionType.Add);
         }
 
         private void GetDetails(object obj)
         {
-            WCDetailsVM.ActionType = ActionType.Details;
-           // DetailsWindowEvent?.Invoke(SelectedEmployee);
+            AllWorkConditionsEvent?.Invoke(SelectedEmployee);
         }
 
 
@@ -87,8 +87,8 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
         {
             var employees = await _employeeManager.GetEmployeesAsync();
             AllEmployees = employees.ToObservableCollection();
-            DataGridVisibility = "visible";
-            ProgressRingVisibility = "collapsed";
+            DataGridVisibility = Visibility.Visible.ToString();
+            ProgressRingVisibility = Visibility.Collapsed.ToString();
         }
 
         private void OnPropertyChanged(string propertyName)
@@ -97,5 +97,6 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
         }
     }
 
-    public delegate void WorkConditonsEvent(int employeeId);
+    public delegate void WorkConditonsEvent(int employeeId, ActionType ActionType);
+    public delegate void AllWorkConditionsEvent(DTO.Employee employee);
 }

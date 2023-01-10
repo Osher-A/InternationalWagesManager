@@ -1,4 +1,6 @@
-﻿using System;
+﻿using InternationalWagesManager.Domain;
+using InternationalWagesManager.WPFViewModels.WorkConditions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,8 +22,9 @@ namespace InternationalWagesManager.Views.Pages.WorkConditions
     /// </summary>
     public partial class EmployeeWConditions : Page
     {
-        public EmployeeWConditions()
+        public EmployeeWConditions(WorkConditionsManager workConditionsManager, DTO.Employee employee)
         {
+            this.DataContext = new EmployeeWConditonsVM(workConditionsManager, employee);
             InitializeComponent();
         }
     }

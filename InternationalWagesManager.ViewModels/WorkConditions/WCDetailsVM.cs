@@ -14,7 +14,9 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
         private CurrenciesManager _currenciesManager;
         private DTO.WorkConditions _workConditions = new DTO.WorkConditions { Date = null };
         private List<Currency> _modelCurrencies = new List<Currency>();
-        private int _employeeId;
+
+        // the following id is either an employeeId or a workConditions id depending on ActionType
+        private int _id; 
 
         public List<string> Currencies { get; set; }
 
@@ -69,13 +71,10 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
         {
             get
             {
-                switch (ActionType)
+                switch (_actionType)
                 {
                     case ActionType.Details:
                         _buttonText = "Edit";
-                        break;
-                    case ActionType.Delete:
-                        _buttonText = "Confirm";
                         break;
                     case ActionType.Edit:
                         _buttonText = "Submit Changes";
@@ -92,7 +91,7 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
                 OnStaticPropertyChanged(nameof(ButtonText));
             }
         }
-        public static ActionType ActionType { get; set; }
+        private static ActionType _actionType { get; set; }
         public static Action BackAction { get; set; }
         public ICommand BackCommand { get; set; }
         public ICommand SubmitCommand { get; set; }
@@ -100,9 +99,10 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public static event PropertyChangedEventHandler? StaticPropertyChanged;
-        public WCDetailsVM(int employeeId, WorkConditionsManager workConditionsManager, CurrenciesManager currenciesManager)
+        public WCDetailsVM(int id, ActionType actionType,  WorkConditionsManager workConditionsManager, CurrenciesManager currenciesManager)
         {
-            _employeeId = employeeId;
+            _id = id;
+            _actionType = actionType;
             _workConditionsManager = workConditionsManager;
             _currenciesManager = currenciesManager;
             LoadData();
@@ -112,7 +112,7 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
         }
         private void AddWorkConditions(object obj)
         {
-            WorkConditions.EmployeeId = _employeeId;
+            WorkConditions.EmployeeId = _id;
             WorkConditions.WageCurrencyId = _modelCurrencies[int.Parse(WageCurrencyComboBoxSelectedIndex) - 1].Id;
             WorkConditions.ExpensesCurrencyId = _modelCurrencies[int.Parse(ExpensesCurrencyComboBoxSelectedIndex) - 1].Id;
             WorkConditions.PayCurrencyId = _modelCurrencies[int.Parse(PayCurrencyComboBoxSelectedIndex) - 1].Id;
@@ -137,10 +137,10 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
 
         private async void Submit(object obj)
         {
-            switch (ActionType)
+            switch (_actionType)
             {
                 case ActionType.Details:
-                    ActionType = ActionType.Edit;
+                    _actionType = ActionType.Edit;
                     ButtonText = "Submit Changes";
                     break;
                 case ActionType.Add:
@@ -150,9 +150,6 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
                 case ActionType.Edit:
                     await _workConditionsManager.UpdateWorkConditions(WorkConditions);
                     BackAction?.Invoke();
-                    break;
-                case ActionType.Delete:
-                    DeleteEmployee();
                     break;
                 default:
                     break;
@@ -191,6 +188,9 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
             _modelCurrencies = (await _currenciesManager.GetAllCurrencies()).ToList();
             foreach (var currency in _modelCurrencies)
                 Currencies.Add(currency.Name);
+
+            if(_actionType == ActionType.Edit)
+                this.WorkConditions = _workConditionsManager.GetWorkConditions(_id);
         }
     }
 }

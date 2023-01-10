@@ -37,9 +37,12 @@ namespace InternationalWagesManager.Views
             _paymentsManager = paymentsManager;
             _balanceManager = balanceManager;
             ListVM.DetailsWindowEvent += (Employee selectedEmployee) => MainWindowFrame.Content = new Pages.Employees.Details(selectedEmployee, employeeManager);
-            WCListVM.DetailsWindowEvent += (int employeeId) => MainWindowFrame.Content = new WCDetails(employeeId, workConditionsManager, currenciesManager);
+            WCListVM.DetailsWindowEvent += (int employeeId, ActionType actionType) => MainWindowFrame.Content = new WCDetails(employeeId,actionType, workConditionsManager, currenciesManager);
             DetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
+            WCListVM.AllWorkConditionsEvent += (DTO.Employee employee) => MainWindowFrame.Content = new Pages.WorkConditions.EmployeeWConditions(workConditionsManager, employee);
             WCDetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
+            EmployeeWConditonsVM.BackAction += () => MainWindowFrame.Content = new Pages.WorkConditions.WCList(employeeManager);
+            EmployeeWConditonsVM.UpdateAction += (int workConditionsId, ActionType actionType) => MainWindowFrame.Content = new WCDetails(workConditionsId,actionType, workConditionsManager, currenciesManager);
             MessagesManager.AlertFunc += WarningMessageBox;
             MessagesManager.SuccessMessage += SuccessToastr;
             MessagesManager.ErrorMessage += ErrorToastr;
@@ -59,7 +62,7 @@ namespace InternationalWagesManager.Views
 
         private void TreeViewAddSalaryComponents_MouseEnter(object sender, EventArgs e) =>
             MainWindowFrame.Content = new Pages.SalaryComponents(_employeeManager, _salaryComponentsManager);
-
+ 
         private void TreeViewAddPayment_MouseDown(object sender, EventArgs e) =>
             MainWindowFrame.Content = new Payments(_employeeManager, _paymentsManager);
 

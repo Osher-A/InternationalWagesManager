@@ -13,9 +13,9 @@ namespace InternationalWagesManager.Views.Pages
     /// </summary>
     public partial class WCDetails : Page
     {
-        public WCDetails(int employeedId, WorkConditionsManager workConditionsManager, CurrenciesManager currenciesManager)
+        public WCDetails(int id, ActionType actionType, WorkConditionsManager workConditionsManager, CurrenciesManager currenciesManager)
         {
-            this.DataContext = new WCDetailsVM(employeedId, workConditionsManager, currenciesManager);
+            this.DataContext = new WCDetailsVM(id, actionType, workConditionsManager, currenciesManager);
 
             InitializeComponent();
         }
