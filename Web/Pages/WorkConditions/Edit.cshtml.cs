@@ -29,7 +29,7 @@ namespace Web.Pages.WorkConditions
             if (workConditions.Id == 0 || workConditions.EmployeeId == 0)
                 return RedirectToPage(new { id = workConditions.Id });
 
-            _workConditionsManager.UpdateWorkConditions(workConditions);
+            _workConditionsManager.UpdateWorkConditionsAsync(workConditions);
             return RedirectToPage("./Details", new { employeeId = workConditions.EmployeeId });
         }
     }

@@ -37,12 +37,12 @@ namespace InternationalWagesManager.Views
             _paymentsManager = paymentsManager;
             _balanceManager = balanceManager;
             ListVM.DetailsWindowEvent += (Employee selectedEmployee) => MainWindowFrame.Content = new Pages.Employees.Details(selectedEmployee, employeeManager);
-            WCListVM.DetailsWindowEvent += (int employeeId, ActionType actionType) => MainWindowFrame.Content = new WCDetails(employeeId,actionType, workConditionsManager, currenciesManager);
+            WCListVM.DetailsWindowEvent += (int employeeId, ActionType actionType) => MainWindowFrame.Content = new Pages.WorkConditions.WCDetails(employeeId,actionType, workConditionsManager, currenciesManager);
             DetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
             WCListVM.AllWorkConditionsEvent += (DTO.Employee employee) => MainWindowFrame.Content = new Pages.WorkConditions.EmployeeWConditions(workConditionsManager, employee);
-            WCDetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
+            WCDetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.WorkConditions.WCList(employeeManager);
             EmployeeWConditonsVM.BackAction += () => MainWindowFrame.Content = new Pages.WorkConditions.WCList(employeeManager);
-            EmployeeWConditonsVM.UpdateAction += (int workConditionsId, ActionType actionType) => MainWindowFrame.Content = new WCDetails(workConditionsId,actionType, workConditionsManager, currenciesManager);
+            EmployeeWConditonsVM.UpdateAction += (int workConditionsId, ActionType actionType) => MainWindowFrame.Content = new Pages.WorkConditions.WCDetails(workConditionsId,actionType, workConditionsManager, currenciesManager);
             MessagesManager.AlertFunc += WarningMessageBox;
             MessagesManager.SuccessMessage += SuccessToastr;
             MessagesManager.ErrorMessage += ErrorToastr;

@@ -17,6 +17,7 @@ namespace InternationalWagesManager.Domain
 
         public void AddWorkConditions(DTO.WorkConditions workConditions)
         {
+            ClearingAllRelatedObjects(workConditions); 
             var modelWorkConditions = _mapper.Map<DTO.WorkConditions, Models.WorkConditions>(workConditions);
             try
             {
@@ -40,19 +41,26 @@ namespace InternationalWagesManager.Domain
             return dtoWorkConditions;
         }
 
-        public async Task UpdateWorkConditions(DTO.WorkConditions workConditions)
+        public async  Task<WorkConditions> GetWorkConditionsAsync(int workConditionId)
+        {
+            var dtoWorkConditions = _mapper.Map<Models.WorkConditions, DTO.WorkConditions>(await _wCRepo.GetWorkConditionsAsync(workConditionId));
+            return dtoWorkConditions;
+        }
+
+        public async Task UpdateWorkConditionsAsync(DTO.WorkConditions workConditions)
         {
             try
             {
-                if (workConditions.EmployeeId != 0)
+                if(workConditions.Id != 0)
                 {
-                    await _wCRepo.UpdateWorkConditionsAsync(_mapper.Map<DTO.WorkConditions, Models.WorkConditions>(workConditions));
+                    await _wCRepo.UpdateWorkConditionsAsync(_mapper.Map<Models.WorkConditions>(workConditions));
                     MessagesManager.SuccessMessage?.Invoke("Successful update! ");
                 }
+               
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
+                MessagesManager.ErrorMessage?.Invoke("DataBase Error!" + Environment.NewLine + e.Message);
             }
         }
 
@@ -119,6 +127,16 @@ namespace InternationalWagesManager.Domain
             }
 
             return new();
+        }
+
+        private void ClearingAllRelatedObjects(DTO.WorkConditions workConditions)
+        {
+            workConditions.Employee = null;
+            workConditions.ExpensesCurrency = null;
+            workConditions.WageCurrency = null; 
+            workConditions.PayCurrency = null; 
+            workConditions.ExpensesCurrency = null;
+
         }
     }
 }

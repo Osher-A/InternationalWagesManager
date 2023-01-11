@@ -62,10 +62,6 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
                 OnPropertyChanged(nameof(PayCurrencyComboBoxSelectedIndex));
             }
         }
-
-
-        private ObservableCollection<WorkConditions> _allWorkConditions;
-
         private static string _buttonText;
         public static string ButtonText
         {
@@ -73,9 +69,6 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
             {
                 switch (_actionType)
                 {
-                    case ActionType.Details:
-                        _buttonText = "Edit";
-                        break;
                     case ActionType.Edit:
                         _buttonText = "Submit Changes";
                         break;
@@ -108,20 +101,10 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
             LoadData();
             BackCommand = new CustomCommand(BackToList, CanGoBackToList);
             SubmitCommand = new CustomCommand(Submit, CanSubmit);
-            AddCommand = new CustomCommand(AddWorkConditions, CanAddWorkConditions);
         }
-        private void AddWorkConditions(object obj)
-        {
-            WorkConditions.EmployeeId = _id;
-            WorkConditions.WageCurrencyId = _modelCurrencies[int.Parse(WageCurrencyComboBoxSelectedIndex) - 1].Id;
-            WorkConditions.ExpensesCurrencyId = _modelCurrencies[int.Parse(ExpensesCurrencyComboBoxSelectedIndex) - 1].Id;
-            WorkConditions.PayCurrencyId = _modelCurrencies[int.Parse(PayCurrencyComboBoxSelectedIndex) - 1].Id;
-            _workConditionsManager.AddWorkConditions(WorkConditions);
-            WorkConditions = new DTO.WorkConditions { Date = null };
-            WageCurrencyComboBoxSelectedIndex = "0"; ExpensesCurrencyComboBoxSelectedIndex = "0"; PayCurrencyComboBoxSelectedIndex = "0";
-        }
+        
 
-        private bool CanAddWorkConditions(object obj)
+        private bool CanSubmit(object obj)
         {
             if (WageCurrencyComboBoxSelectedIndex != "0"
                 && ExpensesCurrencyComboBoxSelectedIndex != "0" && PayCurrencyComboBoxSelectedIndex != "0"
@@ -130,36 +113,21 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
 
             return false;
         }
-        private bool CanSubmit(object obj)
-        {
-            return WorkConditions != null;
-        }
-
         private async void Submit(object obj)
         {
             switch (_actionType)
             {
-                case ActionType.Details:
-                    _actionType = ActionType.Edit;
-                    ButtonText = "Submit Changes";
-                    break;
                 case ActionType.Add:
-                    _workConditionsManager.AddWorkConditions(WorkConditions);
+                    AddWorkConditions();
                     BackAction?.Invoke();
                     break;
                 case ActionType.Edit:
-                    await _workConditionsManager.UpdateWorkConditions(WorkConditions);
+                    await UpdateWorkConditions();
                     BackAction?.Invoke();
                     break;
                 default:
                     break;
             };
-        }
-
-        private void DeleteEmployee()
-        {
-            _workConditionsManager.DeleteWorkConditions(WorkConditions.Id);
-            BackAction?.Invoke();
         }
 
         private void BackToList(object obj)
@@ -170,6 +138,26 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
         private bool CanGoBackToList(object obj)
         {
             return true;
+        }
+        private void AddWorkConditions()
+        {
+            WorkConditions.EmployeeId = _id;
+            WorkConditions.WageCurrencyId = _modelCurrencies[int.Parse(WageCurrencyComboBoxSelectedIndex) - 1].Id;
+            WorkConditions.ExpensesCurrencyId = _modelCurrencies[int.Parse(ExpensesCurrencyComboBoxSelectedIndex) - 1].Id;
+            WorkConditions.PayCurrencyId = _modelCurrencies[int.Parse(PayCurrencyComboBoxSelectedIndex) - 1].Id;
+            _workConditionsManager.AddWorkConditions(WorkConditions);
+
+            WorkConditions = new DTO.WorkConditions { Date = null };
+            WageCurrencyComboBoxSelectedIndex = "0"; ExpensesCurrencyComboBoxSelectedIndex = "0"; PayCurrencyComboBoxSelectedIndex = "0";
+        }
+
+        private async Task UpdateWorkConditions()
+        {
+            WorkConditions.Id = _id;
+            WorkConditions.WageCurrencyId = _modelCurrencies[int.Parse(WageCurrencyComboBoxSelectedIndex) - 1].Id;
+            WorkConditions.ExpensesCurrencyId = _modelCurrencies[int.Parse(ExpensesCurrencyComboBoxSelectedIndex) - 1].Id;
+            WorkConditions.PayCurrencyId = _modelCurrencies[int.Parse(PayCurrencyComboBoxSelectedIndex) - 1].Id;
+            await _workConditionsManager.UpdateWorkConditionsAsync(WorkConditions);
         }
 
         private void OnPropertyChanged(string propertyName)
@@ -189,8 +177,16 @@ namespace InternationalWagesManager.ViewModels.WorkConditons
             foreach (var currency in _modelCurrencies)
                 Currencies.Add(currency.Name);
 
-            if(_actionType == ActionType.Edit)
-                this.WorkConditions = _workConditionsManager.GetWorkConditions(_id);
+            if (_actionType == ActionType.Edit)
+                await SetUIWorkConditions();
+        }
+        private async Task SetUIWorkConditions()
+        {
+            this.WorkConditions = await _workConditionsManager.GetWorkConditionsAsync(_id);
+            WageCurrencyComboBoxSelectedIndex = (_modelCurrencies.FindIndex(mc => mc.Id == WorkConditions.WageCurrencyId) + 1).ToString();
+            ExpensesCurrencyComboBoxSelectedIndex = (_modelCurrencies.FindIndex(mc => mc.Id == WorkConditions.ExpensesCurrencyId)+ 1).ToString();
+            PayCurrencyComboBoxSelectedIndex = (_modelCurrencies.FindIndex(mc => mc.Id == WorkConditions.PayCurrencyId) + 1).ToString();
+
         }
     }
 }

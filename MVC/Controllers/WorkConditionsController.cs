@@ -83,7 +83,7 @@ namespace MVC.Controllers
         {
             try
             {
-                _workConditionsManager.UpdateWorkConditions(workConditions);
+                _workConditionsManager.UpdateWorkConditionsAsync(workConditions);
                 return RedirectToAction(nameof(Details), new { employeeId = workConditions.EmployeeId });
             }
             catch

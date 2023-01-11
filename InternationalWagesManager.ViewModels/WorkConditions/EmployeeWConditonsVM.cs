@@ -43,7 +43,7 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
         }
 
         [RelayCommand(CanExecute = nameof(CanUpdate))]
-        private async void Update()
+        private void Update()
         {
             UpdateAction?.Invoke(SelectedWorkConditons.Id, ActionType.Edit);
         }

@@ -14,7 +14,7 @@ namespace InternationalWagesManager.DAL
 
         public async Task<List<Currency>> GetAllCurrenciesAsync()
         {
-            return await _db.Currencies.ToListAsync();
+            return await _db.Currencies.AsNoTracking().ToListAsync();
         }
 
         public void AddCurrency(Currency currency)
@@ -27,6 +27,7 @@ namespace InternationalWagesManager.DAL
         {
             _db.Currencies.Update(currency);
             _db.SaveChanges();
+            _db.Entry(currency).State = EntityState.Detached;
         }
 
         public void DeleteCurrency(Currency currency)

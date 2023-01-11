@@ -4,6 +4,7 @@
 @using AutoMapper
 @using Blazorise
 @using Microsoft.JSInterop
+@using InternationalWagesManager.DTO
 
 @inject IEmployeeRepository _employeeRepository
 @inject IWConditionsRepository _wcRepository
@@ -133,7 +134,7 @@
         workConditions.WageCurrencyId = workConditions.WageCurrency.Id;
         workConditions.PayCurrencyId = workConditions.PayCurrency.Id;
 
-        await _workConditionsManager.UpdateWorkConditions(_mapper.Map<InternationalWagesManager.DTO.WorkConditions>(workConditions));
+        await _workConditionsManager.UpdateWorkConditionsAsync(_mapper.Map<InternationalWagesManager.DTO.WorkConditions>(workConditions));
         await LoadData();
         StateHasChanged();
     }
@@ -141,7 +142,7 @@
     private async Task LoadData()
     {
         Employee.FirstName = (await _employeeManager.GetEmployeesAsync()).FirstOrDefault(e => e.Id == EmployeeId)!.FirstName;
-        Employee.WorkConditons = _mapper.Map<List<WorkConditons>>(await _workConditionsManager.GetAllEmployeesWCAsync(EmployeeId));
+        Employee.WorkConditons = _mapper.Map<List<DTO.WorkConditons>>(await _workConditionsManager.GetAllEmployeesWCAsync(EmployeeId));
         Currencies = _mapper.Map<List<Currency>>(await _currenciesManager.GetAllCurrencies());
     }
 

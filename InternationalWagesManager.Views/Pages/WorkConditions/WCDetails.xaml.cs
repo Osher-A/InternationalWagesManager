@@ -6,7 +6,7 @@ using InternationalWagesManager.ViewModels.WorkConditons;
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-namespace InternationalWagesManager.Views.Pages
+namespace InternationalWagesManager.Views.Pages.WorkConditions
 {
     /// <summary>
     /// Interaction logic for WCDetails.xaml
@@ -16,7 +16,6 @@ namespace InternationalWagesManager.Views.Pages
         public WCDetails(int id, ActionType actionType, WorkConditionsManager workConditionsManager, CurrenciesManager currenciesManager)
         {
             this.DataContext = new WCDetailsVM(id, actionType, workConditionsManager, currenciesManager);
-
             InitializeComponent();
         }
     }

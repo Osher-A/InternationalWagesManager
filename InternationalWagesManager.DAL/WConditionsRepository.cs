@@ -14,10 +14,10 @@ namespace InternationalWagesManager.DAL
         public async Task<WorkConditions> GetWorkConditionsAsync(int workConditionId)
         {
             return await _db.WorkConditions
-                 .Include(wc => wc.PayCurrency)
+                .Include(wc => wc.PayCurrency)
                 .Include(wc => wc.WageCurrency)
                 .Include(wc => wc.ExpensesCurrency)
-                .FirstOrDefaultAsync(wc => wc.Id == workConditionId);
+                .FirstOrDefaultAsync(wc => wc.Id == workConditionId) ?? new WorkConditions() ;
         }
 
         public async Task<WorkConditions> GetEmployeesWCToDateAsync(int employeeId, DateTime date)
@@ -37,7 +37,7 @@ namespace InternationalWagesManager.DAL
                 .Include(wc => wc.ExpensesCurrency).FirstOrDefaultAsync(wc => wc.EmployeeId == employeeId
                 && wc.Date.Year == date.Year);
 
-            return await result;
+            return await result ?? new WorkConditions();
         }
 
         public async Task<List<WorkConditions>> GetAllEmployeesWCAsync(int employeeId)
@@ -59,8 +59,11 @@ namespace InternationalWagesManager.DAL
 
         public async Task UpdateWorkConditionsAsync(WorkConditions workConditions)
         {
-            _db.WorkConditions.Update(workConditions);
+            _db.Update<WorkConditions>(workConditions);
+
+           
             await _db.SaveChangesAsync();
+           _db.Entry(workConditions).State = EntityState.Detached;
         }
 
         public void DeleteWorkConditions(int id)
