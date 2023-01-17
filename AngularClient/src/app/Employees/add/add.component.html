@@ -1,0 +1,47 @@
+<form #form="ngForm" (ngSubmit)="OnValidSubmit()"  style="width: 50%; margin: 3% auto auto auto;">
+  <h2 class="text-center m-4 header ">New employee</h2>
+  <table class="mt-2 table table-bordered border-2 border-secondary">
+    <tbody>
+      <tr>
+        <th scope="row">First name:</th>
+        <td>
+          <input type="text"  class="form-control" name="first" [(ngModel)]="employee.firstName" required>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Last name:</th>
+        <td>
+          <input type="text" class="form-control" name="last" [(ngModel)]="employee.lastName" required/>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">DOB:</th>
+        <td>
+          <input type="date" class="form-control" name="date" [(ngModel)]="employee.dob" required >
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Phone:</th>
+        <td><input type="text"  class="form-control" name="phone" [(ngModel)]="employee.phone" req /></td>
+      </tr>
+      <tr>
+        <th scope="row">Email:</th>
+        <td>
+          <input type="text"  class="form-control"  name="email" [(ngModel)]="employee.email" required>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <a class="btn btn-success form-control" href="/employees">Cancel</a>
+        </td>
+        <td>
+          <button class="btn btn-primary form-control">Submit</button>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</form>

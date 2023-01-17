@@ -1,0 +1,37 @@
+<style>
+  div{
+    font-family: 'Mongolian Baiti';
+    font-weight: bolder;
+  }
+</style>
+
+<div class="d-flex justify-content-center">
+  <div  class="spinner-border text-primary" [style.visibility]="employees.length > 0 ? 'collapse': 'visible'" role="status" >
+  </div>
+</div>
+<div [style.visibility]="employees.length > 0 ? 'visible' : 'collapse'">
+  <h2 class="header text-center m-4" style="font-family: 'MS UI Gothic'">Employees Index</h2>
+  <table class="table table-bordered" style="table-layout: fixed; width: 80%; margin: auto; max-width: 700px;">
+    <thead>
+      <tr>
+        <th scope="col">Employee name</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let employee of employees ">
+     
+      <tr>
+        <td>{{employee.firstName}}</td>
+        <td>
+          <a class="btn btn-primary" style="width: 45%; margin:0 3.3% 0 3.3%;" routerLink="/employee/details/{{employee.id}}">View details</a>
+          <a class="btn btn-danger" style="width: 45%;" (click)="deleteEmployee(employee)">Cancel</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="width: 80%; margin: auto; max-width:700px;">
+    <a class="btn btn-primary form-control mt-3" style="width: 20%;" routerLink="/employee/add">Add Employee</a>
+  </div>
+</div>
+
+

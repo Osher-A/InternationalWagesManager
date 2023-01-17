@@ -27,6 +27,6 @@ namespace BlazorClient.ViewModel
                     return null;
             }
         }
-        public List<WorkConditons> WorkConditons { get; set; } = new List<WorkConditons>();
+        public List<WorkConditions> WorkConditons { get; set; } = new List<WorkConditions>();
     }
 }

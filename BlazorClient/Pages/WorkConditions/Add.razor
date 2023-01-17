@@ -1,7 +1,6 @@
 ﻿@page "/add/{EmployeeId:int}"
 
 @using AutoMapper;
-@using InternationalWagesManager
 @inject IMapper _mapper;
 @inject ICurrenciesRepository _currenciesRepo;
 @inject IWConditionsRepository _wcRepository;
@@ -89,8 +88,8 @@
 @code {
     [Parameter]
     public int EmployeeId { get; set; }
-    private WorkConditons WorkConditons { get; set; } = new WorkConditons();
-    private List<ViewModel.Currency> _currencies  = new List<Currency>();
+    WorkConditions WorkConditons { get; set; } = new WorkConditions();
+    private List<ViewModel.Currency> _currencies  = new List<ViewModel.Currency>();
 
     protected override void OnInitialized()
     {

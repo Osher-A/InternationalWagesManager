@@ -4,7 +4,6 @@
 @using AutoMapper
 @using Blazorise
 @using Microsoft.JSInterop
-@using InternationalWagesManager.DTO
 
 @inject IEmployeeRepository _employeeRepository
 @inject IWConditionsRepository _wcRepository
@@ -117,7 +116,7 @@
         PageVisibility = "Normal";
     }
 
-    private async void OnDelete(MouseEventArgs e,WorkConditons workConditons)
+    private async void OnDelete(MouseEventArgs e,WorkConditions workConditons)
     {
         if (await _workConditionsManager.DeleteWorkConditionsAsync(workConditons.Id))
         {
@@ -128,7 +127,7 @@
             return;
 
     }
-    private async void OnEdit(MouseEventArgs e, WorkConditons workConditions)
+    private async void OnEdit(MouseEventArgs e, WorkConditions workConditions)
     {
         workConditions.ExpensesCurrencyId = workConditions.ExpensesCurrency.Id;
         workConditions.WageCurrencyId = workConditions.WageCurrency.Id;
@@ -142,7 +141,7 @@
     private async Task LoadData()
     {
         Employee.FirstName = (await _employeeManager.GetEmployeesAsync()).FirstOrDefault(e => e.Id == EmployeeId)!.FirstName;
-        Employee.WorkConditons = _mapper.Map<List<DTO.WorkConditons>>(await _workConditionsManager.GetAllEmployeesWCAsync(EmployeeId));
+        Employee.WorkConditons = _mapper.Map<List<WorkConditions>>(await _workConditionsManager.GetAllEmployeesWCAsync(EmployeeId));
         Currencies = _mapper.Map<List<Currency>>(await _currenciesManager.GetAllCurrencies());
     }
 

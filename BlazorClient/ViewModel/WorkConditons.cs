@@ -2,7 +2,7 @@
 
 namespace BlazorClient.ViewModel
 {
-    public class WorkConditons
+    public class WorkConditions
     {
         public int Id { get; set; }
         public Employee Employee { get; set; }

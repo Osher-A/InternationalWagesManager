@@ -1,0 +1,42 @@
+<form style="width: 50%; margin: 3% auto auto auto;">
+  <h2 class="text-center m-4 header ">Employee's details</h2>
+  <table class="mt-2 table table-bordered border-2 border-secondary">
+    <tbody>
+      <tr>
+        <th scope="row"><h6>First name:</h6></th>
+        <td>
+          <input type="text" readonly class="form-control " [value]="employee?.firstName" />
+        </td>
+      </tr>
+      <tr>
+        <th scope="row"><h6>Last name:</h6></th>
+        <td>
+          <label class="form-control">{{employee?.lastName}}</label>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row"><h6>DOB</h6></th>
+        <td>
+          <label class="form-control">{{employee?.dob | date:'shortDate' }}</label>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row"><h6>Phone:</h6></th>
+        <td><label class="form-control">{{employee?.phone}}</label></td>
+      </tr>
+      <tr>
+        <th scope="row"><h6>Email:</h6></th>
+        <td>
+          <label class="form-control">{{employee?.email}}</label>
+        </td>
+      </tr>
+
+    </tbody>
+    <tfoot>
+        <a class="btn btn-success mt-3" style="width: 100%" routerLink="/" >Back</a>
+    </tfoot>
+
+  </table>
+
+
+

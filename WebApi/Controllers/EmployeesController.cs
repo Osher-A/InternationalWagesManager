@@ -60,8 +60,8 @@ public class EmployeesController : ControllerBase
     }
 
 
-    // POST: api/employees/AddEmployee
-    [HttpPost("AddEmployee")]
+    // POST: api/employees
+    [HttpPost]
     public async Task<ActionResult> AddEmployee([FromBody] EmployeeRequest employee)
     {
         if (!ModelState.IsValid)

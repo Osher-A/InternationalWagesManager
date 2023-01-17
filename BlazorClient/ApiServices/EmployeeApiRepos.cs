@@ -39,8 +39,7 @@ public class EmployeeApiRepo : IEmployeeRepository
     public async Task<int> AddEmployeeAsync(Employee newEmployee)
     {
         var bodyContent = BodyForRequest(newEmployee);
-        string endPoint = "/AddEmployee";
-        var response = await _httpClient.PostAsync(_url + endPoint, bodyContent);
+        var response = await _httpClient.PostAsync(_url, bodyContent);
         string responseResult = response.Content.ReadAsStringAsync().Result;
 
         if (response.IsSuccessStatusCode)
