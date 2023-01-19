@@ -11,7 +11,7 @@ import { EmployeeService } from '../../services/employee.service';
 export class AddComponent implements OnInit {
 
   constructor(private _employeeDataService: EmployeeService, private _router: Router) { }
-  employee: Employee = new Employee(0, "", "", new Date(), undefined, "")
+  employee: Employee = new Employee()
 
   ngOnInit(): void {
 

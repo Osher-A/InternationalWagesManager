@@ -14,8 +14,8 @@
   <table class="table table-bordered" style="table-layout: fixed; width: 80%; margin: auto; max-width: 700px;">
     <thead>
       <tr>
-        <th scope="col">Employee name</th>
-        <th scope="col"></th>
+        <th scope="col" style="width: 50%;">Employee name</th>
+        <th scope="col" style="width: 50%;"></th>
       </tr>
     </thead>
     <tbody *ngFor="let employee of employees ">
@@ -23,14 +23,14 @@
       <tr>
         <td>{{employee.firstName}}</td>
         <td>
-          <a class="btn btn-primary" style="width: 45%; margin:0 3.3% 0 3.3%;" routerLink="/employee/details/{{employee.id}}">View details</a>
-          <a class="btn btn-danger" style="width: 45%;" (click)="deleteEmployee(employee)">Cancel</a>
+          <a class="btn btn-outline-success" style="width: 45%; margin:0 3.3% 0 3.3%;" routerLink="/employee/details/{{employee.id}}">View details</a>
+          <a class="btn btn-outline-danger" style="width: 45%;" (click)="deleteEmployee(employee)">Cancel</a>
         </td>
       </tr>
     </tbody>
   </table>
   <div style="width: 80%; margin: auto; max-width:700px;">
-    <a class="btn btn-primary form-control mt-3" style="width: 20%;" routerLink="/employee/add">Add Employee</a>
+    <a class="btn btn-primary form-control mt-3" style="width: 25%;" routerLink="/employee/add">Add Employee</a>
   </div>
 </div>
 

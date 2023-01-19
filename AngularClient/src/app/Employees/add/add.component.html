@@ -1,47 +1,59 @@
-<form #form="ngForm" (ngSubmit)="OnValidSubmit()"  style="width: 50%; margin: 3% auto auto auto;">
+<form #myForm="ngForm" (ngSubmit)="OnValidSubmit()" style="width: 50%; margin: 3% auto auto auto;">
   <h2 class="text-center m-4 header ">New employee</h2>
   <table class="mt-2 table table-bordered border-2 border-secondary">
     <tbody>
       <tr>
         <th scope="row">First name:</th>
         <td>
-          <input type="text"  class="form-control" name="first" [(ngModel)]="employee.firstName" required>
+          <input type="text" class="form-control" name="first" required minlength="2" #firstNames="ngModel" [(ngModel)]="employee.firstName">
         </td>
       </tr>
       <tr>
         <th scope="row">Last name:</th>
         <td>
-          <input type="text" class="form-control" name="last" [(ngModel)]="employee.lastName" required/>
+          <input type="text" class="form-control" name="last" required minlength="3" #lastNames="ngModel" [(ngModel)]="employee.lastName" />
         </td>
       </tr>
       <tr>
         <th scope="row">DOB:</th>
         <td>
-          <input type="date" class="form-control" name="date" [(ngModel)]="employee.dob" required >
+          <input type="date" class="form-control" required #date="ngModel" name="date" [(ngModel)]="employee.dob">
         </td>
       </tr>
       <tr>
         <th scope="row">Phone:</th>
-        <td><input type="text"  class="form-control" name="phone" [(ngModel)]="employee.phone" req /></td>
+        <td><input type="text" class="form-control" required minlength="7" #phoneNumber="ngModel" name="phone" [(ngModel)]="employee.phone" /></td>
       </tr>
       <tr>
         <th scope="row">Email:</th>
         <td>
-          <input type="text"  class="form-control"  name="email" [(ngModel)]="employee.email" required>
+          <input type="text" class="form-control" required email #email="ngModel" name="email" [(ngModel)]="employee.email">
         </td>
       </tr>
 
       <tr>
         <td>
-          <a class="btn btn-success form-control" href="/employees">Cancel</a>
+          <a type="button" class="btn btn-outline-success form-control" href="/employees">Cancel</a>
         </td>
         <td>
-          <button class="btn btn-primary form-control">Submit</button>
+          <button [disabled]="myForm.invalid" class="btn btn-outline-primary form-control">Submit</button>
         </td>
       </tr>
 
     </tbody>
 
   </table>
+  <div>
+    <div class="error-field" *ngIf="(firstNames.touched || firstNames.dirty) && firstNames.errors?.['required']">First name is a required field</div>
+    <div class="error-field" *ngIf="(firstNames.touched || firstNames.dirty) && firstNames.errors?.['minlength']">First name is invalid</div>
+    <div class="error-field" *ngIf="(lastNames.touched || lastNames.dirty) && lastNames.errors?.['required']">Last name is a required field</div>
+    <div class="error-field" *ngIf="(lastNames.touched || lastNames.dirty) && lastNames.errors?.['minlength']">Last name is invalid</div>
+    <div class="error-field" *ngIf="(date.touched || date.dirty) && date.invalid">DOB is a required field</div>
+    <div class="error-field" *ngIf="(phoneNumber.touched || phoneNumber.dirty) && phoneNumber.errors?.['required']">Phone is a required field</div>
+    <div class="error-field" *ngIf="(phoneNumber.touched || phoneNumber.dirty) && phoneNumber.errors?.['minlength']">Phone number is invalid</div>
+    <div class="error-field" *ngIf="(email.touched || email.dirty) && email.errors?.['required']">Email is a required field</div>
+    <div class="error-field" *ngIf="(email.touched || email.dirty) && email.errors?.['email']">Email is invalid field</div>
+  </div>
 
 </form>
+
