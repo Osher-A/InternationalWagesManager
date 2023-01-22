@@ -26,10 +26,6 @@ namespace BlazorClient.ApiServices
                 workConditions = JsonConvert.DeserializeObject<WorkConditions>(response.Item2);
             return workConditions;
         }
-        public async Task<WorkConditions> GetEmployeesWCToDateAsync(int employeeId, DateTime date)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<List<WorkConditions>> GetAllEmployeesWCAsync(int employeeId)
         {

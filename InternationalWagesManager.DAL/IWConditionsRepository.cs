@@ -8,7 +8,6 @@ namespace InternationalWagesManager.DAL
         void DeleteWorkConditions(int id);
         Task UpdateWorkConditionsAsync(WorkConditions workConditions);
         Task<List<WorkConditions>> GetAllEmployeesWCAsync(int employeeId);
-        Task<WorkConditions> GetEmployeesWCToDateAsync(int employeeId, DateTime date);
         Task<WorkConditions> GetWorkConditionsAsync(int workConditionId);
     }
 }

@@ -10,6 +10,15 @@ namespace InternationalWagesManager.DAL
         {
             _db = dbContext;
         }
+        public async Task<Employee?> GetEmployeeAsync(int id)
+        {
+            return await _db.Employees.FindAsync(id);
+        }
+
+        public async Task<List<Employee>> GetEmployeesAsync()
+        {
+            return await _db.Employees.ToListAsync();
+        }
 
         public async Task<int> AddEmployeeAsync(Employee newEmployee)
         {
@@ -31,14 +40,5 @@ namespace InternationalWagesManager.DAL
             _db.SaveChanges();
         }
 
-        public async Task<Employee?> GetEmployeeAsync(int id)
-        {
-            return await _db.Employees.FindAsync(id);
-        }
-
-        public async Task<List<Employee>> GetEmployeesAsync()
-        {
-            return await _db.Employees.ToListAsync();
-        }
     }
 }

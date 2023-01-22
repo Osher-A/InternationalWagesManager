@@ -17,27 +17,7 @@ namespace InternationalWagesManager.DAL
                 .Include(wc => wc.PayCurrency)
                 .Include(wc => wc.WageCurrency)
                 .Include(wc => wc.ExpensesCurrency)
-                .FirstOrDefaultAsync(wc => wc.Id == workConditionId) ?? new WorkConditions() ;
-        }
-
-        public async Task<WorkConditions> GetEmployeesWCToDateAsync(int employeeId, DateTime date)
-        {
-            var result = _db.WorkConditions
-                 .Include(wc => wc.PayCurrency)
-                .Include(wc => wc.WageCurrency)
-                .Include(wc => wc.ExpensesCurrency)
-                .FirstOrDefaultAsync(wc => wc.EmployeeId == employeeId
-                && wc.Date.Year == date.Year
-                && wc.Date.Month == date.Month);
-
-            if (result == null)
-                result = _db.WorkConditions
-                 .Include(wc => wc.PayCurrency)
-                .Include(wc => wc.WageCurrency)
-                .Include(wc => wc.ExpensesCurrency).FirstOrDefaultAsync(wc => wc.EmployeeId == employeeId
-                && wc.Date.Year == date.Year);
-
-            return await result ?? new WorkConditions();
+                .FirstOrDefaultAsync(wc => wc.Id == workConditionId) ?? new WorkConditions();
         }
 
         public async Task<List<WorkConditions>> GetAllEmployeesWCAsync(int employeeId)
@@ -61,9 +41,9 @@ namespace InternationalWagesManager.DAL
         {
             _db.Update<WorkConditions>(workConditions);
 
-           
+
             await _db.SaveChangesAsync();
-           _db.Entry(workConditions).State = EntityState.Detached;
+            _db.Entry(workConditions).State = EntityState.Detached;
         }
 
         public void DeleteWorkConditions(int id)

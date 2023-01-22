@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+import { Employee } from '../common/Employee';
 
 import { DataService } from './data.service';
 
 describe('EmployeeDataService', () => {
-  let service: DataService;
+  let service: DataService<Employee>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
