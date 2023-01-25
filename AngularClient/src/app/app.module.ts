@@ -8,22 +8,25 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 import { AppComponent } from './app.component';
-import { AddComponent } from './Employees/add/add.component';
-import { ListComponent } from './Employees/list/list.component';
+import { EmployeesAddComponent } from './Employees/add/add.component';
+import { EmployeesIndexComponent } from './Employees/index/index.component';
 import { GlobalErrorHandler } from './common/global-error-handler';
-import { DetailsComponent } from './Employees/details/details.component';
+import { EmployeesDetailsComponent } from './Employees/details/details.component';
 import { AppRoutingModule } from './Employees/app-routing-module';
-import { EmployeeService } from './services/employee.service';
-import { IndexComponent } from './workConditions/index/index.component';
+import { WorkConditionsIndexComponent } from './workConditions/index/index.component';
+import { WorkConditionsDetailsComponent } from './workConditions/details/details.component'
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WorkConditionsAddComponent } from './workConditions/add/add.component';
 @NgModule({
   declarations: [
     AppComponent,
-    AddComponent,
-    ListComponent,
-    DetailsComponent,
-    IndexComponent,
+    EmployeesAddComponent,
+    EmployeesIndexComponent,
+    EmployeesDetailsComponent,
+    WorkConditionsIndexComponent,
+    WorkConditionsDetailsComponent,
+    WorkConditionsAddComponent,
     NavbarComponent
   ],
   imports: [
@@ -36,7 +39,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
   ],
   providers: [
-    EmployeeService,
     {
       provide: ErrorHandler, useClass: GlobalErrorHandler
     }],

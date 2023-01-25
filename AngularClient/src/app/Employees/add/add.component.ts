@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Employee } from '../../common/Employee';
-import { EmployeeService } from '../../services/employee.service';
+import { Employee } from '../../dto/employee';
+import { EmployeeDataService } from '../../services/employee-data-service';
 
 @Component({
   selector: 'add',
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css']
 })
-export class AddComponent implements OnInit {
+export class EmployeesAddComponent implements OnInit {
 
-  constructor(private _employeeDataService: EmployeeService, private _router: Router) { }
+  constructor(private _employeeDataService: EmployeeDataService, private _router: Router) { }
   employee: Employee = new Employee()
 
   ngOnInit(): void {

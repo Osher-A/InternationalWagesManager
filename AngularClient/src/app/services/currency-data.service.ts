@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Employee } from '../common/Employee';
+import { Currency } from '../dto/currency';
 import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService extends DataService<Employee> {
+export class CurrencyDataService extends DataService<Currency> {
+
 
   constructor(http: HttpClient) {
-    super(http,'https://localhost:7194/api/employees');
+    super(http, 'https://localhost:7194/api/currencies');
   }
 }
