@@ -4,8 +4,8 @@
   </div>
 </div>
 <div *ngIf="employees.length > 0" style="width: 60%; margin:auto;">
-  <h2 class="header text-center m-4" style="font-family: 'MS UI Gothic'">Work conditions index</h2>
-  <table class="table table-bordered" style="table-layout: fixed; width: 80%; margin: auto;">
+  <h2 class="header text-center  mt-5 " style="font-family: 'MS UI Gothic'">Work conditions index</h2>
+  <table class="table table-bordered mt-3" style="table-layout: fixed; width: 80%; margin: auto;">
     <thead>
       <tr>
         <th scope="col">Employee name</th>
@@ -22,6 +22,5 @@
         <td><a class="btn btn-outline-success form-control" routerLink="add/{{employee.id}}">Add Conditions</a></td>
       </tr>
     </tbody>
-
   </table>
 </div>

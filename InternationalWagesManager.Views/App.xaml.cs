@@ -2,6 +2,7 @@
 using InternationalWagesManager.Domain;
 using InternationalWagesManager.Domain.Utilities;
 using InternationalWagesManager.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Windows;
@@ -19,6 +20,14 @@ namespace InternationalWagesManager.Views
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
+
+
+            // To add all migrations if they do not exist like when moving to another machine
+            using (var scope = app.Services.CreateScope())
+            using (var context = scope.ServiceProvider.GetService<MyDbContext>())
+            {
+                context.Database.Migrate();
+            }
 
             // TESTER
             //using (var scope = _serviceProvider.CreateScope())

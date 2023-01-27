@@ -1,1 +1,69 @@
-<p>add works!</p>
+<form #myForm="ngForm" name="myForm" (ngSubmit)="onSubmit(myForm)" style="width: 50%; margin: 3% auto auto auto;">
+    <h2 class="text-center m-4 header ">Work Conditions</h2>
+    <table class="mt-2 table table-bordered border-2 border-secondary">
+        <tbody>
+            <tr>
+                <th scope="row">Date:</th>
+                <td>
+                    <input type="date" [(ngModel)]="workConditions.date" required class="form-control" name="date" #dateBox="ngModel" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Pay rate:</th>
+                <td>
+                    <input type="number" [(ngModel)]="workConditions.payRate" class="form-control" #payRateBox="ngModel" required name="payRate" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Wage currency:</th>
+                <td>
+                    <select [(ngModel)]="workConditions.wageCurrencyId" #wageCurrency="ngModel" class="form-control" name="wageCurrency" required>
+                        <option selected [ngValue]="undefined">Select a Currency</option>
+                        <option *ngFor="let currency of currencies" [ngValue]="currency.id">{{currency.name}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Expenses currency:</th>
+                <td>
+                    <select [(ngModel)]="workConditions.expensesCurrencyId" #expensesCurrency="ngModel" class="form-control" name="expensesCurrency" required>
+                        <option [ngValue]="undefined">Select a Currency</option>
+                        <option *ngFor="let currency of currencies" [ngValue]="currency.id">{{currency.name}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Pay currency:</th>
+                <td>
+                    <select [(ngModel)]="workConditions.payCurrencyId" #payCurrency="ngModel" class="form-control" name="payCurrency" required>
+                        <option [ngValue]="undefined">Select a Currency</option>
+                        <option *ngFor="let currency of currencies" [ngValue]="currency.id">{{currency.name}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Deductions:</th>
+                <td>
+                    <input type="number" [(ngModel)]="workConditions.deductions" #deductionsBox="ngModel" class="form-control" name="deductions" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="btn btn-success form-control" routerLink="/workconditions">Cancel</a>
+                </td>
+                <td>
+                    <button [disabled]="myForm.invalid" class="btn btn-primary form-control">Submit</button>
+                </td>
+            </tr>
+        </tbody>
+        <div>
+            <div class="error-field" *ngIf="(dateBox.touched || dateBox.dirty) && dateBox.errors?.['required']">Date is required!</div>
+            <div class="error-field" *ngIf="(payRateBox.touched || payRateBox.dirty) && payRateBox.errors?.['required']">Pay rate is required!</div>
+            <div class="error-field" *ngIf="(wageCurrency.touched || wageCurrency.dirty) && wageCurrency.errors?.['required']">Select a wage currency</div>
+            <div class="error-field" *ngIf="(expensesCurrency.touched || expensesCurrency.dirty) && expensesCurrency.errors?.['required']">Select a expence currency</div>
+            <div class="error-field" *ngIf="(payCurrency.touched || payCurrency.dirty) && payCurrency.errors?.['required']">Select a pay currency</div>
+        </div>
+
+    </table>
+
+</form>

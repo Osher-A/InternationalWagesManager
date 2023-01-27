@@ -18,17 +18,17 @@
     <label class="visually-hidden">Loading...</label>
   </div>
 </div>
-<div *ngIf="workConditions.length > 0"  style=" margin: auto; width:75%;">
-  <h3 class="text-center header mb-4 mt-3" style="font-family: 'MS UI Gothic'"><span class="text-primary text-capitalize"></span> Work Conditions details</h3>
+<div *ngIf="workConditions.length > 0"  style=" margin: auto; width:90%;">
+  <h3 class="text-center header mb-4 mt-3" style="font-family: 'MS UI Gothic'"><span class="text-primary text-capitalize">{{nameOfEmployee}}'s</span> work conditions details</h3>
   <table class="table table-bordered " style="margin:auto; table-layout: fixed; width: 100%;">
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Pay Rate</th>
-        <th>Wage Currency</th>
-        <th>Expenses</th>
-        <th>Pay Currency</th>
-        <th>Deductions</th>
+        <th class="text-center">Date</th>
+        <th class="text-center"> Pay Rate</th>
+        <th class="text-center">Wage Currency</th>
+        <th class="text-center">Expenses Currency</th>
+        <th class="text-center">Pay Currency</th>
+        <th class="text-center">Deductions</th>
         <th style="width:30%"></th>
       </tr>
     </thead>

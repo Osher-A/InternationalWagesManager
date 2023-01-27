@@ -1,7 +1,7 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -18,6 +18,7 @@ import { WorkConditionsDetailsComponent } from './workConditions/details/details
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WorkConditionsAddComponent } from './workConditions/add/add.component';
+import { WorkCDataService } from './services/work-cdata-service.';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +42,12 @@ import { WorkConditionsAddComponent } from './workConditions/add/add.component';
   providers: [
     {
       provide: ErrorHandler, useClass: GlobalErrorHandler
+    },
+    {
+      provide: WorkCDataService, deps: [HttpClient], useFactory: (dep1: HttpClient) => {
+        return new WorkCDataService(dep1, "")
+      }
+
     }],
   bootstrap: [AppComponent]
 })

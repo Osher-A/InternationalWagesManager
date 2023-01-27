@@ -1,5 +1,6 @@
 ﻿using InternationalWagesManager.DAL;
 using InternationalWagesManager.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,13 @@ builder.Services.AddScoped<IPaymentsRepository, PaymentsRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+// To add all migrations if they do not exist like when moving to another machine
+using (var scope = app.Services.CreateScope())
+using (var context = scope.ServiceProvider.GetService<MyDbContext>())
+{
+    context.Database.Migrate();
+}
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
