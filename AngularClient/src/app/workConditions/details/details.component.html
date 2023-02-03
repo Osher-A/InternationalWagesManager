@@ -14,11 +14,11 @@
 </style>
 
 <div class="d-flex justify-content-center">
-  <div *ngIf="workConditions.length < 1" class="spinner-border text-primary" role="status" >
+  <div *ngIf="workConditions.value.length < 1" class="spinner-border text-primary" role="status" >
     <label class="visually-hidden">Loading...</label>
   </div>
 </div>
-<div *ngIf="workConditions.length > 0"  style=" margin: auto; width:90%;">
+<div *ngIf="workConditions.value.length > 0"  style=" margin: auto; width:90%;">
   <h3 class="text-center header mb-4 mt-3" style="font-family: 'MS UI Gothic'"><span class="text-primary text-capitalize">{{nameOfEmployee}}'s</span> work conditions details</h3>
   <table class="table table-bordered " style="margin:auto; table-layout: fixed; width: 100%;">
     <thead>
@@ -33,7 +33,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let workC of workConditions"  >
+      <tr *ngFor="let workC of workConditions.value"  >
         <td><label  >{{workC.date | date: 'dd/MM/yyyy'}}</label></td>
         <td><label >{{workC.payRate}}</label></td>
         <td >

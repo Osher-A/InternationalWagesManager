@@ -1,4 +1,4 @@
-@import 'C:\Users\user\source\repos\Web\InternationalWagesManager\AngularClient\node_modules\bootstrap\dist\css\bootstrap.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
 h6 {
   font-weight: bold;

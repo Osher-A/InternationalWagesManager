@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 export class DataService<T> {
 
   constructor(private http: HttpClient, private url: string) { }
+
 
   getAll(): Observable<T[]> {
     return this.http.get<T[]>(this.url)
@@ -27,7 +28,7 @@ export class DataService<T> {
       )
   }
 
-  delete(id: Number): Observable<T> {
+  delete(id: number): Observable<T> {
     return this.http.delete<T>(this.url + '/' + id.toString())
       .pipe(
         catchError(this.handleError2<T>('post'))

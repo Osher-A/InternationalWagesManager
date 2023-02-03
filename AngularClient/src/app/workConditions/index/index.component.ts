@@ -5,7 +5,7 @@ import { EmployeeDataService } from '../../services/employee-data-service';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class WorkConditionsIndexComponent implements OnInit {
   employees: Employee[] = [];

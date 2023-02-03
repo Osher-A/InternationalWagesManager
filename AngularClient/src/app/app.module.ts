@@ -19,6 +19,7 @@ import { NavbarComponent } from './common/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WorkConditionsAddComponent } from './workConditions/add/add.component';
 import { WorkCDataService } from './services/work-cdata-service.';
+import { AlertMsgComponent } from './alert-msg/alert-msg.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +29,8 @@ import { WorkCDataService } from './services/work-cdata-service.';
     WorkConditionsIndexComponent,
     WorkConditionsDetailsComponent,
     WorkConditionsAddComponent,
-    NavbarComponent
+    NavbarComponent,
+    AlertMsgComponent
   ],
   imports: [
     BrowserModule,

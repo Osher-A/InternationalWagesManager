@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { WorkCDataService } from './work-cdata-service.';
+import { MessageService } from './message.service';
 
-describe('WorkCDataServiceService', () => {
-  let service: WorkCDataService;
+describe('MessageService', () => {
+  let service: MessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(WorkCDataService);
+    service = TestBed.inject(MessageService);
   });
 
   it('should be created', () => {
