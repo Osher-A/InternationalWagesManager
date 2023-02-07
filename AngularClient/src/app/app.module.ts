@@ -5,6 +5,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 
 import { AppComponent } from './app.component';
@@ -20,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WorkConditionsAddComponent } from './workConditions/add/add.component';
 import { WorkCDataService } from './services/work-cdata-service.';
 import { AlertMsgComponent } from './alert-msg/alert-msg.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +36,7 @@ import { AlertMsgComponent } from './alert-msg/alert-msg.component';
     WorkConditionsDetailsComponent,
     WorkConditionsAddComponent,
     NavbarComponent,
-    AlertMsgComponent
+    AlertMsgComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +46,10 @@ import { AlertMsgComponent } from './alert-msg/alert-msg.component';
     MatButtonModule,
     MatToolbarModule,
     BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule,
   ],
   providers: [
     {
@@ -48,9 +58,10 @@ import { AlertMsgComponent } from './alert-msg/alert-msg.component';
     {
       provide: WorkCDataService, deps: [HttpClient], useFactory: (dep1: HttpClient) => {
         return new WorkCDataService(dep1, "")
-      }
+      },
 
-    }],
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

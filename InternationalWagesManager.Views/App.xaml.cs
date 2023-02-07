@@ -23,7 +23,7 @@ namespace InternationalWagesManager.Views
 
 
             // To add all migrations if they do not exist like when moving to another machine
-            using (var scope = app.Services.CreateScope())
+            using (var scope = _serviceProvider.CreateScope())
             using (var context = scope.ServiceProvider.GetService<MyDbContext>())
             {
                 context.Database.Migrate();

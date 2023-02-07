@@ -4,7 +4,7 @@ import { map, catchError } from 'rxjs/operators';
 
 export class DataService<T> {
 
-  constructor(private http: HttpClient, private url: string) { }
+  constructor(private http: HttpClient, protected url: string) { }
 
 
   getAll(): Observable<T[]> {
@@ -32,6 +32,13 @@ export class DataService<T> {
     return this.http.delete<T>(this.url + '/' + id.toString())
       .pipe(
         catchError(this.handleError2<T>('post'))
+      )
+  }
+
+  update(id: number, body: T): Observable<T> {
+    return this.http.put<T>(this.url + '/' + id.toString(), body)
+      .pipe(
+        catchError(this.handleError2<T>('update'))
       )
   }
 
