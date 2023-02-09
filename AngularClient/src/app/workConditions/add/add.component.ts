@@ -26,6 +26,7 @@ export class WorkConditionsAddComponent implements OnInit {
   ngOnInit(): void {
     this._currencyDataService.getAll().subscribe(response => {
       this.currencies = response;
+
     })
   }
 

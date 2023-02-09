@@ -1,0 +1,62 @@
+<form #myForm="ngForm" name="myForm" (ngSubmit)="onSubmit(myForm)" style="width: 50%; margin: 3% auto auto auto;">
+    <h2 class="text-center m-4 header ">Update conditions</h2>
+    <table class="mt-2 table table-bordered border-2 border-secondary">
+        <tbody>
+            <tr>
+                <th scope="row">Date:</th>
+                <td>
+                    <input type="text" [value]="workConditions.date | date: 'dd/MM/yyyy'" required class="form-control" #date  (change)="onChange(date)" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Pay rate:</th>
+                <td>
+                    <input type="number" [(ngModel)]="workConditions.payRate" class="form-control" #payRateBox="ngModel" required name="payRate" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Wage currency:</th>
+                <td>
+                    <select [(ngModel)]="workConditions.wageCurrency.id" class="form-control" name="wageCurr">
+                        <option *ngFor="let currency of currencies" [value]="currency.id" >{{currency.name}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Expenses currency:</th>
+                <td>
+                    <select [(ngModel)]="workConditions.expensesCurrency.id"  class="form-control" name="expenseCurr">
+                        <option *ngFor="let currency of currencies" [value]="currency.id" >{{currency.name}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Pay currency:</th>
+                <td>
+                    <select [(ngModel)]="workConditions.payCurrency.id"  class="form-control" name="payCurrency" >
+                        <option *ngFor="let currency of currencies" [value]="currency.id" >{{currency.name}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Deductions:</th>
+                <td>
+                    <input type="number" [(ngModel)]="workConditions.deductions" class="form-control" name="deductions" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="btn btn-success form-control" routerLink="/workconditions">Cancel</a>
+                </td>
+                <td>
+                    <button [disabled]="myForm.invalid" class="btn btn-primary form-control">Submit</button>
+                </td>
+            </tr>
+        </tbody>
+        <div>
+            <div class="error-field" *ngIf="(payRateBox.touched || payRateBox.dirty) && payRateBox.errors?.['required']">Pay rate is required!</div>
+        </div>
+
+    </table>
+
+</form>

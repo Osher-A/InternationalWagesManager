@@ -5,21 +5,15 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput, MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
-
-
-
 import { AppComponent } from './app.component';
 import { EmployeesAddComponent } from './Employees/add/add.component';
 import { EmployeesIndexComponent } from './Employees/index/index.component';
 import { GlobalErrorHandler } from './common/global-error-handler';
 import { EmployeesDetailsComponent } from './Employees/details/details.component';
-import { AppRoutingModule } from './Employees/app-routing-module';
+import { AppRoutingModule } from './app-routing-module';
 import { WorkConditionsIndexComponent } from './workConditions/index/index.component';
 import { WorkConditionsDetailsComponent } from './workConditions/details/details.component'
+import { WorkConditionsUpdateComponent } from './workConditions/update/update.component'
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WorkConditionsAddComponent } from './workConditions/add/add.component';
@@ -35,8 +29,10 @@ import { AlertMsgComponent } from './alert-msg/alert-msg.component';
     WorkConditionsIndexComponent,
     WorkConditionsDetailsComponent,
     WorkConditionsAddComponent,
+    WorkConditionsUpdateComponent,
     NavbarComponent,
     AlertMsgComponent,
+    WorkConditionsUpdateComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,10 +42,6 @@ import { AlertMsgComponent } from './alert-msg/alert-msg.component';
     MatButtonModule,
     MatToolbarModule,
     BrowserAnimationsModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatNativeDateModule,
-    MatInputModule,
   ],
   providers: [
     {
