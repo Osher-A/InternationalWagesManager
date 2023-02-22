@@ -63,7 +63,26 @@ public class WorkConditionsManager
         {
             if (workConditions.EmployeeId != 0 && workConditions.PayRate != 0)
             {
-                _wCRepo.AddWorkConditions(modelWorkConditions);
+                _wCRepo.AddWorkConditionsAsync(modelWorkConditions);
+                MessagesManager.SuccessMessage?.Invoke("Successfully added! ");
+            }
+
+        }
+        catch (Exception)
+        {
+            MessagesManager.ErrorMessage?.Invoke("Database Error! ");
+        }
+
+    }
+    public async Task AddWorkConditionsAsync(DTO.WorkConditions workConditions)
+    {
+        ClearingAllRelatedObjects(workConditions);
+        var modelWorkConditions = _mapper.Map<DTO.WorkConditions, Models.WorkConditions>(workConditions);
+        try
+        {
+            if (workConditions.EmployeeId != 0 && workConditions.PayRate != 0)
+            {
+                await _wCRepo.AddWorkConditionsAsync(modelWorkConditions);
                 MessagesManager.SuccessMessage?.Invoke("Successfully added! ");
             }
 
@@ -92,7 +111,7 @@ public class WorkConditionsManager
         }
     }
 
-    public async Task<bool> DeleteWorkConditionsAsync(int id)
+    public async Task<bool> DeleteWorkConditionsSuccesfulAsync(int id)
     {
 
         try
@@ -100,8 +119,9 @@ public class WorkConditionsManager
             if (id != 0)
                 if (await MessagesManager.UserConfirmation("Are you sure you want to delete these conditions?"))
                 {
-                    _wCRepo.DeleteWorkConditions(id);
+                    await _wCRepo.DeleteWorkConditionsAsync(id);
                     MessagesManager.SuccessMessage?.Invoke("Successfully Deleted");
+                    return true;
                 }
         }
         catch (Exception)
@@ -116,7 +136,7 @@ public class WorkConditionsManager
         try
         {
             if (id != 0)
-                _wCRepo.DeleteWorkConditions(id);
+                _wCRepo.DeleteWorkConditionsAsync(id);
         }
         catch (Exception)
         {

@@ -19,6 +19,6 @@ namespace BlazorClient.ViewModel
         public Currency PayCurrency { get; set; }
         [Required(ErrorMessage = "Field Required")]
         public int? PayCurrencyId { get; set; }
-        public decimal? Deductions { get; set; }
+        public float? Deductions { get; set; }
     }
 }

@@ -27,10 +27,11 @@ namespace InternationalWagesManager.DAL
                 .Include(wc => wc.WageCurrency)
                 .Include(wc => wc.ExpensesCurrency)
                 .Where(wc => wc.EmployeeId == employeeId)
+                .OrderByDescending(wc => wc.Date)
                 .ToListAsync() ?? new();
         }
 
-        public async Task<int> AddWorkConditions(WorkConditions workConditions)
+        public async Task<int> AddWorkConditionsAsync(WorkConditions workConditions)
         {
             await _db.WorkConditions.AddAsync(workConditions);
             await _db.SaveChangesAsync();
@@ -46,10 +47,10 @@ namespace InternationalWagesManager.DAL
             _db.Entry(workConditions).State = EntityState.Detached;
         }
 
-        public void DeleteWorkConditions(int id)
+        public async Task DeleteWorkConditionsAsync(int id)
         {
             _db.WorkConditions.Remove(_db.WorkConditions.Find(id));
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
     }
 }

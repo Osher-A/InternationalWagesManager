@@ -37,7 +37,7 @@ namespace BlazorClient.ApiServices
             return workConditions;
         }
 
-        public async Task<int>? AddWorkConditions(WorkConditions workConditions)
+        public async Task<int>? AddWorkConditionsAsync(WorkConditions workConditions)
         {
             var bodyContent = BodyForRequest(workConditions);
             var response = await _httpClient.PostAsync(_url, bodyContent);
@@ -63,7 +63,7 @@ namespace BlazorClient.ApiServices
 
         }
 
-        public async void DeleteWorkConditions(int id)
+        public async Task DeleteWorkConditionsAsync(int id)
         {
             string endPoint = "/" + id.ToString();
             await _httpClient.DeleteAsync(_url + endPoint);
@@ -82,7 +82,5 @@ namespace BlazorClient.ApiServices
             var response = await _httpClient.GetAsync(_url);
             return (response.IsSuccessStatusCode, await response.Content.ReadAsStringAsync());
         }
-
-
     }
 }

@@ -26,13 +26,10 @@ export class WorkConditionsUpdateComponent implements OnInit {
   ngOnInit(): void {
     this._currencyDataService.getAll().subscribe(response => {
       this.currencies = response;
-      console.log(this.currencies);
-      console.log(this.workConditions);
     })
 
     this._workCDataService.get(this.workConditions.id as number).subscribe(response => {
       this.workConditions = response;
-      console.log(this.workConditions);
     })
   }
 

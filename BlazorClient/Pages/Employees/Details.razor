@@ -9,6 +9,7 @@
 @inject NavigationManager _navigation
 @inject BlazorMessages _blazorMessages;
 
+
 <PageTitle>Employees details</PageTitle>
 
 <EditForm Model="this.Employee"  style="width: 50%; margin: 3% auto auto auto;">
@@ -52,17 +53,16 @@
 
             <tr>
                 <td>
-                    <button class="btn btn-primary form-control"  @onclick="OnEdit">Edit</button>
+                     <button title="Click to confirm changes" class="btn btn-outline-primary form-control" @onclick="OnEdit">Update</button>
                 </td>
                 <td>
-                    <button class="btn btn-danger form-control" @onclick="OnDelete">Delete</button>
+                    <button class="btn btn-outline-danger form-control" @onclick="OnDelete">Delete</button>
                 </td>
             </tr>
 
         </tbody>
 
     </table>
-    <NavLink class="btn btn-primary form-control mt-3" style="width: 32%;" href="/employees">Back</NavLink>
 </EditForm>
 
 @code {
@@ -84,7 +84,7 @@
     {
         var dtoEmployee = _mapper.Map<InternationalWagesManager.DTO.Employee>(Employee);
         _employeeManager.UpdateEmployee(dtoEmployee);
-        Employee = new Employee();
+        _navigation.NavigateTo("/employees");
     }
 
     private async void OnDelete(MouseEventArgs e)

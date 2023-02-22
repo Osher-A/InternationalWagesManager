@@ -4,6 +4,7 @@
 @inject IMapper _mapper;
 @inject ICurrenciesRepository _currenciesRepo;
 @inject IWConditionsRepository _wcRepository;
+@inject NavigationManager _navigator;
 
 <PageTitle>Add work conditions</PageTitle>
 <EditForm Model="this.WorkConditons" OnValidSubmit="OnSubmit" style="width: 50%; margin: 3% auto auto auto;">
@@ -72,10 +73,10 @@
             </tr>
             <tr>
                 <td>
-                    <NavLink class="btn btn-success form-control" href="/workconditions" >Cancel</NavLink>
+                    <NavLink class="btn btn-outline-success form-control" href="/workconditions" >Cancel</NavLink>
                  </td>
                 <td>
-                    <button class="btn btn-primary form-control">Submit</button>
+                    <button class="btn btn-outline-primary form-control">Submit</button>
                 </td>
             </tr>
 
@@ -103,14 +104,16 @@
         StateHasChanged();
     }
 
-    private void OnSubmit()
+    private async Task OnSubmit()
     {
         if(EmployeeId != 0)
         {
             this.WorkConditons.EmployeeId = EmployeeId;
             var wcManager = new WorkConditionsManager(_mapper, _wcRepository);
-            wcManager.AddWorkConditions(_mapper.Map<InternationalWagesManager.DTO.WorkConditions>(this.WorkConditons));
+            await wcManager.AddWorkConditionsAsync(_mapper.Map<InternationalWagesManager.DTO.WorkConditions>(this.WorkConditons));
+            _navigator.NavigateTo($"/details/{EmployeeId}");
         }
-        this.WorkConditons = new();
+
+
     }
 }

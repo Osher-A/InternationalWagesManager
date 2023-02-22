@@ -68,7 +68,7 @@ public class WCManagerTests
     [Test]
     public async Task DeleteWorkConditionsAsync_IfInvalidId_ReturnsFalse()
     {
-        var result = await _workConditionsManager.DeleteWorkConditionsAsync(0);
+        var result = await _workConditionsManager.DeleteWorkConditionsSuccesfulAsync(0);
         Assert.That(result == false);
     }
 

@@ -95,7 +95,7 @@ namespace WebApi.Controllers
                 return BadRequest(ModelState);
             try
             {
-                newId = await _wcRepository.AddWorkConditions(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
+                newId = await _wcRepository.AddWorkConditionsAsync(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
             }
             catch (Exception e)
             {
@@ -115,7 +115,7 @@ namespace WebApi.Controllers
 
             try
             {
-                _wcRepository.DeleteWorkConditions(id);
+                await _wcRepository.DeleteWorkConditionsAsync(id);
             }
             catch (Exception e)
             {

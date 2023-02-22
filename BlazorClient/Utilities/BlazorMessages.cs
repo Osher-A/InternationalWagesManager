@@ -28,8 +28,9 @@ namespace BlazorClient.Utilities
             {
                 await _jsRuntime.InvokeVoidAsync("ShowToastr", "Success", message);
             }
-            catch (JSException)
+            catch (JSException e)
             {
+                Console.WriteLine(e.Message.ToString());
             }
         }
         public async void TostrErrorMessage(string message)
