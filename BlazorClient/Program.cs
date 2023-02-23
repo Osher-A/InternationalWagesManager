@@ -19,6 +19,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IEmployeeRepository, EmployeeApiRepo>();
 builder.Services.AddScoped<ICurrenciesRepository, CurrencyApiRepo>();
 builder.Services.AddScoped<IWConditionsRepository, WorkConditionsApiRepo>();
+builder.Services.AddScoped<ISalaryComponentsRepository, SalaryComponentsApiRepo>();
+builder.Services.AddScoped<ISalaryRepository, SalaryApiRepo>();
 builder.Services.AddScoped<BlazorMessages>();
 
 

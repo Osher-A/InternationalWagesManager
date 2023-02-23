@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{9
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "AngularClient", "AngularClient\AngularClient.esproj", "{05E0D7C8-A7D5-4E17-9D7A-07DB425F6896}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternationalWagesManager.Tests", "InternationalWagesManager.Tests\InternationalWagesManager.Tests.csproj", "{965AF8E1-6375-42FB-9181-67FB02EAECBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternationalWagesManager.Tests", "InternationalWagesManager.Tests\InternationalWagesManager.Tests.csproj", "{965AF8E1-6375-42FB-9181-67FB02EAECBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

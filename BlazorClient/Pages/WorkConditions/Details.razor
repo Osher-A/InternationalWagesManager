@@ -1,4 +1,4 @@
-﻿@page "/details/{EmployeeId:int}"
+﻿@page "/workConditions/details/{EmployeeId:int}"
 
 
 @using AutoMapper
@@ -20,11 +20,17 @@
         border: 0;
         box-shadow: none;
         outline:none;
+        padding: 5px;
     }
         input[type="date"]::-webkit-calendar-picker-indicator {
             display: none;
             -webkit-appearance: none;
         }
+        select{
+        -webkit-appearance: none;
+        width: 70px;
+        }
+        
 </style>
 
 <div class="d-flex justify-content-center">
@@ -43,7 +49,7 @@
                 <th>Expenses</th>
                 <th>Pay Currency</th>
                 <th>Deductions</th>
-                <th style="width:20%"></th>
+                <th style="width:18%"></th>
             </tr>
         </thead>
         <tbody>
@@ -53,7 +59,7 @@
                     <td ><InputDate @bind-Value=workConditions.Date /></td>
                     <td><input type="number" @bind-value=workConditions.PayRate style="max-width:80px;"/></td>
                     <td>
-                        <InputSelect  @bind-Value=workConditions.WageCurrency.Id>
+                        <InputSelect @bind-Value=workConditions.WageCurrency.Id >
                             @{
                                 foreach(var currency in Currencies)
                                 {
@@ -63,7 +69,7 @@
                         </InputSelect>
                     </td>  
                     <td>
-                        <InputSelect @bind-Value=workConditions.ExpensesCurrency.Id>
+                        <InputSelect @bind-Value=workConditions.ExpensesCurrency.Id >
                         @{
                             foreach (var currency in Currencies)
                             {

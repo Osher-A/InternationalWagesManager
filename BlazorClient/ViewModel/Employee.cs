@@ -28,5 +28,6 @@ namespace BlazorClient.ViewModel
             }
         }
         public List<WorkConditions> WorkConditons { get; set; } = new List<WorkConditions>();
+        public List<SalaryComponents> Salaries { get; set; } = new List<SalaryComponents>();
     }
 }

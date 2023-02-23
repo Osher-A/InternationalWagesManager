@@ -1,4 +1,5 @@
 ﻿using InternationalWagesManager.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InternationalWagesManager.DAL
 {
@@ -10,28 +11,28 @@ namespace InternationalWagesManager.DAL
             _db = dbContext;
         }
 
-        public void AddSalaryComponents(SalaryComponents newSC)
+        public async Task AddSalaryComponentsAsync(SalaryComponents newSC)
         {
             _db.SalariesComponents.Add(newSC);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void UpdateSalaryComponents(SalaryComponents SC)
+        public async Task UpdateSalaryComponentsAsync(SalaryComponents SC)
         {
             _db.SalariesComponents.Update(SC);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void DeleteSalaryComponents(SalaryComponents SC)
+        public async Task DeleteSalaryComponentsAsync(SalaryComponents SC)
         {
             _db.SalariesComponents.Remove(SC);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public List<SalaryComponents> GetEmployeeSalaryComponents(int employeeId)
+        public async Task<List<SalaryComponents>> GetEmployeeSalaryComponentsAsync(int employeeId)
         {
-            var result = _db.SalariesComponents
-                .Where(sc => sc.EmployeeId == employeeId).ToList();
+            var result = await _db.SalariesComponents
+                .Where(sc => sc.EmployeeId == employeeId).ToListAsync();
 
             return result;
         }

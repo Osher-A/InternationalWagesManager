@@ -1,0 +1,134 @@
+﻿@page "/salary/details/{EmployeeId:int}"
+
+
+@using AutoMapper
+@using BlazorClient.Utilities;
+@using Blazorise
+@using Microsoft.JSInterop
+
+@inject IEmployeeRepository _employeeRepository
+@inject ISalaryComponentsRepository _salaryCRepo;
+@inject ISalaryRepository _salaryRepository;
+@inject IWConditionsRepository _workConditionsRepo;
+@inject ICurrenciesRepository _currenciesRepo;
+@inject IMapper _mapper
+@inject IMessageService MessageService
+@inject IJSRuntime JSRuntime
+@inject BlazorMessages _blazorMessages
+
+<PageTitle>Salary details</PageTitle>
+<style>
+    input, select {
+        border: 0;
+        box-shadow: none;
+        outline: none;
+        padding: 5px;
+    }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            display: none;
+            -webkit-appearance: none;
+        }
+
+    select {
+        -webkit-appearance: none;
+        width: 70px;
+    }
+</style>
+
+<div class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status" style="@($"display: {SpinnerVisibility}; margin: 20%;")">
+        <text class="visually-hidden">Loading...</text>
+    </div>
+</div>
+<div style="@($"display: {PageVisibility}")">
+    <h3 class="text-center header mb-4 " style="font-family: 'MS UI Gothic'">Details of <span class="text-primary text-capitalize">@(Employee.FirstName)'s</span> Salary's</h3>
+    <table class="table table-bordered" style="margin:auto; table-layout: fixed; width: 100%;">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Total hours</th>
+                <th>Bonus hours</th>
+                <th>Bonus wages</th>
+                <th>Expenses</th>
+                <th style="width:18%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var salary in Employee.Salaries)
+            {
+                <tr>
+                    <td><InputDate @bind-Value=salary.Date /></td>
+                    <td><InputNumber @bind-Value=salary.Date style="max-width:80px;" /></td>
+                    <td>
+                    <td><InputNumber @bind-Value=salary.TotalHours style="max-width:80px;" /></td>
+
+                    </td>
+                    <td>
+                    <td><InputNumber @bind-Value=salary.BonusHours style="max-width:80px;" /></td>
+
+                    </td>
+                    <td>
+                    <td><InputNumber @bind-Value=salary.BonusWage style="max-width:80px;" /></td>
+
+                    </td>
+                    <td><InputNumber @bind-Value=salary.Expenses style="max-width: 80px;" /></td>
+
+                    <td>
+                        <button class="btn btn-outline-primary" style="width: 48%;" @onclick="(args) => OnEdit(args, salary)">Edit</button>
+                        <button class="btn btn-outline-danger" style="width: 48%;" @onclick="(args)=> OnDelete(args, salary)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <NavLink class="btn btn-outline-primary form-control mt-3" style="width: 20%;" href="/salary">Back</NavLink>
+</div>
+
+@code {
+    [Parameter]
+    public int EmployeeId { get; set; }
+    public Employee Employee { get; set; } = new Employee();
+    private string PageVisibility = "None";
+    private string SpinnerVisibility = "Normal";
+    private EmployeeManager _employeeManager;
+    private SalaryComponentsManager _salaryComponentsManager;
+
+    protected async override Task OnInitializedAsync()
+    {
+        _employeeManager = new EmployeeManager(_mapper, _employeeRepository);
+        MessagesManager.AlertFunc = _blazorMessages.ShowConfirmMessage;
+        MessagesManager.SuccessMessage = _blazorMessages.TostrSuccessMessage;
+        MessagesManager.ErrorMessage = _blazorMessages.TostrErrorMessage;
+
+        _salaryComponentsManager = new SalaryComponentsManager(_mapper, _salaryCRepo, _salaryRepository, _workConditionsRepo, _currenciesRepo);
+        await LoadData();
+
+        StateHasChanged();
+
+        SpinnerVisibility = "None";
+        PageVisibility = "Normal";
+    }
+
+    private async void OnDelete(MouseEventArgs e, SalaryComponents salaryComponents)
+    {
+        if (await _salaryComponentsManager.DeletedSalarySuccessfullyAsync(salaryComponents.Id))
+            await LoadData();
+
+        StateHasChanged();
+    }
+    private async void OnEdit(MouseEventArgs e, SalaryComponents salaryComponents)
+    {
+        await _salaryComponentsManager.UpdateSalaryAsync(_mapper.Map<InternationalWagesManager.DTO.SalaryComponents>(salaryComponents));
+        await LoadData();
+        StateHasChanged();
+    }
+
+    private async Task LoadData()
+    {
+        Employee.FirstName = (await _employeeManager.GetEmployeesAsync()).FirstOrDefault(e => e.Id == EmployeeId)!.FirstName;
+        Employee.Salaries = _mapper.Map<List<SalaryComponents>>(await _salaryComponentsManager.LatestSalaryComponents(EmployeeId));
+    }
+
+}
+

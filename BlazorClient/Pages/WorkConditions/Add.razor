@@ -111,7 +111,7 @@
             this.WorkConditons.EmployeeId = EmployeeId;
             var wcManager = new WorkConditionsManager(_mapper, _wcRepository);
             await wcManager.AddWorkConditionsAsync(_mapper.Map<InternationalWagesManager.DTO.WorkConditions>(this.WorkConditons));
-            _navigator.NavigateTo($"/details/{EmployeeId}");
+            _navigator.NavigateTo($"/workconditions/details/{EmployeeId}");
         }
 
 

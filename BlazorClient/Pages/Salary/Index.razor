@@ -1,4 +1,4 @@
-﻿@page "/workconditions"
+﻿@page "/salary"
 @using AutoMapper
 
 @inject IMapper _mapper
@@ -11,7 +11,7 @@
     </div>
 </div>
 <div style="@($"display: {PageVisiblility}")">
-    <h2 class="header text-center m-4" style="font-family: 'MS UI Gothic'">Work conditions index</h2>
+    <h2 class="header text-center m-4" style="font-family: 'MS UI Gothic'">Salary Components index</h2>
     <table class="table table-bordered" style="table-layout: fixed; width: 80%; margin: auto;">
        <thead>
            <tr>
@@ -27,9 +27,9 @@
                                     <tr>
                                         <td>@employee.FirstName</td>
                                         <td>
-                                            <NavLink class="btn btn-outline-primary form-control" href="@($"/workconditions/details/{employee.Id}")">Details</NavLink>
+                                            <NavLink class="btn btn-outline-primary form-control" href="@($"/salary/details/{employee.Id}")">Details</NavLink>
                                         </td>
-                                        <td><NavLink class="btn btn-outline-success form-control" href="@string.Format("/add/{0}", employee.Id)" >Add Conditions</NavLink></td>
+                                        <td><NavLink class="btn btn-outline-success form-control" href="@string.Format("/salary/add/{0}", employee.Id)" >Add Salary</NavLink></td>
                                     </tr>
                 }
             }

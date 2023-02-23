@@ -24,30 +24,38 @@ namespace InternationalWagesManager.Domain
             var modelSalaryComponents = _mapper.Map<DTO.SalaryComponents, Models.SalaryComponents>(salaryComponents);
             if (salaryComponents.EmployeeId != 0 && salaryComponents.TotalHours != 0)
             {
-                _salaryComponentsRepository.AddSalaryComponents(modelSalaryComponents);
+                await _salaryComponentsRepository.AddSalaryComponentsAsync(modelSalaryComponents);
                 await _salaryManager.AddSalaryAsync(salaryComponents);
             }
         }
 
-        public DTO.SalaryComponents LatestSalaryComponents(int employeeId)
+        public async Task<DTO.SalaryComponents> LatestSalaryComponents(int employeeId)
         {
-            return GetAllEmployeesSC(employeeId).OrderByDescending(sc => sc.Date).First();
+            return (await GetAllEmployeesSC(employeeId)).OrderByDescending(sc => sc.Date).First();
         }
 
-        public DTO.SalaryComponents SalaryComponentsToDate(int employeeId, DateTime date)
+        public async Task<DTO.SalaryComponents> SalaryComponentsToDate(int employeeId, DateTime date)
         {
-            var searchByDate = GetAllEmployeesSC(employeeId).FirstOrDefault(sc => sc.Date?.Date == date.Date);
+            var searchByDate = (await GetAllEmployeesSC(employeeId)).FirstOrDefault(sc => sc.Date?.Date == date.Date);
             if (searchByDate == null)
-                searchByDate = GetAllEmployeesSC(employeeId).FirstOrDefault(sc => sc.Date?.Year == date.Year && sc.Date?.Month == date.Month);
+                searchByDate = (await GetAllEmployeesSC(employeeId)).FirstOrDefault(sc => sc.Date?.Year == date.Year && sc.Date?.Month == date.Month);
             if (searchByDate == null)
-                searchByDate = GetAllEmployeesSC(employeeId).OrderByDescending(sc => sc.Date).FirstOrDefault(sc => sc.Date?.Year == date.Year);
-            return searchByDate ?? new DTO.SalaryComponents();
+                searchByDate = (await GetAllEmployeesSC(employeeId)).OrderByDescending(sc => sc.Date).FirstOrDefault(sc => sc.Date?.Year == date.Year);
+            return searchByDate ?? new SalaryComponents();
+        }
+        public async Task UpdateSalaryAsync(SalaryComponents salaryComponents)
+        {
+
+        }
+        public async Task<bool> DeletedSalarySuccessfullyAsync(int id)
+        {
+            return true;
         }
 
-        private List<SalaryComponents> GetAllEmployeesSC(int employeeId)
+        private async Task<List<SalaryComponents>> GetAllEmployeesSC(int employeeId)
         {
             return _mapper.Map<List<Models.SalaryComponents>, List<DTO.SalaryComponents>>
-                 (_salaryComponentsRepository.GetEmployeeSalaryComponents(employeeId));
+                 (await _salaryComponentsRepository.GetEmployeeSalaryComponentsAsync(employeeId));
         }
     }
 }
