@@ -23,28 +23,23 @@
       </tr>*@
     <tr>
       <th scope="row">First name:</th>
-      <td><input type="text" asp-for="FirstName" class="form-control" style="background-color: transparent"/></td>
+      <td><input type="text" required asp-for="FirstName" class="form-control" style="background-color: transparent"/></td>
     </tr>
     <tr>
       <th scope="row">Last name:</th>
-      <td><input type="text" asp-for="LastName" class="form-control" style="background-color: transparent"/></td>
+      <td><input type="text" required asp-for="LastName" class="form-control" style="background-color: transparent"/></td>
     </tr>
     <tr>
       <th scope="row">D.O.B</th>
-      <td><input asp-for="DOB"  class="form-control" /></td>
+      <td><input asp-for="DOB" required class="form-control" /></td>
     </tr>
     <tr>
       <th scope="row">Phone:</th>
-      <td><input asp-for="Phone" class="form-control" style="background-color: transparent"/></td>
+      <td><input asp-for="Phone" required class="form-control" style="background-color: transparent"/></td>
     </tr>
     <tr>
       <th scope="row">Email:</th>
-      <td><input asp-for="Email" class="form-control" style="background-color: transparent"/></td>
-    </tr>
-    <tr>
-        <td colspan="2" style="height: auto;">
-            <span class="alert-danger text-center fw-bold" asp-validation-for="Email"/>
-        </td>
+      <td><input type="email" required asp-for="Email" class="form-control" style="background-color: transparent"/></td>
     </tr>
     <tr>
         <td colspan="2">
@@ -52,6 +47,15 @@
     </tr>
   </tbody>
 </table>
+            <div class="mb-3">
+                <a class="btn" style="background-color: black; color: white;" asp-action="Index">Cancel</a>
+            </div>
+
+        <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="FirstName" /></div>
+        <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="LastName" /></div>
+        <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="DOB" /></div>
+        <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="Phone" /></div>
+        <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="Email" /></div>
 </div>
  
 </Form>

@@ -33,7 +33,7 @@ public class WCManagerTests
         _workConditionsManager.AddWorkConditions(dtoWorkConditons);
 
         //assert
-        _mockRepo.Verify(mr => mr.AddWorkConditions(It.IsAny<Models.WorkConditions>()));
+        _mockRepo.Verify(mr => mr.AddWorkConditionsAsync(It.IsAny<Models.WorkConditions>()));
     }
 
     [Test]
@@ -48,7 +48,7 @@ public class WCManagerTests
         _workConditionsManager.AddWorkConditions(dtoWorkConditons);
 
         //assert
-        _mockRepo.Verify(mr => mr.AddWorkConditions(It.IsAny<Models.WorkConditions>()), Times.Never());
+        _mockRepo.Verify(mr => mr.AddWorkConditionsAsync(It.IsAny<Models.WorkConditions>()), Times.Never());
     }
     [Test]
     public void UpdateWorkConditionsAsync_IfValidId_TheRepositoryUpdateMethodShoudBeCalled()

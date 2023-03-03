@@ -3,7 +3,7 @@
     ViewData["Title"] = "Add conditions";
 }
 
-<form asp-action="Create" style="width:100%; margin:auto;">
+<form asp-action="Add" style="width:100%; margin:auto;">
     <h2 class="text-center header mt-5">Add Work Conditions</h2>
     <div class="mt-5">
         <table class="table table-bordered border-2 border-secondary row-cols-xl-5" style="table-layout:fixed; width:100%;">
@@ -20,13 +20,13 @@
             <tbody>
                 <tr>
                 <td>
-                    <input type="date" asp-for="WorkConditions.Date" class="form-control"/>
+                    <input type="date" required asp-for="WorkConditions.Date" class="form-control"/>
                 </td>
                 <td>
-                    <input type="number" asp-for="WorkConditions.PayRate" class="form-control"/>
+                    <input type="number" required asp-for="WorkConditions.PayRate" class="form-control"/>
                 </td>
                 <td>
-                    <select asp-for="WorkConditions.PayCurrencyId" class="form-control" >
+                    <select  asp-for="WorkConditions.PayCurrencyId" class="form-control" >
                          <option value="0" >Select Currency</option>
                         @{
                             foreach(var currency in Model.Currencies)
@@ -38,7 +38,7 @@
                     </select>
                 </td>
                  <td>
-                    <select asp-for="WorkConditions.WageCurrencyId" class="form-control" >
+                    <select  asp-for="WorkConditions.WageCurrencyId" class="form-control" >
                        <option value="0">Select Currency</option>
                         @{
                             foreach(var currency in Model.Currencies)
@@ -71,6 +71,21 @@
             </tbody>
         </table>
     </div>
-    <button type="submit" class="btn btn-danger">Submit</button>
+    <div class="mb-5">
+        <button type="submit" class="btn btn-danger">Submit</button>
+        <a class="btn btn-primary mx-3" asp-action="Index">Cancel</a>
+    </div>
+    
+
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="WorkConditions.Date" /></div>
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="WorkConditions.PayRate" /></div>
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="WorkConditions.WageCurrencyId" /></div>
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="WorkConditions.PayCurrencyId" /></div>
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="WorkConditions.ExpensesCurrencyId" /></div>
 </form>
 
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

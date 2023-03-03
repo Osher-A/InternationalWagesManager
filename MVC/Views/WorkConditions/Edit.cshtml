@@ -35,7 +35,7 @@
               
         <tr>
             <td><input type="date"  asp-for="@Model.WorkConditions.Date" class="form-control" style="background-color: transparent"/></td>
-            <td><input type="number" asp-for=@Model.WorkConditions.PayRate class="form-control" style="background-color: transparent"/></td>
+            <td><input type="number"  asp-for=@Model.WorkConditions.PayRate class="form-control" style="background-color: transparent"/></td>
             <td>
                  <select asp-for="@Model.WorkConditions.PayCurrencyId" class="form-control" style="background-color: transparent" >
                         @{
@@ -47,7 +47,7 @@
                         }
                     </select>
             <td>
-                <select asp-for="@Model.WorkConditions.ExpensesCurrencyId" class="form-control" style="background-color: transparent" >
+                <select  asp-for="@Model.WorkConditions.ExpensesCurrencyId" class="form-control" style="background-color: transparent" >
                         @{
                             foreach(var currency in Model.Currencies)
                             {
@@ -69,7 +69,7 @@
             <td><input type="number" asp-for=@Model.WorkConditions.Deductions class="form-control" style="background-color: transparent"/></td>
             <td>
             <button type="submit"   class="btn btn-danger" style="width: 48%;">Save</button>
-            <button type="button" asp-action="Index"  class="btn btn-success" style="width: 48%;">Cancel</button>
+            <button type="button" asp-controller="workConditions" asp-action="Index"  class="btn btn-success" style="width: 48%;">Cancel</button>
             </td>
             <td hidden><input type="number" asp-for=@Model.WorkConditions.EmployeeId /></td>
             <td hidden><input type="number" asp-for=@Model.WorkConditions.Id /></td>

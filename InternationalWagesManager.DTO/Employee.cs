@@ -9,11 +9,15 @@ namespace InternationalWagesManager.DTO
 
         public int Id { get; set; }
         [Required]
-        public string FirstName { get; set; }
+        [MinLength(1, ErrorMessage = "First name is a required field!")]
+        public string? FirstName { get; set; }
         [Required]
-        public string LastName { get; set; }
+        [MinLength(3, ErrorMessage = "Last name field must contain a min of '3' characters!")]
+        public string? LastName { get; set; }
+        [Required]
         public DateTime? DOB { get; set; }
-        public string Phone { get; set; }
+        [Required]
+        public string? Phone { get; set; }
         [Required]
         [EmailAddress]
         public string Email
@@ -26,7 +30,7 @@ namespace InternationalWagesManager.DTO
             }
         }
         [Display(Name = "Name")]
-        public string FullName
+        public string? FullName
         {
             get
             {

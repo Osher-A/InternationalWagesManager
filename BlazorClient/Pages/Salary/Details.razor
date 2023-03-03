@@ -88,7 +88,7 @@
 @code {
     [Parameter]
     public int EmployeeId { get; set; }
-    public Employee Employee { get; set; } = new Employee();
+    public Employee Employee { get; set; } = new Employee() { Salaries = new List<SalaryComponents>()};
     private string PageVisibility = "None";
     private string SpinnerVisibility = "Normal";
     private EmployeeManager _employeeManager;
@@ -127,7 +127,7 @@
     private async Task LoadData()
     {
         Employee.FirstName = (await _employeeManager.GetEmployeesAsync()).FirstOrDefault(e => e.Id == EmployeeId)!.FirstName;
-        Employee.Salaries = _mapper.Map<List<SalaryComponents>>(await _salaryComponentsManager.LatestSalaryComponents(EmployeeId));
+       // Employee.Salaries = _mapper.Map<List<SalaryComponents>>(await _salaryComponentsManager.LatestSalaryComponents(EmployeeId));
     }
 
 }

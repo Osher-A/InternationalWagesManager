@@ -56,7 +56,7 @@ namespace InternationalWagesManager.WPFViewModels.WorkConditions
         private async void Delete()
         {
             if (await MessagesManager.UserConfirmation("Are you sure you want to delete all these details?"))
-                _workConditionsManager?.DeleteWorkConditions(_selectedWorkConditons.Id);
+                _workConditionsManager?.DeleteWorkConditionsAsync(_selectedWorkConditons.Id);
             LoadData();
         }
         private bool CanDelete()

@@ -1,5 +1,5 @@
 ﻿@page "/salary/add/{EmployeeId}"
-<EditForm Model=this style="width: 50%; margin:auto;">
+<EditForm Model="this.SalaryComponent" style="width: 50%; margin:auto;">
     <h2 class="header m-5 text-center">Salary Components</h2>
     <table class="table table-bordered border-secondary">
         <tbody>
@@ -47,7 +47,7 @@
 
 @code {
     [Parameter]
-    public int EmployeeId = 0;
+    public string EmployeeId { get; set; } 
     private List<Employee> Employees { get; set; } = new List<Employee>();
     private ViewModel.SalaryComponents SalaryComponent { get; set; } = new();
 }

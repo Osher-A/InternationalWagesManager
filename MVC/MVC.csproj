@@ -1,33 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.0" />
-    <PackageReference Include="elmah.corelibrary" Version="2.0.0-alpha001" />
-    <PackageReference Include="ElmahCore" Version="2.1.2" />
-    <PackageReference Include="ElmahCore.Sql" Version="2.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="12.0.0" />
+		<PackageReference Include="elmah.corelibrary" Version="2.0.0-alpha001" />
+		<PackageReference Include="ElmahCore" Version="2.1.2" />
+		<PackageReference Include="ElmahCore.Sql" Version="2.1.2" />
+		<PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\InternationalWagesManager.DAL\InternationalWagesManager.DAL.csproj" />
-    <ProjectReference Include="..\InternationalWagesManager.Domain\InternationalWagesManager.Domain.csproj" />
-    <ProjectReference Include="..\InternationalWagesManager.DTO\InternationalWagesManager.DTO.csproj" />
-    <ProjectReference Include="..\InternationalWagesManager.Models\InternationalWagesManager.Models.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\InternationalWagesManager.DAL\InternationalWagesManager.DAL.csproj" />
+		<ProjectReference Include="..\InternationalWagesManager.Domain\InternationalWagesManager.Domain.csproj" />
+		<ProjectReference Include="..\InternationalWagesManager.DTO\InternationalWagesManager.DTO.csproj" />
+		<ProjectReference Include="..\InternationalWagesManager.Models\InternationalWagesManager.Models.csproj" />
+	</ItemGroup>
 
 </Project>

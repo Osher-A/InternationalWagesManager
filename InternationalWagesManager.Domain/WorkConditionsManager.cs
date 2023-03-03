@@ -61,7 +61,8 @@ public class WorkConditionsManager
         var modelWorkConditions = _mapper.Map<DTO.WorkConditions, Models.WorkConditions>(workConditions);
         try
         {
-            if (workConditions.EmployeeId != 0 && workConditions.PayRate != 0)
+            if (workConditions.EmployeeId != 0 && workConditions.PayRate != 0
+                && workConditions.PayCurrencyId != 0 && workConditions.WageCurrencyId != 0 && workConditions.ExpensesCurrencyId != 0)
             {
                 _wCRepo.AddWorkConditionsAsync(modelWorkConditions);
                 MessagesManager.SuccessMessage?.Invoke("Successfully added! ");
@@ -80,7 +81,8 @@ public class WorkConditionsManager
         var modelWorkConditions = _mapper.Map<DTO.WorkConditions, Models.WorkConditions>(workConditions);
         try
         {
-            if (workConditions.EmployeeId != 0 && workConditions.PayRate != 0)
+            if (workConditions.EmployeeId != 0 && workConditions.PayRate != 0
+                 && workConditions.PayCurrencyId != 0 && workConditions.WageCurrencyId != 0 && workConditions.ExpensesCurrencyId != 0)
             {
                 await _wCRepo.AddWorkConditionsAsync(modelWorkConditions);
                 MessagesManager.SuccessMessage?.Invoke("Successfully added! ");
@@ -131,12 +133,12 @@ public class WorkConditionsManager
         return false;
     }
 
-    public void DeleteWorkConditions(int id)
+    public async Task DeleteWorkConditionsAsync(int id)
     {
         try
         {
             if (id != 0)
-                _wCRepo.DeleteWorkConditionsAsync(id);
+                await _wCRepo.DeleteWorkConditionsAsync(id);
         }
         catch (Exception)
         {

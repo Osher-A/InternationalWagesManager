@@ -13,7 +13,7 @@ namespace Web.Pages.WorkConditions
 
         public void OnGet(int id)
         {
-            _workConditionsManager.DeleteWorkConditions(id);
+            _workConditionsManager.DeleteWorkConditionsAsync(id);
         }
     }
 }

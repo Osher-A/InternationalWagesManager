@@ -72,5 +72,20 @@
             </tbody>
         </table>
     </div>
-    <button type="submit" class="btn btn-danger">Submit</button>
+    <div class="mb-5">
+        <button type="submit" class="btn btn-danger">Submit</button>
+        <a class="btn btn-primary mx-2" asp-page="./Index">Cancel</a>
+    </div>
+
+
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="WorkConditions.Date" /></div>
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="WorkConditions.PayRate" /></div>
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="WorkConditions.WageCurrencyId" /></div>
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="WorkConditions.PayCurrencyId" /></div>
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="WorkConditions.ExpensesCurrencyId" /></div>
 </form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

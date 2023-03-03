@@ -12,6 +12,7 @@ namespace MVC.Controllers
         private WorkConditionsManager _workConditionsManager;
         private EmployeeManager _employeeManager;
         private CurrenciesManager _currenciesManager;
+        private static int _employeeId;
 
         public WorkConditionsController(IMapper mapper, IWConditionsRepository workConditonsRepository, IEmployeeRepository employeeRepository, ICurrenciesRepository currenciesRepository)
         {
@@ -21,15 +22,19 @@ namespace MVC.Controllers
         }
 
 
-        // GET: WorkConditionsController
+        // GET: WorkConditions
+        [HttpGet("WorkConditions")]
         public async Task<ActionResult> Index()
         {
             return View(await _employeeManager.GetEmployeesAsync());
         }
 
-        // GET: WorkConditionsController/Details/5
+        // GET: WorkConditions/Details/5
         public async Task<ActionResult> Details(int employeeId)
         {
+            //need to set _employeeId to be used later by the Delete Method to be able to return to this Action
+            _employeeId = employeeId;
+
             var viewModel = new WorkConditionsDetailsVM();
 
             var employee = (await _employeeManager.GetEmployeesAsync()).FirstOrDefault(e => e.Id == employeeId)!;
@@ -42,8 +47,9 @@ namespace MVC.Controllers
             return View(viewModel);
         }
 
-        // GET: WorkConditionsController/Create/5
-        public async Task<ActionResult> Create(int id)
+        // GET: WorkConditions/Create/5
+        [HttpGet]
+        public async Task<ActionResult> Add(int id)
         {
             var viewModel = new CreateWorkConditionsVM();
             viewModel.WorkConditions = new InternationalWagesManager.DTO.WorkConditions() { EmployeeId = id };
@@ -51,14 +57,14 @@ namespace MVC.Controllers
             return View(viewModel);
         }
 
-        // POST: WorkConditionsController/Create
+        // POST: WorkConditions/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateWorkConditionsVM vM)
+        public async Task<ActionResult> Add(CreateWorkConditionsVM vM)
         {
             try
             {
-                _workConditionsManager.AddWorkConditions(vM.WorkConditions);
+                await _workConditionsManager.AddWorkConditionsAsync(vM.WorkConditions);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -67,7 +73,8 @@ namespace MVC.Controllers
             }
         }
 
-        // GET: WorkConditionsController/Edit/5
+        // GET: WorkConditions/Edit/5
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             var vm = new EditWorkConditionsVM();
@@ -76,14 +83,14 @@ namespace MVC.Controllers
             return View(vm);
         }
 
-        // POST: WorkConditionsController/Edit
+        // POST: WorkConditions/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([FromForm] WorkConditions workConditions)
+        public async Task<ActionResult> Edit([FromForm] WorkConditions workConditions)
         {
             try
             {
-                _workConditionsManager.UpdateWorkConditionsAsync(workConditions);
+                await _workConditionsManager.UpdateWorkConditionsAsync(workConditions);
                 return RedirectToAction(nameof(Details), new { employeeId = workConditions.EmployeeId });
             }
             catch
@@ -93,18 +100,18 @@ namespace MVC.Controllers
         }
 
 
-        // GET: WorkConditionsController/Delete/5
+        // GET: WorkConditions/Delete/5
 
-        public ActionResult Delete([FromRoute] int id)
+        public async Task<ActionResult> Delete([FromRoute] int id)
         {
             try
             {
-                _workConditionsManager.DeleteWorkConditions(id);
-                return RedirectToAction(nameof(Index));
+                await _workConditionsManager.DeleteWorkConditionsAsync(id);
+                return RedirectToAction(nameof(Details), new { employeeId = _employeeId });
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Details), new { employeeId = _employeeId });
             }
         }
 
