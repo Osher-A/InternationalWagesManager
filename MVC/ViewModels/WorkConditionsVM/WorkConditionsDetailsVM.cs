@@ -1,7 +1,7 @@
 ﻿using InternationalWagesManager.DTO;
 using System.ComponentModel.DataAnnotations;
 
-namespace MVC.ViewModels
+namespace MVC.ViewModels.WorkConditionsVM
 {
     public class WorkConditionsDetailsVM
     {

@@ -1,6 +1,6 @@
 ﻿using InternationalWagesManager.DTO;
 
-namespace MVC.ViewModels
+namespace MVC.ViewModels.WorkConditionsVM
 {
     public class EditWorkConditionsVM
     {

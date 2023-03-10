@@ -4,6 +4,7 @@ using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
 using Microsoft.AspNetCore.Mvc;
 using MVC.ViewModels;
+using MVC.ViewModels.WorkConditionsVM;
 
 namespace MVC.Controllers
 {

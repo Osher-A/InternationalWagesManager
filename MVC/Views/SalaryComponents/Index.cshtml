@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div >
+    <h2 class="header text-center m-5" style="font-family: 'MS UI Gothic'">Salary Components index</h2>
+    <table class="table table-bordered" style="table-layout: fixed; width: 80%; margin: auto;">
+        <thead>
+            <tr>
+                <th scope="col">Employee name</th>
+                <th scope="col"></th>
+                <th scope="col" />
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var employee in Model)
+                {
+                    <tr>
+                        <td>@employee.FullName</td>
+                        <td>
+                            <a class="btn btn-outline-primary form-control" asp-action="Details" asp-route-employeeId="@employee.Id">Details</a>
+                        </td>
+                        <td><a class="btn btn-outline-success form-control" asp-action="Add" asp-route-employeeId="@employee.Id">Add Salary</a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+</div>
+

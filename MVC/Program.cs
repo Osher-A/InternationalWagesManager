@@ -13,6 +13,8 @@ builder.Services.AddDbContext<MyDbContext>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IWConditionsRepository, WConditionsRepository>();
 builder.Services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
+builder.Services.AddScoped<ISalaryComponentsRepository, SalaryComponentsRepository>();
+builder.Services.AddScoped<ISalaryRepository, SalaryRepository>();
 builder.Services.AddAutoMapper(Assembly.Load(typeof(DTOConvertor).Assembly.FullName));
 
 builder.Services.AddElmah<SqlErrorLog>(options =>

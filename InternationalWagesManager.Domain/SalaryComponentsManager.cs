@@ -29,18 +29,18 @@ namespace InternationalWagesManager.Domain
             }
         }
 
-        public async Task<DTO.SalaryComponents> LatestSalaryComponents(int employeeId)
+        public async Task<DTO.SalaryComponents> LatestSalaryComponentsAsync(int employeeId)
         {
-            return (await GetAllEmployeesSC(employeeId)).OrderByDescending(sc => sc.Date).First();
+            return (await GetAllEmployeesSCAsync(employeeId)).OrderByDescending(sc => sc.Date).First();
         }
 
-        public async Task<DTO.SalaryComponents> SalaryComponentsToDate(int employeeId, DateTime date)
+        public async Task<DTO.SalaryComponents> SalaryComponentsToDateAsync(int employeeId, DateTime date)
         {
-            var searchByDate = (await GetAllEmployeesSC(employeeId)).FirstOrDefault(sc => sc.Date?.Date == date.Date);
+            var searchByDate = (await GetAllEmployeesSCAsync(employeeId)).FirstOrDefault(sc => sc.Date?.Date == date.Date);
             if (searchByDate == null)
-                searchByDate = (await GetAllEmployeesSC(employeeId)).FirstOrDefault(sc => sc.Date?.Year == date.Year && sc.Date?.Month == date.Month);
+                searchByDate = (await GetAllEmployeesSCAsync(employeeId)).FirstOrDefault(sc => sc.Date?.Year == date.Year && sc.Date?.Month == date.Month);
             if (searchByDate == null)
-                searchByDate = (await GetAllEmployeesSC(employeeId)).OrderByDescending(sc => sc.Date).FirstOrDefault(sc => sc.Date?.Year == date.Year);
+                searchByDate = (await GetAllEmployeesSCAsync(employeeId)).OrderByDescending(sc => sc.Date).FirstOrDefault(sc => sc.Date?.Year == date.Year);
             return searchByDate ?? new SalaryComponents();
         }
         public async Task UpdateSalaryAsync(SalaryComponents salaryComponents)
@@ -52,7 +52,7 @@ namespace InternationalWagesManager.Domain
             return true;
         }
 
-        private async Task<List<SalaryComponents>> GetAllEmployeesSC(int employeeId)
+        public async Task<List<SalaryComponents>> GetAllEmployeesSCAsync(int employeeId)
         {
             return _mapper.Map<List<Models.SalaryComponents>, List<DTO.SalaryComponents>>
                  (await _salaryComponentsRepository.GetEmployeeSalaryComponentsAsync(employeeId));

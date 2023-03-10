@@ -2,43 +2,45 @@
 @model Web.Pages.Employees.DeleteModel
 
 
-<div  style="width: 50%; margin: auto;">
-<h2 class="m-5 text-center header ">You are about to delete this!</h2>
-<div >
-    <table  class="table table-bordered border-2 border-secondary " >
-  <tbody>
-    <tr>
-      <th scope="row">First name:</th>
-      <td><input type="text" readonly asp-for="Employee.FirstName" class="form-control" style="background-color: transparent"/></td>
-    </tr>
-    <tr>
-      <th scope="row">Last name:</th>
-      <td><input type="text" readonly asp-for="Employee.LastName" class="form-control" style="background-color: transparent"/></td>
-    </tr>
-    <tr>
-      <th scope="row">D.O.B</th>
-      <td><input asp-for="Employee.DOB" readonly  class="form-control" /></td>
-    </tr>
-    <tr>
-      <th scope="row">Phone:</th>
-      <td><input asp-for="Employee.Phone" readonly class="form-control" style="background-color: transparent"/></td>
-    </tr>
-    <tr>
-      <th scope="row">Email:</th>
-      <td><input asp-for="Employee.Email" readonly class="form-control" style="background-color: transparent"/></td>
-    </tr>
-    <tr>
-        <td>
-            <form method="post">
-            <input type="hidden" asp-for="Employee.Id" />
-            <input type="submit" value="Delete" class="btn btn-danger form-control" /> 
-            </form>
-        </td>
-        <td >
-            <a class="btn btn-outline-dark form-control" asp-page="./Index">Back to list</a>
-        </td>
-    </tr>
-  </tbody>
-</table>
-</div>
- 
+<div style="width: 50%; margin: auto;">
+    <h2 class="m-5 text-center header ">You are about to delete this!</h2>
+    <div>
+        <form method="post">
+            <table class="table table-bordered border-2 border-secondary ">
+                <tbody>
+                    <tr>
+                        <th scope="row">First name:</th>
+                        <td><input type="text" readonly asp-for="Employee.FirstName" class="form-control" style="background-color: transparent" /></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Last name:</th>
+                        <td><input type="text" readonly asp-for="Employee.LastName" class="form-control" style="background-color: transparent" /></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">D.O.B</th>
+                        <td><input asp-for="Employee.DOB" readonly class="form-control" /></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Phone:</th>
+                        <td><input asp-for="Employee.Phone" readonly class="form-control" style="background-color: transparent" /></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email:</th>
+                        <td><input asp-for="Employee.Email" readonly class="form-control" style="background-color: transparent" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" asp-for="Employee.Id" />
+                                <input type="submit" value="Delete" class="btn btn-danger form-control" />
+                            </form>
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-dark form-control" asp-page="./Index">Back to list</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
