@@ -19,6 +19,11 @@ namespace InternationalWagesManager.Domain
             _salaryManager = new(_mapper, salaryRepository, wConditionsRepository, currenciesRepository);
         }
 
+        public async Task<DTO.SalaryComponents> GetSalaryComponentsAsync(int id)
+        {
+            return _mapper.Map<DTO.SalaryComponents>(_salaryComponentsRepository.GetSalaryComponentsAsync(id));
+        }
+
         public async Task AddSalaryComponentsAsync(DTO.SalaryComponents salaryComponents)
         {
             var modelSalaryComponents = _mapper.Map<DTO.SalaryComponents, Models.SalaryComponents>(salaryComponents);
@@ -45,10 +50,12 @@ namespace InternationalWagesManager.Domain
         }
         public async Task UpdateSalaryAsync(SalaryComponents salaryComponents)
         {
-
+            await _salaryComponentsRepository.UpdateSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
         }
-        public async Task<bool> DeletedSalarySuccessfullyAsync(int id)
+        public async Task<bool> DeletedSalarySuccessfullyAsync(SalaryComponents salaryComponents)
         {
+            //TO DO: Users Confirmation
+            await _salaryComponentsRepository.DeleteSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
             return true;
         }
 

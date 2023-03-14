@@ -26,38 +26,38 @@ namespace InternationalWagesManager.Models
             modelBuilder.Entity<Salary>().Property(s => s.ExpensesRate).HasPrecision(9, 5);
             modelBuilder.Entity<Salary>().Property(s => s.WageRate).HasPrecision(9, 5);
 
-            modelBuilder.Entity<Currency>().HasData(
-                new Currency
-                {
-                    Id = 1,
-                    Name = "CHF",
-                    Description = "Swiss Franc"
-                },
-                new Currency
-                {
-                    Id = 2,
-                    Name = "EUR",
-                    Description = "Euro"
-                },
-                new Currency
-                {
-                    Id = 3,
-                    Name = "GBP",
-                    Description = "Sterling Pound"
-                },
-                new Currency
-                {
-                    Id = 4,
-                    Name = "ILS",
-                    Description = "Israeli Shekel"
-                },
-                new Currency
-                {
-                    Id = 5,
-                    Name = "USD",
-                    Description = "United States Dollar"
-                }
-                );
+            //modelBuilder.Entity<Currency>().HasData(
+            //    new Currency
+            //    {
+            //        Id = 1,
+            //        Name = "CHF",
+            //        Description = "Swiss Franc"
+            //    },
+            //    new Currency
+            //    {
+            //        Id = 2,
+            //        Name = "EUR",
+            //        Description = "Euro"
+            //    },
+            //    new Currency
+            //    {
+            //        Id = 3,
+            //        Name = "GBP",
+            //        Description = "Sterling Pound"
+            //    },
+            //    new Currency
+            //    {
+            //        Id = 4,
+            //        Name = "ILS",
+            //        Description = "Israeli Shekel"
+            //    },
+            //    new Currency
+            //    {
+            //        Id = 5,
+            //        Name = "USD",
+            //        Description = "United States Dollar"
+            //    }
+            //    );
 
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
             base.OnModelCreating(modelBuilder);

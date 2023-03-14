@@ -15,25 +15,35 @@
                 <th>Bonus hours</th>
                 <th>Bonus wages</th>
                 <th>Expenses</th>
-                <th style="width:18%"></th>
+                <th style="width:28%"></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var salary in Model.AllSalaryComponents)
             {
-                    <tr>
-                    <td>@salary.Date.Value.ToShortDateString()</td>
-                        <td>@Html.DisplayFor(modelItem => salary.TotalHours)</td>
-                        <td>@salary.BonusHours</td>
-                        <td>@salary.BonusWage</td>
-                        <td>@salary.Expenses</td>
-                        <td>
-                            <button class="btn btn-outline-primary" style="width: 48%;" asp-action="Edit" >Edit</button>
-                            <button class="btn btn-outline-danger" style="width: 48%;" asp-action="Delete" >Delete</button>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        <input type="date" readonly asp-for="@salary.Date" class="form-control" style="background-color: transparent" />
+                    </td>
+                    <td>
+                        <input type="number" readonly asp-for="@salary.TotalHours" class="form-control" style="background-color: transparent" />
+                    </td>
+                    <td>
+                        <input type="number" readonly asp-for="@salary.BonusHours" class="form-control" style="background-color: transparent" />
+                    </td>
+                    <td>
+                        <input type="number" readonly asp-for="@salary.BonusWage" class="form-control" style="background-color: transparent" />
+                    </td>
+                    <td>
+                        <input type="number" readonly asp-for="@salary.Expenses" class="form-control" style="background-color: transparent" />
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary" style="width: 48%;" asp-action="Edit" asp-route-id="@salary.Id">Edit</a>
+                        <a class="btn btn-outline-danger" style="width: 48%;" asp-action="Delete" asp-route-id="@salary.Id" asp-route-employeeId="@salary.EmployeeId">Delete</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
-    <a class="btn btn-outline-primary form-control mt-3" style="width: 20%;" href="/salary">Back</a>
+    <a class="btn mt-3" style="background-color: black; width: 100px; color: white;" asp-action="Index">Back</a>
 </div>

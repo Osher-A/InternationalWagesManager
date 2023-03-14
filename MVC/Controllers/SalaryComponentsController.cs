@@ -42,7 +42,7 @@ namespace MVC.Controllers
             return View(salaryToAdd);
         }
 
-        // POST: SalaryComponentsController/Create
+        // POST: SalaryComponentsController/Add
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Add(SalaryComponents formSalary)
@@ -50,7 +50,7 @@ namespace MVC.Controllers
             try
             {
                 await _salaryComponentsManager.AddSalaryComponentsAsync(formSalary);
-                return RedirectToAction(nameof(Details), new { employeeId = formSalary.EmployeeId});
+                return RedirectToAction(nameof(Details), new { employeeId = formSalary.EmployeeId });
             }
             catch
             {
@@ -59,19 +59,21 @@ namespace MVC.Controllers
         }
 
         // GET: SalaryComponentsController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var salary = await _salaryComponentsManager.GetSalaryComponentsAsync(id);
+            return View(salary);
         }
 
         // POST: SalaryComponentsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(SalaryComponents salaryComponents)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _salaryComponentsManager.UpdateSalaryAsync(salaryComponents);
+                return RedirectToAction(nameof(Details), new { employeeId = salaryComponents.EmployeeId });
             }
             catch
             {
@@ -79,25 +81,20 @@ namespace MVC.Controllers
             }
         }
 
-        // GET: SalaryComponentsController/Delete/5
-        public ActionResult Delete(int id)
+        // GET: SalaryComponentsController/Delete/5/5
+        public async Task<ActionResult> Delete(int id, int employeeId)
         {
-            return View();
-        }
-
-        // POST: SalaryComponentsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
+            var formSalary = new SalaryComponents { Id = id };
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _salaryComponentsManager.DeletedSalarySuccessfullyAsync(formSalary);
+                return RedirectToAction(nameof(Details), new { employeeId = employeeId });
             }
             catch
             {
                 return View();
             }
         }
+
     }
 }

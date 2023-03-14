@@ -37,5 +37,9 @@ namespace InternationalWagesManager.DAL
             return result;
         }
 
+        public async Task<SalaryComponents> GetSalaryComponentsAsync(int id)
+        {
+            return await _db.SalariesComponents.FindAsync(id) ?? new();
+        }
     }
 }

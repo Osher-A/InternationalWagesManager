@@ -112,7 +112,7 @@
 
     private async void OnDelete(MouseEventArgs e, SalaryComponents salaryComponents)
     {
-        if (await _salaryComponentsManager.DeletedSalarySuccessfullyAsync(salaryComponents.Id))
+        if (await _salaryComponentsManager.DeletedSalarySuccessfullyAsync(salaryComponents))
             await LoadData();
 
         StateHasChanged();
