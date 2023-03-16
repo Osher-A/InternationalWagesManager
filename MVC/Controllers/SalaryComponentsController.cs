@@ -70,12 +70,13 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(SalaryComponents salaryComponents)
         {
+            
             try
             {
                 await _salaryComponentsManager.UpdateSalaryAsync(salaryComponents);
                 return RedirectToAction(nameof(Details), new { employeeId = salaryComponents.EmployeeId });
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

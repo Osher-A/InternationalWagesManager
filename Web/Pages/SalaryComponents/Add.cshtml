@@ -1,0 +1,55 @@
+﻿@page
+@model AddModel
+@{
+    ViewData["Title"] = "New Salary details";
+}
+
+<Form method="post" style="width: 50%; margin:auto;">
+    <h2 class="header m-5 text-center">Salary Components</h2>
+    <table class="table table-bordered border-secondary">
+        <tbody>
+            <tr>
+                <th scope="row">Date:</th>
+                <td>
+                    <input type="date" asp-for="SalaryComponents.Date" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Total hours:</th>
+                <td>
+                    <input type="number" asp-for="SalaryComponents.TotalHours" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Bonus hours:</th>
+                <td>
+                    <input type="number" asp-for="SalaryComponents.BonusHours" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Bonus wages:</th>
+                <td>
+                    <input type="number" asp-for="SalaryComponents.BonusWage" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Expenses:</th>
+                <td>
+                    <input type="number" asp-for="SalaryComponents.Expenses" class="form-control" />
+                </td>
+            </tr>
+            <tr hidden>
+                <td>
+                    <input type="number" asp-for="SalaryComponents.EmployeeId" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" />
+                <td>
+                    <button class="btn btn-primary form-control">Submit</button>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</Form>

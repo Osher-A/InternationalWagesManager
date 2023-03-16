@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\SalaryComponents\Details.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="ElmahCore.Sql" Version="2.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
@@ -20,6 +24,18 @@
   <ItemGroup>
     <ProjectReference Include="..\InternationalWagesManager.Domain\InternationalWagesManager.Domain.csproj" />
     <ProjectReference Include="..\InternationalWagesManager.Models\InternationalWagesManager.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\SalaryComponents\Details.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\SalaryComponents\Details.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\SalaryComponents\Details.cshtml" />
   </ItemGroup>
 
 </Project>

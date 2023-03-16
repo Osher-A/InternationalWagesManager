@@ -1,7 +1,8 @@
-﻿@model SalaryComponents
+﻿@page
+@model Web.Pages.SalaryComponents.EditModel
 <div>
     <h3 class="text-center header m-5 " style="font-family: 'MS UI Gothic'">Updating Salary Details</h3>
-    <form asp-action="Edit">
+    <form method="post">
     <table class="table table-bordered mt-5" style="margin:auto; table-layout: fixed; width: 100%;">
         <thead>
             <tr>
@@ -16,22 +17,22 @@
         <tbody>
                 <tr>
                     <td>
-                        <input type="date" asp-for="@Model.Date" class="form-control" style="background-color: transparent" />
+                        <input type="date" asp-for="@Model.SalaryComponents.Date" class="form-control" style="background-color: transparent" />
                     </td>
                     <td>
-                        <input type="number" asp-for="@Model.TotalHours" class="form-control" style="background-color: transparent" />
+                        <input type="number" asp-for="@Model.SalaryComponents.TotalHours" class="form-control" style="background-color: transparent" />
                     </td>
                     <td>
-                        <input type="number" asp-for="@Model.BonusHours" class="form-control" style="background-color: transparent" />
+                        <input type="number" asp-for="@Model.SalaryComponents.BonusHours" class="form-control" style="background-color: transparent" />
                     </td>
                     <td>
-                        <input type="number" asp-for="@Model.BonusWage" class="form-control" style="background-color: transparent" />
+                        <input type="number" asp-for="@Model.SalaryComponents.BonusWage" class="form-control" style="background-color: transparent" />
                     </td>
                     <td>
-                        <input type="number" asp-for="@Model.Expenses" class="form-control" style="background-color: transparent" />
+                        <input type="number" asp-for="@Model.SalaryComponents.Expenses" class="form-control" style="background-color: transparent" />
                     </td>
                     <td hidden>
-                        <input  type="number" asp-for="@Model.EmployeeId" class="form-control" style="background-color: transparent" />
+                        <input  type="number" asp-for="@Model.SalaryComponents.EmployeeId" class="form-control" style="background-color: transparent" />
                     </td>
                     <td>
                         <button class="btn btn-outline-primary" style="width: 48%;" >Save</button>
@@ -41,5 +42,5 @@
         </tbody>
     </table>
     </form>
-    <a class="btn mt-4" style="background-color: black; width: 100px; color: white;" asp-action="Index">Back</a>
+    <a class="btn mt-4" style="background-color: black; width: 100px; color: white;" asp-page="./Index">Back</a>
 </div>

@@ -21,7 +21,7 @@ namespace InternationalWagesManager.Domain
 
         public async Task<DTO.SalaryComponents> GetSalaryComponentsAsync(int id)
         {
-            return _mapper.Map<DTO.SalaryComponents>(_salaryComponentsRepository.GetSalaryComponentsAsync(id));
+            return _mapper.Map<DTO.SalaryComponents>(await _salaryComponentsRepository.GetSalaryComponentsAsync(id));
         }
 
         public async Task AddSalaryComponentsAsync(DTO.SalaryComponents salaryComponents)

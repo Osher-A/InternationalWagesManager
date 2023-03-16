@@ -10,10 +10,13 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IWConditionsRepository, WConditionsRepository>();
 builder.Services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
+builder.Services.AddScoped<ISalaryComponentsRepository, SalaryComponentsRepository>();
+builder.Services.AddScoped<ISalaryRepository, SalaryRepository>();
 builder.Services.AddDbContext<MyDbContext>();
 builder.Services.AddScoped<EmployeeManager>();
 builder.Services.AddScoped<CurrenciesManager>();
 builder.Services.AddScoped<WorkConditionsManager>();
+builder.Services.AddScoped<SalaryComponentsManager>();
 
 var app = builder.Build();
 
@@ -33,5 +36,9 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+});
 
 app.Run();
