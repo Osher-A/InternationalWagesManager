@@ -20,11 +20,11 @@ namespace Web.Pages.SalaryComponents
 
         public async Task<ActionResult> OnPost(InternationalWagesManager.DTO.SalaryComponents salaryComponents)
         {
-            //if (!ModelState.IsValid)
-            //    return Page();
+            if (!ModelState.IsValid)
+                return Page();
 
             await _salaryComponentsManager.AddSalaryComponentsAsync(salaryComponents);
-            return RedirectToPage("./details", new {employeeId = salaryComponents.EmployeeId});
+            return RedirectToPage("./details", new { employeeId = salaryComponents.EmployeeId });
         }
     }
 }

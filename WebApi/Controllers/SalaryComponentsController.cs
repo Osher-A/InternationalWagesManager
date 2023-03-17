@@ -1,4 +1,8 @@
-﻿using InternationalWagesManager.Models;
+﻿using ApiContracts;
+using ApiContracts.ResponseStatus;
+using AutoMapper;
+using InternationalWagesManager.DAL;
+using InternationalWagesManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,111 +12,113 @@ namespace WebApi.Controllers
     [ApiController]
     public class SalaryComponentsController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private readonly ISalaryComponentsRepository _scRepository;
+        private readonly IMapper _mapper;
+        private ILogger<SalaryComponentsController> _logger;
 
-        public SalaryComponentsController(MyDbContext context)
+        public SalaryComponentsController(ISalaryComponentsRepository salaryComponentsRepository, IMapper mapper, ILogger<SalaryComponentsController> logger)
         {
-            _context = context;
+            _scRepository = salaryComponentsRepository;
+            _mapper = mapper;
+            _logger = logger;
         }
 
-        // GET: api/SalaryComponents
+
+        // GET: api/AllSalaryComponents/5
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SalaryComponents>>> GetSalariesComponents()
+        public async Task<ActionResult<IEnumerable<SalaryComponentsResponse>>> AllSalaryComponents(int employeeId)
         {
-            if (_context.SalariesComponents == null)
-            {
+            var sc = _mapper.Map<IEnumerable<SalaryComponentsResponse>>(await _scRepository.GetEmployeeSalaryComponentsAsync(employeeId));
+            if (sc == null)
                 return NotFound();
-            }
-            return await _context.SalariesComponents.ToListAsync();
+
+            return Ok(sc);
         }
 
         // GET: api/SalaryComponents/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<SalaryComponents>> GetSalaryComponents(int id)
+        public async Task<ActionResult<SalaryComponentsResponse>> GetSalaryComponents(int id)
         {
-            if (_context.SalariesComponents == null)
-            {
+            var sc = _mapper.Map<SalaryComponentsResponse>(await _scRepository.GetSalaryComponentsAsync(id));
+            if (sc == null)
                 return NotFound();
-            }
-            var salaryComponents = await _context.SalariesComponents.FindAsync(id);
 
-            if (salaryComponents == null)
-            {
-                return NotFound();
-            }
-
-            return salaryComponents;
-        }
-
-        // PUT: api/SalaryComponents/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSalaryComponents(int id, SalaryComponents salaryComponents)
-        {
-            if (id != salaryComponents.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(salaryComponents).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SalaryComponentsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(sc);
         }
 
         // POST: api/SalaryComponents
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<SalaryComponents>> PostSalaryComponents(SalaryComponents salaryComponents)
+        public async Task<ActionResult<SalaryComponents>> PostSalaryComponents(SalaryComponentsRequest salaryComponents)
         {
-            if (_context.SalariesComponents == null)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            int newId = 0;
+            try
             {
-                return Problem("Entity set 'MyDbContext.SalariesComponents'  is null.");
+                newId = await _scRepository.AddSalaryComponentsAsync(_mapper.Map<SalaryComponents>(salaryComponents));
             }
-            _context.SalariesComponents.Add(salaryComponents);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetSalaryComponents", new { id = salaryComponents.Id }, salaryComponents);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ServerErrorResponse();
+            }
+            return CreatedAtAction(nameof(GetSalaryComponents), new { id = newId }, salaryComponents);
         }
+
+        // PUT: api/SalaryComponents/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutSalaryComponents(int id, SalaryComponentsRequest salaryComponents)
+        {
+            if (!ModelState.IsValid || !(await SalaryComponentsExists(id)))
+                return BadRequest();
+
+            try
+            {
+                await _scRepository.UpdateSalaryComponentsAsync(_mapper.Map<SalaryComponents>(salaryComponents));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ServerErrorResponse();
+            }
+            return Accepted();
+        }
+
 
         // DELETE: api/SalaryComponents/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSalaryComponents(int id)
         {
-            if (_context.SalariesComponents == null)
-            {
+            if (!(await SalaryComponentsExists(id)))
                 return NotFound();
-            }
-            var salaryComponents = await _context.SalariesComponents.FindAsync(id);
-            if (salaryComponents == null)
-            {
-                return NotFound();
-            }
 
-            _context.SalariesComponents.Remove(salaryComponents);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var sc = new SalaryComponents() { Id = id };
+                await _scRepository.DeleteSalaryComponentsAsync(sc);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ServerErrorResponse();
+            }
 
             return NoContent();
         }
 
-        private bool SalaryComponentsExists(int id)
+        private async Task<bool> SalaryComponentsExists(int id)
         {
-            return (_context.SalariesComponents?.Any(e => e.Id == id)).GetValueOrDefault();
+            return await _scRepository.GetSalaryComponentsAsync(id) != null;
         }
+        private ActionResult BadRequestResponse()
+        {
+            return BadRequest(new ErrorResponse
+            {
+                ErrorMessage = "Invalid id",
+                StatusCode = StatusCodes.Status400BadRequest
+            });
+        }
+        private ActionResult ServerErrorResponse() => Problem("Server Error", statusCode: StatusCodes.Status500InternalServerError);
+
     }
 }

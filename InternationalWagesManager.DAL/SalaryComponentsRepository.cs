@@ -11,10 +11,10 @@ namespace InternationalWagesManager.DAL
             _db = dbContext;
         }
 
-        public async Task AddSalaryComponentsAsync(SalaryComponents newSC)
+        public async Task<int> AddSalaryComponentsAsync(SalaryComponents newSC)
         {
             _db.SalariesComponents.Add(newSC);
-            await _db.SaveChangesAsync();
+            return await _db.SaveChangesAsync();
         }
 
         public async Task UpdateSalaryComponentsAsync(SalaryComponents SC)
@@ -39,7 +39,7 @@ namespace InternationalWagesManager.DAL
 
         public async Task<SalaryComponents> GetSalaryComponentsAsync(int id)
         {
-            return await _db.SalariesComponents.FindAsync(id) ?? new();
+            return await _db.SalariesComponents.FindAsync(id);
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿@page 
+﻿@page
 @model Web.Pages.SalaryComponents.DetailsModel
 @{
-    ViewData["Title"] = "Details";
+}
+@{
+    ViewData["Title"] = "Salary Components Details";
 }
 
 <div>
-    <h3 class="text-center header m-4 " style="font-family: 'MS UI Gothic'">Details of <span class="text-primary text-capitalize">@Model.Employee.FirstName 's</span> Salary's</h3>
+    <h2 class="text-center header m-4 " style="font-family: 'MS UI Gothic'">Details of <span class="text-primary text-capitalize">@Model.Employee.FirstName's</span> Salary's</h2>
     <table class="table table-bordered" style="margin:auto; table-layout: fixed; width: 100%;">
         <thead>
             <tr>
@@ -44,6 +46,5 @@
             }
         </tbody>
     </table>
-    <a class="btn mt-3" style="background-color: black; width: 100px; color: white;" asp-action="Index">Back</a>
+    <a class="btn mt-3" style="background-color: black; width: 100px; color: white;" asp-page="./index">Back</a>
 </div>
-

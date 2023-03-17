@@ -1,28 +1,76 @@
 ﻿using InternationalWagesManager.DAL;
 using InternationalWagesManager.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace BlazorClient.ApiServices
 {
     public class SalaryComponentsApiRepo : ISalaryComponentsRepository
     {
-        public Task AddSalaryComponentsAsync(SalaryComponents newSC)
+        private HttpClient _httpClient;
+        private string _url;
+        public SalaryComponentsApiRepo(HttpClient httpClient, IConfiguration configuration)
         {
-            throw new NotImplementedException();
+            _httpClient = httpClient;
+            _url = configuration.GetSection("BaseAPIUrl").Value! + "/salaryComponents";
         }
 
-        public Task DeleteSalaryComponentsAsync(SalaryComponents SC)
+        public async Task<List<SalaryComponents>> GetEmployeeSalaryComponentsAsync(int employeeId)
         {
-            throw new NotImplementedException();
+            var allSalaryComponents = new List<SalaryComponents>();
+            string endPoint = $@"/AllSalaryComponents/{employeeId}";
+            var response = await _httpClient.GetAsync(_url + endPoint);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                allSalaryComponents = JsonConvert.DeserializeObject<List<SalaryComponents>>(content);
+            }
+            return allSalaryComponents!;
         }
 
-        public Task<List<SalaryComponents>> GetEmployeeSalaryComponentsAsync(int employeeId)
+        public async Task<SalaryComponents> GetSalaryComponentsAsync(int id)
         {
-            throw new NotImplementedException();
+            var salaryComponents = new SalaryComponents();
+            string endPoint = $@"/GetSalaryComponents/{id}";
+            var response = await _httpClient.GetAsync(_url + endPoint);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                salaryComponents = JsonConvert.DeserializeObject<SalaryComponents>(content);
+            }
+            return salaryComponents!;
+        }
+        public async Task<int> AddSalaryComponentsAsync(SalaryComponents newSC)
+        {
+            string endPoint = "/PostSalaryComponents";
+            var json = JsonConvert.SerializeObject(newSC);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(_url + endPoint, content);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseResult = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<SalaryComponents>(responseResult);
+                return result.Id;
+            }
+            return 0;
         }
 
-        public Task UpdateSalaryComponentsAsync(SalaryComponents SC)
+        public async Task UpdateSalaryComponentsAsync(SalaryComponents SC)
         {
-            throw new NotImplementedException();
+            string endPoint = $"/PutSalaryComponents/{SC.Id}";
+            var jsonBody = JsonConvert.SerializeObject(SC);
+            var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync(_url + endPoint, content);
+
+            // To do: Validation Messages
+        }
+
+        public async Task DeleteSalaryComponentsAsync(SalaryComponents SC)
+        {
+            string endPoint = $"/DeleteSalaryComponents/{SC.Id}";
+            var response = await _httpClient.DeleteAsync(_url + endPoint);
+
+            // To do: Validation Messages
         }
     }
 }

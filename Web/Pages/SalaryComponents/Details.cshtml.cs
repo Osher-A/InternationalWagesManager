@@ -17,11 +17,11 @@ namespace Web.Pages.SalaryComponents
             _employeeManager = employeeManager;
         }
 
-        public async Task<IActionResult> OnGetAsync([FromRoute] int employeeId)
+        public async Task<IActionResult> OnGetAsync(int employeeId)
         {
             Employee = (await _employeeManager.GetEmployeesAsync()).SingleOrDefault(e => e.Id == employeeId) ?? new();
             AllSalaryComponents = await _salaryComponentsManager.GetAllEmployeesSCAsync(employeeId);
             return Page();
-        } 
+        }
     }
 }

@@ -44,12 +44,21 @@
                 </td>
             </tr>
             <tr>
-                <th scope="row" />
                 <td>
-                    <button class="btn btn-primary form-control">Submit</button>
+                    <a class="btn btn-outline-primary form-control" asp-page="./Index">Cancel</a>
+                </td>
+                <td>
+                    <button class="btn btn-outline-danger form-control">Submit</button>
                 </td>
             </tr>
         </tbody>
 
     </table>
-</Form>
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="SalaryComponents.Date" /></div>
+    <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="SalaryComponents.TotalHours" /></div>
+</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

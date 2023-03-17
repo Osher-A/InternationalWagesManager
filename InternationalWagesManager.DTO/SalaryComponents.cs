@@ -4,8 +4,8 @@ namespace InternationalWagesManager.DTO
 {
     public class SalaryComponents
     {
-        public int Id { get; set; }
-        public Employee Employee { get; set; }
+        public int? Id { get; set; }
+        public Employee? Employee { get; set; }
         [Required]
         [Range(1, int.MaxValue)]
         public int EmployeeId { get; set; }

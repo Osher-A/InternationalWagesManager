@@ -1,7 +1,7 @@
 ﻿@page
 @model Web.Pages.SalaryComponents.EditModel
 <div>
-    <h3 class="text-center header m-5 " style="font-family: 'MS UI Gothic'">Updating Salary Details</h3>
+    <h2 class="text-center header m-5 " style="font-family: 'MS UI Gothic'">Updating Salary Details</h2>
     <form method="post">
     <table class="table table-bordered mt-5" style="margin:auto; table-layout: fixed; width: 100%;">
         <thead>
@@ -41,6 +41,14 @@
                 </tr>
         </tbody>
     </table>
+        <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="SalaryComponents.Date" /></div>
+        <div style="height:auto;"><span class="alert-danger text-center fw-bold" asp-validation-for="SalaryComponents.TotalHours" /></div>
+        <a class="btn mt-4" style="background-color: black; width: 100px; color: white;" asp-page="./Index">Back</a>
+
     </form>
-    <a class="btn mt-4" style="background-color: black; width: 100px; color: white;" asp-page="./Index">Back</a>
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
 </div>

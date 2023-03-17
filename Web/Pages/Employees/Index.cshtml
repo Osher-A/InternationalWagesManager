@@ -3,12 +3,12 @@
 @model Web.Pages.Employees.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Employees index";
 }
 
-<h1 class="text-center mb-5">Employees</h1>
+<h2 class="text-center m-5" >Employees</h2>
 
-<table class="table table-bordered table-striped border-4" >
+<table class="table table-bordered  border-4" style="margin: auto;" >
     <thead>
         <tr>
             <th style="width: 15%">
@@ -46,5 +46,5 @@
 </table>
 
 <p>
-    <a class="btn btn-outline-dark" style="width: 150px;" asp-page="./Add">Add Employee</a>
+    <a class="btn btn-outline-dark mt-4" style="width: 150px;" asp-page="./Add">Add Employee</a>
 </p>

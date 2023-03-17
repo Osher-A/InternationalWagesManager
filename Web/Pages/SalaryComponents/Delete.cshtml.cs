@@ -12,16 +12,13 @@ namespace Web.Pages.SalaryComponents
         {
             _salaryComponentsManager = salaryComponentsManager;
         }
-        public void OnGet()
-        {
-        }
-
-        public async Task<ActionResult> OnPost(int id, int employeeId)
+        public async Task<ActionResult> OnGetAsync(int id, int employeeId)
         {
             var salaryComp = new InternationalWagesManager.DTO.SalaryComponents() { Id = id, EmployeeId = employeeId };
             await _salaryComponentsManager.DeletedSalarySuccessfullyAsync(salaryComp);
             return RedirectToPage("./Details", new { employeeId = salaryComp.EmployeeId });
         }
+
 
     }
 }

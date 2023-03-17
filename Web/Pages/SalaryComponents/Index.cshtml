@@ -1,10 +1,10 @@
 ﻿@page
 @model Web.Pages.SalaryComponents.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Salary components index";
 }
 <div>
-    <h2 class="header text-center m-5" style="font-family: 'MS UI Gothic'">Salary Components index</h2>
+    <h2 class="header text-center m-5" >Salary Components index</h2>
     <table class="table table-bordered" style="table-layout: fixed; width: 80%; margin: auto;">
         <thead>
             <tr>
@@ -20,7 +20,7 @@
                     <tr>
                         <td>@employee.FullName</td>
                         <td>
-                            <a class="btn btn-outline-primary form-control"  asp-page="./Details" asp-route-employeeId="@employee.Id">Details</a>
+                            <a class="btn btn-outline-primary form-control" asp-page="./Details" asp-route-employeeId="@employee.Id">Details</a>
                         </td>
                         <td><a class="btn btn-outline-success form-control"  asp-page="./Add" asp-route-employeeId="@employee.Id">Add Salary</a></td>
                     </tr>

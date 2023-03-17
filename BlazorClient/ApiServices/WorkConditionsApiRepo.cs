@@ -8,8 +8,6 @@ namespace BlazorClient.ApiServices
     public class WorkConditionsApiRepo : IWConditionsRepository
     {
         private readonly string _url;
-
-
         private readonly HttpClient _httpClient;
         public WorkConditionsApiRepo(HttpClient httpClient, IConfiguration configuration)
         {
