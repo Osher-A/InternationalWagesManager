@@ -96,13 +96,13 @@ namespace InternationalWagesManager.WPFViewModels
             LoadData();
         }
 
-        private void GetFullStatement(object obj)
+        private async void GetFullStatement(object obj)
         {
             int employeeId = _employees[int.Parse(ComboBoxSelectedIndex) - 1].Id;
-            Salaries = _salaryManager.GetSalaries(employeeId).ToObservableCollection();
+            Salaries = (await _salaryManager.GetSalariesAsync(employeeId)).ToObservableCollection();
             Payments = _paymentsManager.GetAllPayments(employeeId).ToObservableCollection();
-            Balance = _balanceManager.GetCurrentBalance(employeeId);
-            Statements = _balanceManager.GetStatements(employeeId).ToObservableCollection();
+            Balance = await _balanceManager.GetCurrentBalance(employeeId);
+            Statements = (await _balanceManager.GetStatements(employeeId)).ToObservableCollection();
         }
 
         private bool CanGetFullStatement(object obj)

@@ -25,9 +25,9 @@ namespace InternationalWagesManager.Domain
             _currenciesManager = new(mapper, currenciesRepository);
         }
 
-        public List<Salary> GetSalaries(int employeeId, DateTime? fromDate = null, DateTime? toDate = null)
+        public async Task<List<Salary>> GetSalariesAsync(int employeeId, DateTime? fromDate = null, DateTime? toDate = null)
         {
-            var allModelSalaries = _mapper.Map<List<Models.Salary>, List<DTO.Salary>>(_salaryRepo.GetAllSalaries(employeeId));
+            var allModelSalaries = _mapper.Map<List<Models.Salary>, List<DTO.Salary>>(await _salaryRepo.GetAllSalariesAsync(employeeId));
             if (fromDate != null && toDate != null)
                 return allModelSalaries.Where(s => s.Month >= fromDate && s.Month <= toDate).ToList();
             else if (fromDate != null)
@@ -105,7 +105,7 @@ namespace InternationalWagesManager.Domain
         private void AddSalaryToRepo()
         {
             var modelSalary = _mapper.Map<DTO.Salary, Models.Salary>(_salary);
-            _salaryRepo.AddSalary(modelSalary);
+            _salaryRepo.AddSalaryAsync(modelSalary);
         }
 
         private async Task<string> GetCurrencyName(int? currencyId) =>

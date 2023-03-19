@@ -1,4 +1,5 @@
 ﻿using InternationalWagesManager.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InternationalWagesManager.DAL
 {
@@ -11,35 +12,28 @@ namespace InternationalWagesManager.DAL
             _db = db;
         }
 
-        public void AddSalary(Salary salary)
+        public async Task<int> AddSalaryAsync(Salary salary)
         {
-            _db.Salaries.Add(salary);
-            _db.SaveChanges();
+            await _db.Salaries.AddAsync(salary);
+            var newId = await _db.SaveChangesAsync();
+            return newId;
         }
 
-        public void UpdateSalary(Salary salary)
-        {
-            _db.Salaries.Update(salary);
-            _db.SaveChanges();
-        }
-
-        public void DeleteSalary(Salary salary)
+        public async Task DeleteSalaryAsync(Salary salary)
         {
             _db.Salaries.Remove(salary);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public Salary GetSalary(int salaryId)
+        public async Task<Salary> GetSalaryAsync(int salaryId)
         {
-            var salary = _db.Salaries.Find(salaryId);
-            return salary ?? new();
+            var salary = await _db.Salaries.FindAsync(salaryId);
+            return salary!;
         }
 
-        public List<Salary> GetAllSalaries(int employeeId)
+        public async Task<List<Salary>> GetAllSalariesAsync(int employeeId)
         {
-            return _db.Salaries.Where(s => s.EmployeeId == employeeId).ToList() ?? new();
+            return await _db.Salaries.Where(s => s.EmployeeId == employeeId).ToListAsync()!;
         }
-
-
     }
 }

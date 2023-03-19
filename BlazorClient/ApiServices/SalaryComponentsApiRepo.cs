@@ -18,7 +18,7 @@ namespace BlazorClient.ApiServices
         public async Task<List<SalaryComponents>> GetEmployeeSalaryComponentsAsync(int employeeId)
         {
             var allSalaryComponents = new List<SalaryComponents>();
-            string endPoint = $@"/AllSalaryComponents/{employeeId}";
+            string endPoint = $@"/all/{employeeId}";
             var response = await _httpClient.GetAsync(_url + endPoint);
             if (response.IsSuccessStatusCode)
             {
@@ -31,7 +31,7 @@ namespace BlazorClient.ApiServices
         public async Task<SalaryComponents> GetSalaryComponentsAsync(int id)
         {
             var salaryComponents = new SalaryComponents();
-            string endPoint = $@"/GetSalaryComponents/{id}";
+            string endPoint = $@"/{id}";
             var response = await _httpClient.GetAsync(_url + endPoint);
             if (response.IsSuccessStatusCode)
             {
@@ -42,10 +42,9 @@ namespace BlazorClient.ApiServices
         }
         public async Task<int> AddSalaryComponentsAsync(SalaryComponents newSC)
         {
-            string endPoint = "/PostSalaryComponents";
             var json = JsonConvert.SerializeObject(newSC);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(_url + endPoint, content);
+            var response = await _httpClient.PostAsync(_url, content);
             if (response.IsSuccessStatusCode)
             {
                 string responseResult = await response.Content.ReadAsStringAsync();
@@ -57,20 +56,18 @@ namespace BlazorClient.ApiServices
 
         public async Task UpdateSalaryComponentsAsync(SalaryComponents SC)
         {
-            string endPoint = $"/PutSalaryComponents/{SC.Id}";
+            string endPoint = $"/{SC.Id}";
             var jsonBody = JsonConvert.SerializeObject(SC);
             var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync(_url + endPoint, content);
 
-            // To do: Validation Messages
         }
 
         public async Task DeleteSalaryComponentsAsync(SalaryComponents SC)
         {
-            string endPoint = $"/DeleteSalaryComponents/{SC.Id}";
+            string endPoint = $"/{SC.Id}";
             var response = await _httpClient.DeleteAsync(_url + endPoint);
 
-            // To do: Validation Messages
         }
     }
 }

@@ -28,6 +28,7 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
 builder.Services.AddScoped<IWConditionsRepository, WConditionsRepository>();
 builder.Services.AddScoped<ISalaryComponentsRepository, SalaryComponentsRepository>();
+builder.Services.AddScoped<ISalaryRepository, SalaryRepository>();
 builder.Services.AddScoped<IPaymentsRepository, PaymentsRepository>();
 
 

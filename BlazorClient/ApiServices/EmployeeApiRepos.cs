@@ -56,8 +56,6 @@ public class EmployeeApiRepo : IEmployeeRepository
         string endPoint = "/" + employee.Id.ToString();
         await _httpClient.PutAsync(_url + endPoint, bodyContent);
 
-        // to do: validation 
-
     }
 
     public async void DeleteEmployee(Employee employee)
@@ -65,7 +63,6 @@ public class EmployeeApiRepo : IEmployeeRepository
         string endPoint = "/" + employee.Id.ToString();
         await _httpClient.DeleteAsync(_url + endPoint);
 
-        // to do: validation 
     }
 
     private StringContent BodyForRequest(Employee employee)

@@ -24,8 +24,8 @@ namespace WebApi.Controllers
         }
 
 
-        // GET: api/AllSalaryComponents/5
-        [HttpGet]
+        // GET: api/SalaryComponents/All/5
+        [HttpGet("all/{employeeId}")]
         public async Task<ActionResult<IEnumerable<SalaryComponentsResponse>>> AllSalaryComponents(int employeeId)
         {
             var sc = _mapper.Map<IEnumerable<SalaryComponentsResponse>>(await _scRepository.GetEmployeeSalaryComponentsAsync(employeeId));

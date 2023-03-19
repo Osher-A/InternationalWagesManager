@@ -57,16 +57,12 @@ namespace BlazorClient.ApiServices
             if (response.IsSuccessStatusCode)
                 return;
 
-            // to do: validation 
-
         }
 
         public async Task DeleteWorkConditionsAsync(int id)
         {
             string endPoint = "/" + id.ToString();
             await _httpClient.DeleteAsync(_url + endPoint);
-
-            // to do: validation 
         }
 
         private StringContent BodyForRequest(WorkConditions workConditions)

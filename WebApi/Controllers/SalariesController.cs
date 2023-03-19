@@ -1,4 +1,8 @@
-﻿using InternationalWagesManager.Models;
+﻿using ApiContracts.ResponseStatus;
+using ApiContracts;
+using AutoMapper;
+using InternationalWagesManager.DAL;
+using InternationalWagesManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,111 +12,92 @@ namespace WebApi.Controllers
     [ApiController]
     public class SalariesController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private readonly ISalaryRepository _salaryRepository;
+        private readonly IMapper _mapper;
+        private ILogger<SalariesController> _logger;
 
-        public SalariesController(MyDbContext context)
+        public SalariesController(ISalaryRepository salaryRepository, IMapper mapper, ILogger<SalariesController> logger)
         {
-            _context = context;
+            _salaryRepository = salaryRepository;
+            _mapper = mapper;
+            _logger = logger;
         }
 
-        // GET: api/Salaries
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Salary>>> GetSalaries()
+        // GET: api/Salaries/5
+        [HttpGet("all/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<SalaryResponse>>> AllSalaries(int employeeId)
         {
-            if (_context.Salaries == null)
-            {
+            var salary = _mapper.Map<IEnumerable<SalaryResponse>>(await _salaryRepository.GetAllSalariesAsync(employeeId));
+            if (salary == null)
                 return NotFound();
-            }
-            return await _context.Salaries.ToListAsync();
+
+            return Ok(salary);
         }
 
         // GET: api/Salaries/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Salary>> GetSalary(int id)
+        public async Task<ActionResult<SalaryResponse>> GetSalary(int id)
         {
-            if (_context.Salaries == null)
-            {
-                return NotFound();
-            }
-            var salary = await _context.Salaries.FindAsync(id);
-
+            var salary = _mapper.Map<SalaryResponse>(await _salaryRepository.GetSalaryAsync(id));
             if (salary == null)
-            {
                 return NotFound();
-            }
 
-            return salary;
-        }
-
-        // PUT: api/Salaries/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSalary(int id, Salary salary)
-        {
-            if (id != salary.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(salary).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SalaryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(salary);
         }
 
         // POST: api/Salaries
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Salary>> PostSalary(Salary salary)
+        public async Task<ActionResult<Salary>> PostSalary(SalaryRequest salary)
         {
-            if (_context.Salaries == null)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            int newId = 0;
+            try
             {
-                return Problem("Entity set 'MyDbContext.Salaries'  is null.");
+                newId = await _salaryRepository.AddSalaryAsync(_mapper.Map<Salary>(salary));
             }
-            _context.Salaries.Add(salary);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetSalary", new { id = salary.Id }, salary);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ServerErrorResponse();
+            }
+            return CreatedAtAction(nameof(GetSalary), new { id = newId }, salary);
         }
 
-        // DELETE: api/Salaries/5
+
+        // DELETE: api/Salary/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSalary(int id)
         {
-            if (_context.Salaries == null)
-            {
+            if (!(await SalaryExists(id)))
                 return NotFound();
-            }
-            var salary = await _context.Salaries.FindAsync(id);
-            if (salary == null)
-            {
-                return NotFound();
-            }
 
-            _context.Salaries.Remove(salary);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var salary = new Salary() { Id = id };
+                await _salaryRepository.DeleteSalaryAsync(salary);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ServerErrorResponse();
+            }
 
             return NoContent();
         }
 
-        private bool SalaryExists(int id)
+        private async Task<bool> SalaryExists(int id)
         {
-            return (_context.Salaries?.Any(e => e.Id == id)).GetValueOrDefault();
+            return await _salaryRepository.GetSalaryAsync(id) != null;
         }
+        private ActionResult BadRequestResponse()
+        {
+            return BadRequest(new ErrorResponse
+            {
+                ErrorMessage = "Invalid id",
+                StatusCode = StatusCodes.Status400BadRequest
+            });
+        }
+        private ActionResult ServerErrorResponse() => Problem("Server Error", statusCode: StatusCodes.Status500InternalServerError);
     }
 }
