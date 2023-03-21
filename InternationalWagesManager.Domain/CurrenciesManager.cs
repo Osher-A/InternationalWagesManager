@@ -16,8 +16,16 @@ namespace InternationalWagesManager.Domain
 
         public async Task<List<DTO.Currency>> GetAllCurrencies()
         {
-            var dtoCurrencies = _mapper.Map<List<Models.Currency>, List<DTO.Currency>>(await _currenciesRepo.GetAllCurrenciesAsync());
-            return dtoCurrencies;
+            try
+            {
+                var dtoCurrencies = _mapper.Map<List<Models.Currency>, List<DTO.Currency>>(await _currenciesRepo.GetAllCurrenciesAsync());
+                return dtoCurrencies;
+            }
+            catch (Exception)
+            {
+                MessagesManager.ErrorMessage?.Invoke("Database Error!");
+                throw;
+            }
         }
 
         public async Task<string> GetCurrencyName(int? CurrencyId) =>

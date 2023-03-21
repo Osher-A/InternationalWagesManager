@@ -25,7 +25,8 @@ namespace InternationalWagesManager.Domain
                 }
                 catch (Exception)
                 {
-                    MessagesManager.ErrorMessage?.Invoke("Database Error! ");
+                    DataBaseErrorMessage();
+                    throw;
                 }
         }
 
@@ -38,7 +39,8 @@ namespace InternationalWagesManager.Domain
             }
             catch (Exception)
             {
-                MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
+                DataBaseErrorMessage();
+                throw;
             }
         }
 
@@ -55,7 +57,8 @@ namespace InternationalWagesManager.Domain
                 }
                 catch (Exception)
                 {
-                    MessagesManager.ErrorMessage?.Invoke("Database Error!");
+                    DataBaseErrorMessage();
+                    throw;
                 }
             }
         }
@@ -68,6 +71,7 @@ namespace InternationalWagesManager.Domain
             }
             catch (Exception)
             {
+                DataBaseErrorMessage();
                 throw;
             }
         }
@@ -75,13 +79,21 @@ namespace InternationalWagesManager.Domain
         public async Task<List<DTO.Employee>> GetEmployeesAsync()
         {
             var listOfEmployees = new List<DTO.Employee>();
-            var modelEmployees = await _employeeRepo.GetEmployeesAsync();
-            foreach (var employee in modelEmployees)
+            try
             {
-                var dtoEmployee = _mapper.Map<Models.Employee, DTO.Employee>(employee);
-                listOfEmployees.Add(dtoEmployee);
+                var modelEmployees = await _employeeRepo.GetEmployeesAsync();
+                foreach (var employee in modelEmployees)
+                {
+                    var dtoEmployee = _mapper.Map<Models.Employee, DTO.Employee>(employee);
+                    listOfEmployees.Add(dtoEmployee);
+                }
+                return listOfEmployees;
             }
-            return listOfEmployees;
+            catch (Exception)
+            {
+                DataBaseErrorMessage();
+                throw;
+            }
         }
 
         private bool ValidInput(DTO.Employee employee)
@@ -99,6 +111,10 @@ namespace InternationalWagesManager.Domain
             if (MessagesManager.AlertFunc == null)
                 return false;
             return await MessagesManager.AlertFunc("Are you sure you want to delete this Employee's details, with all associated data??")!;
+        }
+        private void DataBaseErrorMessage()
+        {
+            MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
         }
 
     }

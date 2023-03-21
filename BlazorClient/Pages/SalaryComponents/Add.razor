@@ -1,5 +1,17 @@
-﻿@page "/salary/add/{EmployeeId}"
-<EditForm Model="this.SalaryComponent" style="width: 50%; margin:auto;">
+﻿@page "/salary/add/{EmployeeId:int}"
+@using AutoMapper;
+
+@inject IMapper _mapper;
+@inject IWConditionsRepository _wcRepo;
+@inject ISalaryComponentsRepository _salaryCompRepo;
+@inject ISalaryRepository _salaryRepo;
+@inject ICurrenciesRepository _currenciesRepo;
+
+@inject NavigationManager _navigator;
+
+
+<EditForm Model="this.SalaryComponent" OnValidSubmit="Submit" style="width: 50%; margin:auto;">
+   <DataAnnotationsValidator/>
     <h2 class="header m-5 text-center">Salary Components</h2>
     <table class="table table-bordered border-secondary">
         <tbody>
@@ -34,20 +46,36 @@
                 </td>
             </tr>
             <tr>
-                <th scope="row" />
+                <td><NavLink class="btn btn-outline-light form-control" style="border-color: black;"href="/salary">Cancel</NavLink></td>
                 <td>
-                    <button class="btn btn-primary form-control">Submit</button>
+                    <button class="btn btn-outline-primary form-control">Submit</button>
                 </td>
             </tr>
         </tbody>
 
     </table>
+    <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
+    @*<ValidationMessage For="@( () => this.SalaryComponent.Date)"></ValidationMessage>
+    <ValidationMessage For="@(() => this.SalaryComponent.TotalHours)"/>*@
 </EditForm>
 
 
 @code {
+    public SalaryComponentsManager _salaryComponentsManager;
     [Parameter]
-    public string EmployeeId { get; set; } 
+    public int EmployeeId { get; set; } 
     private List<Employee> Employees { get; set; } = new List<Employee>();
     private ViewModel.SalaryComponents SalaryComponent { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        _salaryComponentsManager = new SalaryComponentsManager(_mapper, _salaryCompRepo, _salaryRepo, _wcRepo, _currenciesRepo);
+    }
+
+    private async void Submit()
+    {
+        SalaryComponent.EmployeeId = EmployeeId;
+        if((await _salaryComponentsManager.AddSalaryComponentsSuccessAsync(_mapper.Map < InternationalWagesManager.DTO.SalaryComponents>(this.SalaryComponent))))
+         _navigator.NavigateTo($"/salary/details/{EmployeeId}");
+    }
 }

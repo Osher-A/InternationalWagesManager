@@ -2,6 +2,7 @@
 using InternationalWagesManager.DAL;
 using InternationalWagesManager.DTO;
 using System.Data;
+using System.Transactions;
 
 namespace InternationalWagesManager.Domain
 {
@@ -24,14 +25,31 @@ namespace InternationalWagesManager.Domain
             return _mapper.Map<DTO.SalaryComponents>(await _salaryComponentsRepository.GetSalaryComponentsAsync(id));
         }
 
-        public async Task AddSalaryComponentsAsync(DTO.SalaryComponents salaryComponents)
+        public async Task<bool> AddSalaryComponentsSuccessAsync(DTO.SalaryComponents salaryComponents)
         {
             var modelSalaryComponents = _mapper.Map<DTO.SalaryComponents, Models.SalaryComponents>(salaryComponents);
             if (salaryComponents.EmployeeId != 0 && salaryComponents.TotalHours != 0)
             {
-                await _salaryComponentsRepository.AddSalaryComponentsAsync(modelSalaryComponents);
-                await _salaryManager.AddSalaryAsync(salaryComponents);
+                // To avoid inserting SalaryComponents to db if the Salary insert would fail 
+                using (TransactionScope tran = new TransactionScope())
+                {
+                    try
+                    {
+                        if ((await _salaryComponentsRepository.AddSalaryComponentsAsync(modelSalaryComponents)) > 0)
+                            if (await _salaryManager.AddSalaryAsync(salaryComponents))
+                            {
+                                tran.Complete();
+                                return true;
+                            }
+                    }
+                    catch (Exception)
+                    {
+                        DataBaseErrorMessage();
+                        throw;
+                    }
+                }
             }
+            return false;
         }
 
         public async Task<DTO.SalaryComponents> LatestSalaryComponentsAsync(int employeeId)
@@ -50,19 +68,53 @@ namespace InternationalWagesManager.Domain
         }
         public async Task UpdateSalaryAsync(SalaryComponents salaryComponents)
         {
-            await _salaryComponentsRepository.UpdateSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
+            try
+            {
+                await _salaryComponentsRepository.UpdateSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
+            }
+            catch (Exception)
+            {
+                DataBaseErrorMessage();
+                throw;
+            }
         }
         public async Task<bool> DeletedSalarySuccessfullyAsync(SalaryComponents salaryComponents)
         {
-            //TO DO: Users Confirmation
-            await _salaryComponentsRepository.DeleteSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
-            return true;
+            if (await MessagesManager.UserConfirmation("Are you sure you want to delete all the salary components!"))
+            {
+                try
+                {
+                    await _salaryComponentsRepository.DeleteSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
+                    MessagesManager.SuccessMessage?.Invoke("Successfully deleted!");
+                }
+                catch (Exception)
+                {
+                    DataBaseErrorMessage();
+                    throw;
+                }
+                return true;
+            }
+            return false;
+
         }
 
         public async Task<List<SalaryComponents>> GetAllEmployeesSCAsync(int employeeId)
         {
-            return _mapper.Map<List<Models.SalaryComponents>, List<DTO.SalaryComponents>>
-                 (await _salaryComponentsRepository.GetEmployeeSalaryComponentsAsync(employeeId));
+            try
+            {
+                return _mapper.Map<List<Models.SalaryComponents>, List<DTO.SalaryComponents>>
+                         (await _salaryComponentsRepository.GetEmployeeSalaryComponentsAsync(employeeId));
+            }
+            catch (Exception)
+            {
+                DataBaseErrorMessage();
+                throw;
+            }
+        }
+
+        private void DataBaseErrorMessage()
+        {
+            MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
         }
     }
 }

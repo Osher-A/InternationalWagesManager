@@ -49,7 +49,7 @@ namespace MVC.Controllers
         {
             try
             {
-                await _salaryComponentsManager.AddSalaryComponentsAsync(formSalary);
+                await _salaryComponentsManager.AddSalaryComponentsSuccessAsync(formSalary);
                 return RedirectToAction(nameof(Details), new { employeeId = formSalary.EmployeeId });
             }
             catch
@@ -70,7 +70,7 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(SalaryComponents salaryComponents)
         {
-            
+
             try
             {
                 await _salaryComponentsManager.UpdateSalaryAsync(salaryComponents);

@@ -51,7 +51,7 @@ namespace InternationalWagesManager.WPFViewModels
         {
             int employeeId = _modelEmployees[int.Parse(ComboBoxSelectedIndex) - 1].Id;
             SalaryComponents.EmployeeId = employeeId;
-            _salaryComponentsManager.AddSalaryComponentsAsync(SalaryComponents);
+            _salaryComponentsManager.AddSalaryComponentsSuccessAsync(SalaryComponents);
         }
 
         private bool CanAddSalaryComponents(object obj)

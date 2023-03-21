@@ -23,7 +23,7 @@ namespace Web.Pages.SalaryComponents
             if (!ModelState.IsValid)
                 return Page();
 
-            await _salaryComponentsManager.AddSalaryComponentsAsync(salaryComponents);
+            await _salaryComponentsManager.AddSalaryComponentsSuccessAsync(salaryComponents);
             return RedirectToPage("./details", new { employeeId = salaryComponents.EmployeeId });
         }
     }

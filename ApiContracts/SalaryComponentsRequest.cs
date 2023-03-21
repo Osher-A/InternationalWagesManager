@@ -10,8 +10,8 @@ namespace ApiContracts
         DateTime Date,
         [Required]
         [Range (1, 744)]
-        float TotalHours,
-        float BonusHours,
-        float BonusWage,
-        float Expenses);
+        float? TotalHours,
+        float? BonusHours,
+        float? BonusWage,
+        float? Expenses);
 }

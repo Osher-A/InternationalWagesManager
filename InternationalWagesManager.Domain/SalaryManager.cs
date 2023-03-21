@@ -38,16 +38,25 @@ namespace InternationalWagesManager.Domain
             return allModelSalaries;
         }
 
-        public async Task AddSalaryAsync(DTO.SalaryComponents salaryComponents)
+        public async Task<bool> AddSalaryAsync(DTO.SalaryComponents salaryComponents)
         {
             // TO DO: Validate that payment currency is not the same as wages or expenses currency
 
             _salaryComponents = salaryComponents;
             _workConditions = await GetWorkConditionsAsync(salaryComponents.EmployeeId, salaryComponents.Date);
-            var employerCurrencyWage = await ApiExchangeRate(await WageEndPoint(), await GetCurrencyName(_workConditions.PayCurrencyId));
-            var employerCurrencyExpenses = _salaryComponents.Expenses > 0 ? await ApiExchangeRate(await ExpensesEndPoint(), await GetCurrencyName(_workConditions.PayCurrencyId)) : 0;
-            SetUpSalaryData(employerCurrencyWage, employerCurrencyExpenses);
-            AddSalaryToRepo();
+            try
+            {
+                var employerCurrencyWage = await ApiExchangeRate(await WageEndPoint(), await GetCurrencyName(_workConditions.PayCurrencyId));
+                var employerCurrencyExpenses = _salaryComponents.Expenses > 0 ? await ApiExchangeRate(await ExpensesEndPoint(), await GetCurrencyName(_workConditions.PayCurrencyId)) : 0;
+                SetUpSalaryData(employerCurrencyWage, employerCurrencyExpenses);
+                AddSalaryToRepo();
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            return true;
         }
         private async Task<DTO.WorkConditions> GetWorkConditionsAsync(int employeeId, DateTime? date) =>
            await _workConditionsManager.WorkConditionsToDateAsync(employeeId, date);
@@ -80,7 +89,7 @@ namespace InternationalWagesManager.Domain
             _employeeCurrencyWage = (decimal)((workHours * _workConditions.PayRate) + (_salaryComponents.BonusWage ?? 0));
             string wageCurrency = await GetCurrencyName(_workConditions.WageCurrencyId);
             string payCurrency = await GetCurrencyName(_workConditions.PayCurrencyId);
-            _baseUrl = $"http://api.frankfurter.app/{_salaryComponents.Date?.Date.ToString("yyyy-MM-dd")}";
+            _baseUrl = $"https://api.frankfurter.app/{_salaryComponents.Date?.Date.ToString("yyyy-MM-dd")}";
             return $"?amount={_employeeCurrencyWage.ToString()}&from={wageCurrency}&to={payCurrency}";
         }
         private async Task<string> ExpensesEndPoint()

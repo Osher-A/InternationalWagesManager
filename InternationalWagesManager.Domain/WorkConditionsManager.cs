@@ -50,7 +50,8 @@ public class WorkConditionsManager
         }
         catch (Exception)
         {
-            MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
+            DataBaseErrorMessage();
+            throw;
         }
 
         return new();
@@ -71,7 +72,8 @@ public class WorkConditionsManager
         }
         catch (Exception)
         {
-            MessagesManager.ErrorMessage?.Invoke("Database Error! ");
+            DataBaseErrorMessage();
+            throw;
         }
 
     }
@@ -91,7 +93,8 @@ public class WorkConditionsManager
         }
         catch (Exception)
         {
-            MessagesManager.ErrorMessage?.Invoke("Database Error! ");
+            DataBaseErrorMessage();
+            throw;
         }
 
     }
@@ -109,7 +112,8 @@ public class WorkConditionsManager
         }
         catch (Exception e)
         {
-            MessagesManager.ErrorMessage?.Invoke("DataBase Error!" + Environment.NewLine + e.Message);
+            DataBaseErrorMessage();
+            throw;
         }
     }
 
@@ -128,7 +132,8 @@ public class WorkConditionsManager
         }
         catch (Exception)
         {
-            MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
+            DataBaseErrorMessage();
+            throw;
         }
         return false;
     }
@@ -155,5 +160,9 @@ public class WorkConditionsManager
         workConditions.PayCurrency = null;
         workConditions.ExpensesCurrency = null;
 
+    }
+    private void DataBaseErrorMessage()
+    {
+        MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
     }
 }

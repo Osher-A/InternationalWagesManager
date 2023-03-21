@@ -9,6 +9,7 @@ namespace BlazorClient.Utilities
             CreateMap<ViewModel.Employee, InternationalWagesManager.DTO.Employee>().ReverseMap();
             CreateMap<ViewModel.WorkConditions, InternationalWagesManager.DTO.WorkConditions>().ReverseMap();
             CreateMap<ViewModel.Currency, InternationalWagesManager.DTO.Currency>().ReverseMap();
+            CreateMap<ViewModel.SalaryComponents, InternationalWagesManager.DTO.SalaryComponents>().ReverseMap();
             CreateMap<InternationalWagesManager.DTO.Employee, InternationalWagesManager.Models.Employee>().ReverseMap();
             CreateMap<InternationalWagesManager.DTO.Salary, InternationalWagesManager.Models.Salary>().ReverseMap();
             CreateMap<InternationalWagesManager.DTO.SalaryComponents, InternationalWagesManager.Models.SalaryComponents>().ReverseMap();
