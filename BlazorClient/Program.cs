@@ -1,10 +1,17 @@
 using BlazorClient;
 using BlazorClient.ApiServices;
+using BlazorClient.AuthenticationService;
 using BlazorClient.Utilities;
+using Blazored.LocalStorage;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using InternationalWagesManager.DAL;
+using InternationalWagesManager.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -23,6 +30,9 @@ builder.Services.AddScoped<ISalaryComponentsRepository, SalaryComponentsApiRepo>
 builder.Services.AddScoped<ISalaryRepository, SalaryApiRepo>();
 builder.Services.AddScoped<BlazorMessages>();
 
+builder.Services.AddAuthorizationCore();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
 builder.Services
     .AddBlazorise(options =>

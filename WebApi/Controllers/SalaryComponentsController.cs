@@ -3,6 +3,7 @@ using ApiContracts.ResponseStatus;
 using AutoMapper;
 using InternationalWagesManager.DAL;
 using InternationalWagesManager.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SalaryComponentsController : ControllerBase
     {
         private readonly ISalaryComponentsRepository _scRepository;

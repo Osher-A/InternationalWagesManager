@@ -1,4 +1,5 @@
-﻿<div class="top-row navbar navbar-dark">
+﻿@using Microsoft.AspNetCore.Components.Authorization
+<div class="top-row navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand m-2" href="" >International Wages Manager</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -10,6 +11,7 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
+            
             <NavLink class="nav-link" href="employees" Match="NavLinkMatch.All">
                 @*<span class="oi oi-person" aria-hidden="true"></span>*@ Employee Manager
             </NavLink>
@@ -34,6 +36,41 @@
                Statements
             </NavLink>
         </div>
+
+        <AuthorizeView>
+            <Authorized>
+                       <li class="nav-item p-0">
+                        <NavLink class="nav-link" href="#">
+                            <span class="p-2">
+                                Hello, @context.User.Identity.Name
+                            </span>
+                        </NavLink>
+                    </li>
+                    <li class="nav-item p-0">
+                        <NavLink class="nav-link" href="logout">
+                            <span class="p-2">
+                                Logout
+                            </span>
+                        </NavLink>
+                    </li>
+              </Authorized>
+               <NotAuthorized>
+                       <li class="nav-item p-0">
+                        <NavLink class="nav-link" href="register">
+                            <span class="p-2">
+                                Register
+                            </span>
+                        </NavLink>
+                    </li>
+                    <li class="nav-item p-0">
+                        <NavLink class="nav-link" href="login">
+                            <span class="p-2">
+                                Login
+                            </span>
+                        </NavLink>
+                    </li>
+             </NotAuthorized>
+        </AuthorizeView>
     </nav>
 </div>
 

@@ -4,6 +4,7 @@ using InternationalWagesManager.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InternationalWagesManager.Models.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230321230339_AddIdentityTables")]
+    partial class AddIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,20 +245,6 @@ namespace InternationalWagesManager.Models.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "d1b5952a-2162-46c7-b29e-1a2a68922c14",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "42358d3e-3c22-45e1-be81-6caa7ba865ef",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -346,40 +335,6 @@ namespace InternationalWagesManager.Models.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "408aa945-3d84-4421-8342-7269ec64d949",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "f5e9eba1-a4c2-458b-935b-c9ebcfc63ad4",
-                            Email = "admin@localhost.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
-                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAOvL7LrjD14LFZ4NPahDN3Ba2u+1l61d5uJGHjaDOFbZ2GdZvs+HsOpsnEAEt/qWg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "3eba4171-e150-4a29-a81a-5dd442926c5f",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@localhost.com"
-                        },
-                        new
-                        {
-                            Id = "3f4631bd-f907-4409-b416-ba356312e659",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "dc5b29af-3af2-45dc-b68a-4f73123f0e42",
-                            Email = "user@localhost.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER@LOCALHOST.COM",
-                            NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL7JneRNT5x8r/lG0Jmo+FNPQsmnTnhhlw9lS/ldgdIr50fsUB++DOuzbevDQJJN/g==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "c17477f9-7f10-4038-8e27-65d477848897",
-                            TwoFactorEnabled = false,
-                            UserName = "user@localhost.com"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -442,18 +397,6 @@ namespace InternationalWagesManager.Models.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "408aa945-3d84-4421-8342-7269ec64d949",
-                            RoleId = "d1b5952a-2162-46c7-b29e-1a2a68922c14"
-                        },
-                        new
-                        {
-                            UserId = "3f4631bd-f907-4409-b416-ba356312e659",
-                            RoleId = "42358d3e-3c22-45e1-be81-6caa7ba865ef"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
