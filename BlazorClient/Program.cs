@@ -33,6 +33,7 @@ builder.Services.AddScoped<BlazorMessages>();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+builder.Services.AddScoped<BlazorClient.AuthenticationService.IAuthenticationService, BlazorClient.AuthenticationService.AuthenticationService>();
 
 builder.Services
     .AddBlazorise(options =>

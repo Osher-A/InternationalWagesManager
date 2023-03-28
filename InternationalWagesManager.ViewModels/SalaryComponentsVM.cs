@@ -10,12 +10,12 @@ namespace InternationalWagesManager.WPFViewModels
     {
         private EmployeeManager _employeeManager;
         private SalaryComponentsManager _salaryComponentsManager;
-        private SalaryComponents _salaryComponents = new SalaryComponents { Date = null };
+        private DTO.SalaryComponents _salaryComponents = new DTO.SalaryComponents { Date = null };
         private List<Employee> _modelEmployees = new List<Employee>();
 
         public List<string> Employees { get; set; }
 
-        public SalaryComponents SalaryComponents
+        public DTO.SalaryComponents SalaryComponents
         {
             get { return _salaryComponents; }
             set

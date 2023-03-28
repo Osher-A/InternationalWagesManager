@@ -1,5 +1,6 @@
 ﻿@page "/salary/add/{EmployeeId:int}"
 @using AutoMapper;
+@using Microsoft.AspNetCore.Authorization;
 
 @inject IMapper _mapper;
 @inject IWConditionsRepository _wcRepo;
@@ -8,7 +9,7 @@
 @inject ICurrenciesRepository _currenciesRepo;
 
 @inject NavigationManager _navigator;
-
+@attribute [Authorize(Roles = "Employee")]
 
 <EditForm Model="this.SalaryComponent" OnValidSubmit="Submit" style="width: 50%; margin:auto;">
    <DataAnnotationsValidator/>

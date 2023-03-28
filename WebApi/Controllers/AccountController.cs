@@ -37,10 +37,10 @@ namespace WebApi.Controllers
 
             var user = new IdentityUser
             {
-                UserName = signUpRequestDTO.Name,
+                UserName = signUpRequestDTO.Email,
                 Email = signUpRequestDTO.Email,
                 PhoneNumber = signUpRequestDTO.PhoneNumber,
-                EmailConfirmed = true
+                EmailConfirmed = true,
             };
 
             var result = await _userManager.CreateAsync(user, signUpRequestDTO.Password);

@@ -7,7 +7,7 @@
             <div class="col-6 offset-3 ">
                 <div class="card border">
                     <div class="card-body px-lg-5 pt-4">
-                        <h3 class="col-12 text-success text-center py-2">
+                        <h3 class="col-12  text-center py-2">
                             <strong>Sign Up</strong>
                         </h3>
                         @if (ShowRegistrationErrors)
@@ -40,14 +40,14 @@
                                <InputText @bind-Value="SignUpRequest.Password"  type="password" id="password" placeholder="Password..." class="form-control" />
                                 <ValidationMessage For="(()=>SignUpRequest.Password)" />
                                     </div>
-                            <div class="col py-2">
+                            <div class="col" >
                                 <InputText @bind-Value="SignUpRequest.ConfirmPassword"  type="password" id="confirm" class="form-control" placeholder="Confirm Password..." />
                                 <ValidationMessage For="(()=>SignUpRequest.ConfirmPassword)" />
                             </div>
                         </div>
                         <hr style="background-color:aliceblue" />
                         <div class="py-2">
-                                <button type="submit" class="btn btn-success btn-block"><i class="bi bi-person-plus-fill"></i> Register</button>
+                                <button type="submit" class="btn btn-outline-success btn-block"><i class="bi bi-person-plus-fill"></i> Register</button>
                         </div>
                     </div>
                 </div>

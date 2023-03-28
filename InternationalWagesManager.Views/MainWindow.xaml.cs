@@ -4,6 +4,7 @@ using InternationalWagesManager.ViewModels.Employees;
 using InternationalWagesManager.ViewModels.WorkConditons;
 using InternationalWagesManager.Views.Pages;
 using InternationalWagesManager.WPFViewModels.Employees;
+using InternationalWagesManager.WPFViewModels.SalaryComponents;
 using InternationalWagesManager.WPFViewModels.WorkConditions;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -37,12 +38,17 @@ namespace InternationalWagesManager.Views
             _paymentsManager = paymentsManager;
             _balanceManager = balanceManager;
             ListVM.DetailsWindowEvent += (Employee selectedEmployee) => MainWindowFrame.Content = new Pages.Employees.Details(selectedEmployee, employeeManager);
-            WCListVM.DetailsWindowEvent += (int employeeId, ActionType actionType) => MainWindowFrame.Content = new Pages.WorkConditions.WCDetails(employeeId,actionType, workConditionsManager, currenciesManager);
+            WCListVM.DetailsWindowEvent += (int employeeId, ActionType actionType) => MainWindowFrame.Content = new Pages.WorkConditions.WCDetails(employeeId, actionType, workConditionsManager, currenciesManager);
             DetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.Employees.List(_employeeManager);
             WCListVM.AllWorkConditionsEvent += (DTO.Employee employee) => MainWindowFrame.Content = new Pages.WorkConditions.EmployeeWConditions(workConditionsManager, employee);
             WCDetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.WorkConditions.WCList(employeeManager);
             EmployeeWConditonsVM.BackAction += () => MainWindowFrame.Content = new Pages.WorkConditions.WCList(employeeManager);
-            EmployeeWConditonsVM.UpdateAction += (int workConditionsId, ActionType actionType) => MainWindowFrame.Content = new Pages.WorkConditions.WCDetails(workConditionsId,actionType, workConditionsManager, currenciesManager);
+            EmployeeWConditonsVM.UpdateAction += (int workConditionsId, ActionType actionType) => MainWindowFrame.Content = new Pages.WorkConditions.WCDetails(workConditionsId, actionType, workConditionsManager, currenciesManager);
+            SCIndexVM.AllWorkConditionsEvent += (DTO.Employee employee) => MainWindowFrame.Content = new Pages.SalaryComponents.EmployeeSC(salaryComponentsManager, employee);
+            SCIndexVM.DetailsWindowEvent += (int id, ActionType actionType) => MainWindowFrame.Content = new Pages.SalaryComponents.SCDetails(id, actionType, salaryComponentsManager);
+            EmployeeSCVM.BackAction += () => MainWindowFrame.Content = new Pages.SalaryComponents.SCIndex(employeeManager);
+            EmployeeSCVM.UpdateAction += (int id, ActionType actionType) => MainWindowFrame.Content = new Pages.SalaryComponents.SCDetails(id, actionType, salaryComponentsManager);
+            SCDetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.SalaryComponents.SCIndex(employeeManager);
             MessagesManager.AlertFunc += WarningMessageBox;
             MessagesManager.SuccessMessage += SuccessToastr;
             MessagesManager.ErrorMessage += ErrorToastr;
@@ -61,8 +67,8 @@ namespace InternationalWagesManager.Views
             MainWindowFrame.Content = new Pages.WorkConditions.WCList(_employeeManager);
 
         private void TreeViewAddSalaryComponents_MouseEnter(object sender, EventArgs e) =>
-            MainWindowFrame.Content = new Pages.SalaryComponents(_employeeManager, _salaryComponentsManager);
- 
+            MainWindowFrame.Content = new Pages.SalaryComponents.SCIndex(_employeeManager);
+
         private void TreeViewAddPayment_MouseDown(object sender, EventArgs e) =>
             MainWindowFrame.Content = new Payments(_employeeManager, _paymentsManager);
 

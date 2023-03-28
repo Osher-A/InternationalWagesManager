@@ -81,6 +81,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
+
 }).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
@@ -96,6 +97,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
     };
 });
+
 
 
 var app = builder.Build();
@@ -138,69 +140,7 @@ app.MapControllers().AllowAnonymous();
 
 app.Run();
 
-//app.MapPost("/login", async (LoginDto loginDto, UserManager<IdentityUser> _userManager) =>
-//{
-//    var user = await _userManager.FindByNameAsync(loginDto.Username);
-
-//    if (user is null)
-//    {
-//        return Results.Unauthorized();
-//    }
-//    var isValidPassword = await _userManager.CheckPasswordAsync(user, loginDto.Password);
-
-//    if (!isValidPassword)
-//    {
-//        return Results.Unauthorized();
-//    }
-
-//    // Generate an access token
-//    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]));
-//    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-//    var roles = await _userManager.GetRolesAsync(user);
-//    var claims = await _userManager.GetClaimsAsync(user);
-//    var tokenClaims = new List<Claim>
-//    {
-//        new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-//        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-//        new Claim(ClaimTypes.Email, user.Email),
-//        new Claim("email_confirmed", user.EmailConfirmed.ToString())
-//    }.Union(claims)
-//    .Union(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-
-//    var securityToken = new JwtSecurityToken(
-//        issuer: builder.Configuration["JwtSettings:Issuer"],
-//        audience: builder.Configuration["JwtSettings:Audience"],
-//        claims: tokenClaims,
-//        expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(builder.Configuration["JwtSettings:DurationInMintues"])),
-//        signingCredentials: credentials
-//    );
-
-//    var accessToken = new JwtSecurityTokenHandler().WriteToken(securityToken);
-
-
-//    var response = new AuthResponseDto
-//    {
-//        UserId = user.Id,
-//        Username = user.UserName,
-//        Token = accessToken
-//    };
-
-//    return Results.Ok(response);
-//}).AllowAnonymous();
 
 
 
 
-//internal class LoginDto
-//{
-//    public string Username { get; set; }
-//    public string Password { get; set; }
-//}
-
-//internal class AuthResponseDto
-//{
-//    public string UserId { get; set; }
-//    public string Username { get; set; }
-//    public string Token { get; set; }
-//}

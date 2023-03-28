@@ -30,11 +30,11 @@ namespace BlazorClient.Pages.Authentication
                 ReturnUrl = queryParam["returnUrl"];
                 if (string.IsNullOrEmpty(ReturnUrl))
                 {
-                    _navigationManager.NavigateTo("/");
+                    _navigationManager.NavigateTo("/statements", true);
                 }
                 else
                 {
-                    _navigationManager.NavigateTo("/" + ReturnUrl);
+                    _navigationManager.NavigateTo("/" + ReturnUrl, true);
                 }
             }
             else

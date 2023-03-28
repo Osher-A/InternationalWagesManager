@@ -32,7 +32,10 @@ namespace BlazorClient.AuthenticationService
             {
                 await _localStorage.SetItemAsync("JWT Token", result.Token);
                 await _localStorage.SetItemAsync("UserDetails", result.User);
-                ((AuthStateProvider)_authStateProvider).NotifyUserLoggedIn(result.Token);
+                //  ((AuthStateProvider)_authStateProvider).NotifyUserLoggedIn(result.Token);
+
+                // We need to attach the token to the client so that every call with that client should be authorized 
+
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
                 return new SignInResponse() { IsAuthSuccessful = true };
             }
@@ -47,7 +50,7 @@ namespace BlazorClient.AuthenticationService
             await _localStorage.RemoveItemAsync("JWT Token");
             await _localStorage.RemoveItemAsync("UserDetails");
 
-            ((AuthStateProvider)_authStateProvider).NotifyUserLogout();
+            //  ((AuthStateProvider)_authStateProvider).NotifyUserLogout();
 
             _client.DefaultRequestHeaders.Authorization = null;
         }

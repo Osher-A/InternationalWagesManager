@@ -1,0 +1,68 @@
+﻿<Page x:Class="InternationalWagesManager.Views.Pages.SalaryComponents.EmployeeSC"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:converter ="clr-namespace:InternationalWagesManager.Views.converters"
+      xmlns:vm="clr-namespace:InternationalWagesManager.WPFViewModels.SalaryComponents;assembly=InternationalWagesManager.WPFViewModels"
+      xmlns:local="clr-namespace:InternationalWagesManager.Views.Pages.SalaryComponents"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EmployeeSC">
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <converter:NameConverter x:Key="nameConvr"/>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <Grid>
+            <mahApps:ProgressRing BorderBrush="#CCA0522D"  Visibility="{Binding ProgressRingVisibility}" >
+            </mahApps:ProgressRing>
+
+            <DockPanel  LastChildFill="False"  Visibility="{Binding DataGridVisibility, Mode=OneWay}">
+                <TextBlock DockPanel.Dock="Top"  Text="{Binding Employee.FullName, Converter={StaticResource nameConvr}, StringFormat='{}{0} work details'}"  FontSize="32"  Foreground="#CCA0522D" FontFamily="{StaticResource MahApps.Fonts.Family.Header}" HorizontalAlignment="Center" Margin="15"/>
+                <Border x:Name="Border" DockPanel.Dock="Top" Margin="10" MaxHeight="450" MaxWidth="1100" BorderThickness="0" BorderBrush="Black" CornerRadius="5"  HorizontalAlignment="Center" Visibility="{Binding DataGridVisibility}">
+                    <StackPanel>
+                        <DataGrid  AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="None" ItemsSource="{Binding AllSalaryComponents, Mode=OneWay}" SelectedItem="{Binding SelectedSalaryComponents, Mode=OneWayToSource}" Background="BlanchedAlmond" Style="{StaticResource MahApps.Styles.DataGrid}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Date" Width="*" IsReadOnly="True" Binding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Pay rate" Width="*" IsReadOnly="True" Binding="{Binding TotalHours}"/>
+                                <DataGridTextColumn Header="Wage currency" Width="*" IsReadOnly="True" Binding="{Binding BonusHours}"/>
+                                <DataGridTextColumn Header="Expenses currency" Width="*" IsReadOnly="True" Binding="{Binding BounusWages}"/>
+                                <DataGridTextColumn Header="Pay currency" Width="*" IsReadOnly="True" Binding="{Binding Expenses}"/>
+
+                                <DataGridTemplateColumn Width="*" >
+                                    <DataGridTemplateColumn.CellTemplate >
+                                        <DataTemplate>
+                                            <Button Content="Edit" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Page}, Path=DataContext.UpdateCommand}" Style="{StaticResource MahApps.Styles.Button.MetroSquare}" Background="BlanchedAlmond" Width="100"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page}, Path=DataContext.DeleteCommand}" Style="{StaticResource MahApps.Styles.Button.MetroSquare}" Background="BlanchedAlmond" Width="100"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+                <Button DockPanel.Dock="Bottom"  Command="{Binding GoBackCommand}" Style="{StaticResource MahApps.Styles.Button.ToolBar}" HorizontalAlignment="Center"  Height="45" Width="220" Margin="0,10,30,50">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <icons:BootstrapIcons Kind="ArrowLeftCircleFill"  Height="30" Width="25" />
+                            <TextBlock Text="Back" FontSize="25" Foreground="#CCA0522D" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</Page>
