@@ -1,4 +1,5 @@
 ﻿using InternationalWagesManager.Domain;
+using InternationalWagesManager.DTO;
 using InternationalWagesManager.WPFViewModels.SalaryComponents;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ namespace InternationalWagesManager.Views.Pages.SalaryComponents
     /// </summary>
     public partial class SCDetails : Page
     {
-        public SCDetails(int id, DTO.ActionType actionType, SalaryComponentsManager salaryComponentsManager)
+        public SCDetails(DTO.ActionType actionType, SalaryComponentsManager salaryComponentsManager, EmployeeManager employeeManager, DTO.SalaryComponents salaryComponents, Employee employee)
         {
-            DataContext = new SCDetailsVM(id, actionType, salaryComponentsManager);
+            DataContext = new SCDetailsVM(actionType, salaryComponentsManager, employeeManager, employee, salaryComponents);
             InitializeComponent();
         }
     }

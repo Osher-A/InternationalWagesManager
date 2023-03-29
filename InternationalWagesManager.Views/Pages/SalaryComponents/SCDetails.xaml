@@ -17,7 +17,7 @@
                     <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="0.1*" Name="MarginColumn"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -27,23 +27,21 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition/>
 
                 </Grid.RowDefinitions>
-                <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Salary"  Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Grid.Column="1"/>
-                <Label Grid.Row="1" Grid.Column="1" Content="Employee:"/>
-                <ComboBox Grid.Row="1" Grid.Column="2" Height="45" ItemsSource="{Binding Employees}" SelectedIndex="{Binding ComboBoxSelectedIndex, Mode=TwoWay}"/>
-                <Label Grid.Row="2" Content="Month:" Grid.Column="1" mahApps:TextBoxHelper.Watermark="00/00/0000"/>
-                <Label Grid.Row="3" Content="Total hours:" Grid.Column="1" />
-                <Label Grid.Row="4" Content="Bonus hours:" Grid.Column="1"/>
-                <Label Grid.Row="5" Content="Bonus wages:" Grid.Column="1" />
-                <Label Grid.Row="6" Content="Expenses" Grid.Column="1" />
-                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SalaryComponents.Date, Converter={StaticResource dateConvr}, Mode=TwoWay, StringFormat={} {0: dd/MM/yyyy}, ConverterCulture=en-GB}" />
-                <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding SalaryComponents.TotalHours, Mode=TwoWay}"/>
-                <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SalaryComponents.BonusHours, Mode=TwoWay}"/>
-                <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding SalaryComponents.BonusWage, Mode=TwoWay}"/>
-                <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding SalaryComponents.Expenses}"/>
-                <Button Grid.Row="7" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Dialogs}" Content="Submit" Command="{Binding AddCommand}"/>
+                <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Employee.FullName, StringFormat={} {0}\'s salary}"   Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Grid.Column="1"/>
+                <Label Grid.Row="1" Content="Date:" Grid.Column="1"  />
+                <Label Grid.Row="2" Content="Total hours:" Grid.Column="1" />
+                <Label Grid.Row="3" Content="Bonus hours:" Grid.Column="1"/>
+                <Label Grid.Row="4" Content="Bonus wages:" Grid.Column="1" />
+                <Label Grid.Row="5" Content="Expenses" Grid.Column="1" />
+                <DatePicker Grid.Row="1" Grid.Column="2" Height="45" FontSize="15" VerticalContentAlignment="Center" mahApps:TextBoxHelper.Watermark="00/00/0000" Text="{Binding SalaryComponents.Date, Mode=TwoWay,UpdateSourceTrigger=LostFocus, Converter={StaticResource dateConvr}, StringFormat={} {0:dd/MM/yyyy}, ConverterCulture=en-GB}" />
+                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SalaryComponents.TotalHours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding SalaryComponents.BonusHours, Mode=TwoWay}"/>
+                <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SalaryComponents.BonusWage, Mode=TwoWay}"/>
+                <TextBox Grid.Row="5" Grid.Column="2" Text="{Binding SalaryComponents.Expenses, Mode=TwoWay}"/>
+                <Button Grid.Row="6" Grid.Column="1" Style="{StaticResource MahApps.Styles.Button.Dialogs}" Margin="0,0,10,0" Content="Cancel" Command="{Binding BackCommand}"/>
+                <Button Grid.Row="6" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Dialogs}"  Content="Submit" Command="{Binding SubmitCommand}"/>
             </Grid>
 
         </Grid>

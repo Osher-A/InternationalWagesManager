@@ -3,12 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using InternationalWagesManager.Domain;
 using InternationalWagesManager.DTO;
 using MyLibrary.Utilities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace InternationalWagesManager.WPFViewModels.SalaryComponents
@@ -16,12 +11,12 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
     public partial class SCDetailsVM : ObservableObject
     {
         private SalaryComponentsManager _salaryComponentsManager;
+        private EmployeeManager _employeeManager;
 
         [ObservableProperty]
         private DTO.SalaryComponents _salaryComponents = new DTO.SalaryComponents { Date = null };
-
-        // the following id is either an employeeId or a salaryComponents id depending on ActionType
-        private int _id;
+        [ObservableProperty]
+        private Employee _employee;
 
 
         private static string _buttonText;
@@ -51,13 +46,16 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public static event PropertyChangedEventHandler? StaticPropertyChanged;
-        public SCDetailsVM(int id, ActionType actionType, SalaryComponentsManager salaryComponentsManager)
+
+        public ICommand SubmitCommand { get; set; }
+        public SCDetailsVM(ActionType actionType, SalaryComponentsManager salaryComponentsManager, EmployeeManager employeeManager, DTO.Employee employee, DTO.SalaryComponents salaryComponents)
         {
-            _id = id;
+            _employee = employee;
+            _salaryComponents = salaryComponents != null ? salaryComponents : _salaryComponents;
             _actionType = actionType;
             _salaryComponentsManager = salaryComponentsManager;
-            LoadData();
-
+            _employeeManager = employeeManager;
+            SubmitCommand = new CustomCommand(Submit, CanSubmit);
         }
 
         private bool CanSubmit(object obj)
@@ -67,17 +65,17 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
 
             return false;
         }
-        [RelayCommand(CanExecute = nameof(CanSubmit))]
         private async void Submit(object obj)
         {
             switch (_actionType)
             {
                 case ActionType.Add:
-                    AddSalaryComponents();
-                    BackAction?.Invoke();
+
+                    await AddSalaryComponents();
+                    BackAction?.Invoke();         //Since its within a void method it'll invoke before task completion, causing a database error
                     break;
                 case ActionType.Edit:
-                    await UpdateWorkConditions();
+                    await UpdateSalaryComponents();
                     BackAction?.Invoke();
                     break;
                 default:
@@ -85,7 +83,7 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
             };
         }
         [RelayCommand(CanExecute = nameof(CanGoBackToList))]
-        private void BackToList(object obj)
+        private void Back(object obj)
         {
             BackAction?.Invoke();
         }
@@ -94,19 +92,17 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
         {
             return true;
         }
-        private async void AddSalaryComponents()
+        private async Task AddSalaryComponents()
         {
-            SalaryComponents.EmployeeId = _id;
+            SalaryComponents.EmployeeId = _employee.Id;
 
             await _salaryComponentsManager.AddSalaryComponentsSuccessAsync(SalaryComponents);
 
-            SalaryComponents = new DTO.SalaryComponents { Date = null };
+            SalaryComponents = new DTO.SalaryComponents();
         }
 
-        private async Task UpdateWorkConditions()
+        private async Task UpdateSalaryComponents()
         {
-            SalaryComponents.Id = _id;
-
             await _salaryComponentsManager.UpdateSalaryAsync(SalaryComponents);
         }
 
@@ -116,15 +112,7 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
                 StaticPropertyChanged.Invoke(null, new PropertyChangedEventArgs(propertyName));
         }
 
-        private async void LoadData()
-        {
-            if (_actionType == ActionType.Edit)
-                await SetUIWorkConditions();
-        }
-        private async Task SetUIWorkConditions()
-        {
-            this.SalaryComponents = await _salaryComponentsManager.GetSalaryComponentsAsync(_id);
-        }
+
     }
 }
 

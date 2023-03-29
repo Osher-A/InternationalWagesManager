@@ -43,7 +43,7 @@ namespace InternationalWagesManager.Views
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyDbContext>();
+            services.AddDbContext<MyDbContext>(ServiceLifetime.Transient);
             // options = >   options.UseSqlServer("Server =.\\SQLEXPRESS; Database = IWagesManager; Trusted_Connection = True; MultipleActiveResultSets = true; "));
             //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddAutoMapper(Assembly.Load(typeof(DTOConvertor).Assembly.FullName));

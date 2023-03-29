@@ -32,8 +32,8 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
         private string _progressRingVisibility = Visibility.Visible.ToString();
 
 
-        public static SalaryComponentsEvent DetailsWindowEvent { get; set; }
-        public static AllSlaryComponentsEvent AllWorkConditionsEvent { get; set; }
+        public static SalaryComponentsDetailsEvent DetailsWindowEvent { get; set; }
+        public static AllSlaryComponentsEvent AllSalaryComponentsEvent { get; set; }
 
         public SCIndexVM(EmployeeManager employeeManager)
         {
@@ -41,17 +41,16 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
             LoadData();
         }
         [RelayCommand]
-        private void AddSalaryComponents(object obj)
+        private void Add(object obj)
         {
-            DetailsWindowEvent?.Invoke(SelectedEmployee.Id, ActionType.Add);
+            DetailsWindowEvent?.Invoke(SelectedEmployee, ActionType.Add);
         }
         [RelayCommand]
-        private void GetDetails(object obj)
+        private void Details(object obj)
         {
-            AllWorkConditionsEvent?.Invoke(SelectedEmployee);
+            AllSalaryComponentsEvent?.Invoke(SelectedEmployee);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         private async void LoadData()
         {
@@ -63,7 +62,7 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
 
     }
 
-    public delegate void SalaryComponentsEvent(int employeeId, ActionType ActionType);
+    public delegate void SalaryComponentsDetailsEvent(DTO.Employee employee, ActionType ActionType);
     public delegate void AllSlaryComponentsEvent(DTO.Employee employee);
 }
 

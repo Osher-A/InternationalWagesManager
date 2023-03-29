@@ -1,21 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="11.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="11.0.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
 
-  <ItemGroup>
-    <ProjectReference Include="..\InternationalWagesManager.DAL\InternationalWagesManager.DAL.csproj" />
-    <ProjectReference Include="..\InternationalWagesManager.DTO\InternationalWagesManager.DTO.csproj" />
-    <ProjectReference Include="..\InternationalWagesManager.Models\InternationalWagesManager.Models.csproj" />
-  </ItemGroup>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\InternationalWagesManager.DAL\InternationalWagesManager.DAL.csproj" />
+		<ProjectReference Include="..\InternationalWagesManager.DTO\InternationalWagesManager.DTO.csproj" />
+		<ProjectReference Include="..\InternationalWagesManager.Models\InternationalWagesManager.Models.csproj" />
+	</ItemGroup>
 
 </Project>

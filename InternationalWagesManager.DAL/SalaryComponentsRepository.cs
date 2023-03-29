@@ -14,13 +14,16 @@ namespace InternationalWagesManager.DAL
         public async Task<int> AddSalaryComponentsAsync(SalaryComponents newSC)
         {
             _db.SalariesComponents.Add(newSC);
-            return await _db.SaveChangesAsync();
+            var id =  await _db.SaveChangesAsync();
+            _db.Entry(newSC).State = EntityState.Detached;
+            return id;
         }
 
         public async Task UpdateSalaryComponentsAsync(SalaryComponents SC)
         {
             _db.SalariesComponents.Update(SC);
             await _db.SaveChangesAsync();
+            _db.Entry(SC).State = EntityState.Detached;
         }
 
         public async Task DeleteSalaryComponentsAsync(SalaryComponents SC)

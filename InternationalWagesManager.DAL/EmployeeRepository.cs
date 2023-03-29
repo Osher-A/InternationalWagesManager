@@ -17,7 +17,8 @@ namespace InternationalWagesManager.DAL
 
         public async Task<List<Employee>> GetEmployeesAsync()
         {
-            return await _db.Employees.ToListAsync();
+            var employees = await _db.Employees.ToListAsync();
+            return employees;
         }
 
         public async Task<int> AddEmployeeAsync(Employee newEmployee)

@@ -31,7 +31,7 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
         private string _progressRingVisibility = Visibility.Visible.ToString();
 
         public static Action BackAction { get; set; }
-        public static Action<int, ActionType> UpdateAction { get; set; }
+        public static Action<DTO.SalaryComponents, DTO.Employee, ActionType> UpdateAction { get; set; }
 
 
         public EmployeeSCVM(SalaryComponentsManager salaryComponentsManager, DTO.Employee employee)
@@ -44,7 +44,7 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
         [RelayCommand(CanExecute = nameof(CanUpdate))]
         private void Update()
         {
-            UpdateAction?.Invoke((int)SelectedSalaryComponents.Id, ActionType.Edit);
+            UpdateAction?.Invoke(_selectedSalaryComponents, _employee, ActionType.Edit);
         }
         private bool CanUpdate()
         {
@@ -52,10 +52,9 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
         }
 
         [RelayCommand(CanExecute = nameof(CanDelete))]
-        private async void Delete()
+        private async Task Delete()
         {
-            if (await MessagesManager.UserConfirmation("Are you sure you want to delete all these details?"))
-                await _salaryComponentsManager?.DeletedSalarySuccessfullyAsync(_selectedSalaryComponents);
+            await _salaryComponentsManager?.DeletedSalarySuccessfullyAsync(_selectedSalaryComponents);
             LoadData();
         }
         private bool CanDelete()
@@ -64,7 +63,7 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
         }
 
         [RelayCommand]
-        private void GoBack()
+        private void Back()
         {
             BackAction?.Invoke();
         }

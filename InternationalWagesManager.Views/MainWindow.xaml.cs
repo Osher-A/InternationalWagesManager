@@ -44,10 +44,10 @@ namespace InternationalWagesManager.Views
             WCDetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.WorkConditions.WCList(employeeManager);
             EmployeeWConditonsVM.BackAction += () => MainWindowFrame.Content = new Pages.WorkConditions.WCList(employeeManager);
             EmployeeWConditonsVM.UpdateAction += (int workConditionsId, ActionType actionType) => MainWindowFrame.Content = new Pages.WorkConditions.WCDetails(workConditionsId, actionType, workConditionsManager, currenciesManager);
-            SCIndexVM.AllWorkConditionsEvent += (DTO.Employee employee) => MainWindowFrame.Content = new Pages.SalaryComponents.EmployeeSC(salaryComponentsManager, employee);
-            SCIndexVM.DetailsWindowEvent += (int id, ActionType actionType) => MainWindowFrame.Content = new Pages.SalaryComponents.SCDetails(id, actionType, salaryComponentsManager);
+            SCIndexVM.AllSalaryComponentsEvent += (DTO.Employee employee) => MainWindowFrame.Content = new Pages.SalaryComponents.EmployeeSC(salaryComponentsManager, employee);
+            SCIndexVM.DetailsWindowEvent += (Employee employee, ActionType actionType) => MainWindowFrame.Content = new Pages.SalaryComponents.SCDetails(actionType, salaryComponentsManager, employeeManager, new SalaryComponents(), employee);
             EmployeeSCVM.BackAction += () => MainWindowFrame.Content = new Pages.SalaryComponents.SCIndex(employeeManager);
-            EmployeeSCVM.UpdateAction += (int id, ActionType actionType) => MainWindowFrame.Content = new Pages.SalaryComponents.SCDetails(id, actionType, salaryComponentsManager);
+            EmployeeSCVM.UpdateAction += (SalaryComponents salaryComponents, Employee employee, ActionType actionType) => MainWindowFrame.Content = new Pages.SalaryComponents.SCDetails(actionType, salaryComponentsManager, employeeManager, salaryComponents, employee);
             SCDetailsVM.BackAction += () => MainWindowFrame.Content = new Pages.SalaryComponents.SCIndex(employeeManager);
             MessagesManager.AlertFunc += WarningMessageBox;
             MessagesManager.SuccessMessage += SuccessToastr;

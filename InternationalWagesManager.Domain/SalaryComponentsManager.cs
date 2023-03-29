@@ -31,7 +31,7 @@ namespace InternationalWagesManager.Domain
             if (salaryComponents.EmployeeId != 0 && salaryComponents.TotalHours != 0)
             {
                 // To avoid inserting SalaryComponents to db if the Salary insert would fail 
-                using (TransactionScope tran = new TransactionScope())
+                using (TransactionScope tran = new TransactionScope(TransactionScopeOption.Suppress, TimeSpan.FromSeconds(10), TransactionScopeAsyncFlowOption.Enabled))
                 {
                     try
                     {
@@ -42,79 +42,79 @@ namespace InternationalWagesManager.Domain
                                 return true;
                             }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         DataBaseErrorMessage();
                         throw;
                     }
                 }
-            }
+        }
             return false;
         }
 
-        public async Task<DTO.SalaryComponents> LatestSalaryComponentsAsync(int employeeId)
-        {
-            return (await GetAllEmployeesSCAsync(employeeId)).OrderByDescending(sc => sc.Date).First();
-        }
+    public async Task<DTO.SalaryComponents> LatestSalaryComponentsAsync(int employeeId)
+    {
+        return (await GetAllEmployeesSCAsync(employeeId)).OrderByDescending(sc => sc.Date).First();
+    }
 
-        public async Task<DTO.SalaryComponents> SalaryComponentsToDateAsync(int employeeId, DateTime date)
+    public async Task<DTO.SalaryComponents> SalaryComponentsToDateAsync(int employeeId, DateTime date)
+    {
+        var searchByDate = (await GetAllEmployeesSCAsync(employeeId)).FirstOrDefault(sc => sc.Date?.Date == date.Date);
+        if (searchByDate == null)
+            searchByDate = (await GetAllEmployeesSCAsync(employeeId)).FirstOrDefault(sc => sc.Date?.Year == date.Year && sc.Date?.Month == date.Month);
+        if (searchByDate == null)
+            searchByDate = (await GetAllEmployeesSCAsync(employeeId)).OrderByDescending(sc => sc.Date).FirstOrDefault(sc => sc.Date?.Year == date.Year);
+        return searchByDate ?? new SalaryComponents();
+    }
+    public async Task UpdateSalaryAsync(SalaryComponents salaryComponents)
+    {
+        try
         {
-            var searchByDate = (await GetAllEmployeesSCAsync(employeeId)).FirstOrDefault(sc => sc.Date?.Date == date.Date);
-            if (searchByDate == null)
-                searchByDate = (await GetAllEmployeesSCAsync(employeeId)).FirstOrDefault(sc => sc.Date?.Year == date.Year && sc.Date?.Month == date.Month);
-            if (searchByDate == null)
-                searchByDate = (await GetAllEmployeesSCAsync(employeeId)).OrderByDescending(sc => sc.Date).FirstOrDefault(sc => sc.Date?.Year == date.Year);
-            return searchByDate ?? new SalaryComponents();
+            await _salaryComponentsRepository.UpdateSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
         }
-        public async Task UpdateSalaryAsync(SalaryComponents salaryComponents)
+        catch (Exception)
         {
-            try
-            {
-                await _salaryComponentsRepository.UpdateSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
-            }
-            catch (Exception)
-            {
-                DataBaseErrorMessage();
-                throw;
-            }
-        }
-        public async Task<bool> DeletedSalarySuccessfullyAsync(SalaryComponents salaryComponents)
-        {
-            if (await MessagesManager.UserConfirmation("Are you sure you want to delete all the salary components!"))
-            {
-                try
-                {
-                    await _salaryComponentsRepository.DeleteSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
-                    MessagesManager.SuccessMessage?.Invoke("Successfully deleted!");
-                }
-                catch (Exception)
-                {
-                    DataBaseErrorMessage();
-                    throw;
-                }
-                return true;
-            }
-            return false;
-
-        }
-
-        public async Task<List<SalaryComponents>> GetAllEmployeesSCAsync(int employeeId)
-        {
-            try
-            {
-                return _mapper.Map<List<Models.SalaryComponents>, List<DTO.SalaryComponents>>
-                         (await _salaryComponentsRepository.GetEmployeeSalaryComponentsAsync(employeeId));
-            }
-            catch (Exception)
-            {
-                DataBaseErrorMessage();
-                throw;
-            }
-        }
-
-        private void DataBaseErrorMessage()
-        {
-            MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
+            DataBaseErrorMessage();
+            throw;
         }
     }
+    public async Task<bool> DeletedSalarySuccessfullyAsync(SalaryComponents salaryComponents)
+    {
+        if (await MessagesManager.UserConfirmation("Are you sure you want to delete all the salary components!"))
+        {
+            try
+            {
+                await _salaryComponentsRepository.DeleteSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
+                MessagesManager.SuccessMessage?.Invoke("Successfully deleted!");
+            }
+            catch (Exception)
+            {
+                DataBaseErrorMessage();
+                throw;
+            }
+            return true;
+        }
+        return false;
+
+    }
+
+    public async Task<List<SalaryComponents>> GetAllEmployeesSCAsync(int employeeId)
+    {
+        try
+        {
+            return _mapper.Map<List<Models.SalaryComponents>, List<DTO.SalaryComponents>>
+                     (await _salaryComponentsRepository.GetEmployeeSalaryComponentsAsync(employeeId));
+        }
+        catch (Exception)
+        {
+            DataBaseErrorMessage();
+            throw;
+        }
+    }
+
+    private void DataBaseErrorMessage()
+    {
+        MessagesManager.ErrorMessage?.Invoke("DataBase Error!");
+    }
+}
 }

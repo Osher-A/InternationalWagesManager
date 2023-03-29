@@ -8,7 +8,14 @@ namespace InternationalWagesManager.Views.converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value;
+            if(value != null)
+            {
+                bool isDateTime = DateTime.TryParse(value.ToString(), out DateTime date);
+                if (isDateTime)
+                    return $"{date.ToShortDateString()}";
+
+            }
+            return "00/00/0000";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

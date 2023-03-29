@@ -25,15 +25,15 @@
 
             <DockPanel  LastChildFill="False"  Visibility="{Binding DataGridVisibility, Mode=OneWay}">
                 <TextBlock DockPanel.Dock="Top"  Text="{Binding Employee.FullName, Converter={StaticResource nameConvr}, StringFormat='{}{0} work details'}"  FontSize="32"  Foreground="#CCA0522D" FontFamily="{StaticResource MahApps.Fonts.Family.Header}" HorizontalAlignment="Center" Margin="15"/>
-                <Border x:Name="Border" DockPanel.Dock="Top" Margin="10" MaxHeight="450" MaxWidth="1100" BorderThickness="0" BorderBrush="Black" CornerRadius="5"  HorizontalAlignment="Center" Visibility="{Binding DataGridVisibility}">
+                <Border x:Name="Border" DockPanel.Dock="Top" Margin="10"  MaxWidth="1100" BorderThickness="0" BorderBrush="Black" CornerRadius="5"  HorizontalAlignment="Center" Visibility="{Binding DataGridVisibility}">
                     <StackPanel>
                         <DataGrid  AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="None" ItemsSource="{Binding AllSalaryComponents, Mode=OneWay}" SelectedItem="{Binding SelectedSalaryComponents, Mode=OneWayToSource}" Background="BlanchedAlmond" Style="{StaticResource MahApps.Styles.DataGrid}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Date" Width="*" IsReadOnly="True" Binding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Pay rate" Width="*" IsReadOnly="True" Binding="{Binding TotalHours}"/>
-                                <DataGridTextColumn Header="Wage currency" Width="*" IsReadOnly="True" Binding="{Binding BonusHours}"/>
-                                <DataGridTextColumn Header="Expenses currency" Width="*" IsReadOnly="True" Binding="{Binding BounusWages}"/>
-                                <DataGridTextColumn Header="Pay currency" Width="*" IsReadOnly="True" Binding="{Binding Expenses}"/>
+                                <DataGridTextColumn Header="Total hours" Width="*" IsReadOnly="True" Binding="{Binding TotalHours}"/>
+                                <DataGridTextColumn Header="Bonus hours" Width="*" IsReadOnly="True" Binding="{Binding BonusHours}"/>
+                                <DataGridTextColumn Header="Bonus wages" Width="*" IsReadOnly="True" Binding="{Binding BonusWage}"/>
+                                <DataGridTextColumn Header="Expenses" Width="*" IsReadOnly="True" Binding="{Binding Expenses}"/>
 
                                 <DataGridTemplateColumn Width="*" >
                                     <DataGridTemplateColumn.CellTemplate >
@@ -54,7 +54,7 @@
                         </DataGrid>
                     </StackPanel>
                 </Border>
-                <Button DockPanel.Dock="Bottom"  Command="{Binding GoBackCommand}" Style="{StaticResource MahApps.Styles.Button.ToolBar}" HorizontalAlignment="Center"  Height="45" Width="220" Margin="0,10,30,50">
+                <Button DockPanel.Dock="Bottom"  Command="{Binding BackCommand}" Style="{StaticResource MahApps.Styles.Button.ToolBar}" HorizontalAlignment="Center"  Height="45" Width="220" Margin="0,10,30,50">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <icons:BootstrapIcons Kind="ArrowLeftCircleFill"  Height="30" Width="25" />
