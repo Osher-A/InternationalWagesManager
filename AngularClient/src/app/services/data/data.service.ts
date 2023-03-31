@@ -52,7 +52,7 @@ export class DataService<T> {
   private handleError2<T>(operation = 'operation', result?: T) {
     return (error: Response): Observable<T> => {
       if (error.status == 400)
-        alert('This is an invalid request');
+        alert('This is an invalid request' + error.text);
       //this.form.setErrors(error.json());
       // unexpected errors are handled at GlobalErrorHandler.ts
 

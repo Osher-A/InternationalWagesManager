@@ -6,7 +6,11 @@ import { WorkConditionsIndexComponent } from "./workConditions/index/index.compo
 import { EmployeesAddComponent } from "./Employees/add/add.component";
 import { EmployeesDetailsComponent } from "./Employees/details/details.component";
 import { EmployeesIndexComponent } from "./Employees/index/index.component";
-import { WorkConditionsUpdateComponent } from "./workConditions/update/update.component"
+import { WorkConditionsUpdateComponent } from "./workConditions/update/update.component";
+import { SalaryIndexComponent } from "./salary/index/index.component";
+import { SalaryDetailsComponent } from "./salary/details/details.component";
+import { SalaryAddComponent } from "./salary/add/add.component";
+import { SalaryUpdateComponent } from "./salary/update/update.component";
 
 
 const routes: Routes = [
@@ -18,7 +22,11 @@ const routes: Routes = [
   { path: 'workconditions', component: WorkConditionsIndexComponent },
   { path: 'workconditions/details/:id', component: WorkConditionsDetailsComponent },
   { path: 'workconditions/add/:id', component: WorkConditionsAddComponent },
-  { path: 'workconditions/update/:id', component: WorkConditionsUpdateComponent }
+  { path: 'workconditions/update/:id', component: WorkConditionsUpdateComponent },
+  { path: 'salary', component: SalaryIndexComponent},
+  { path: 'salary/details/:id', component: SalaryDetailsComponent},
+  { path: 'salary/add/:id', component: SalaryAddComponent},
+  { path: 'salary/update/:id', component: SalaryUpdateComponent}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

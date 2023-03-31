@@ -1,0 +1,52 @@
+<form #myForm="ngForm" name="myForm" (ngSubmit)="onSubmit()" style="width: 50%; margin: 3% auto auto auto;">
+    <h2 class="text-center m-4 header ">Salary Components</h2>
+    <table class="mt-2 table table-bordered border-2 border-secondary">
+        <tbody>
+            <tr>
+                <th scope="row">Date:</th>
+                <td>
+                    <input type="date" [(ngModel)]="salaryComp.date " required class="form-control" name="date" #dateBox="ngModel" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Total hours:</th>
+                <td>
+                    <input type="number" [(ngModel)]="salaryComp.totalHours" required  class="form-control" #hours="ngModel"  name="totalHours" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Bonus hours:</th>
+                <td>
+                    <input type="number" [(ngModel)]="salaryComp.bonusHours" class="form-control" name="bonusHours" />
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Bonus wages:</th>
+                <td>
+                    <input type="number" [(ngModel)]="salaryComp.bonusWage" class="form-control" name="bonusWage"/>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Expenses:</th>
+                <td>
+                    <input type="number" [(ngModel)]="salaryComp.expenses" class="form-control"  name="expenses"/>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <a class="btn btn-success form-control" routerLink="/salary">Cancel</a>
+                </td>
+                <td>
+                    <button [disabled]="myForm.invalid" class="btn btn-primary form-control">Submit</button>
+                </td>
+            </tr>
+        </tbody>
+        <div>
+            <div class="error-field" *ngIf="(dateBox.touched || dateBox.dirty) && dateBox.errors?.['required']">Date is required!</div>
+            <div class="error-field" *ngIf="(hours.touched || hours.dirty) && hours.errors?.['required']">Pay rate is required!</div>
+      </div>  
+    </table>
+
+</form>
+

@@ -1,0 +1,61 @@
+<style>
+    input, select {
+      border: 0;
+      box-shadow: none;
+      outline: none;
+    }
+    td{
+      text-align: center;
+      vertical-align:middle;
+      font-size: 15px;
+    }
+    input{
+        width: 100px;
+        text-align:center;
+    }
+  
+  </style>
+  
+  <div class="d-flex justify-content-center">
+    <div *ngIf="allSalaryComp.length < 1" class="spinner-border text-primary" role="status" >
+      <label class="visually-hidden">Loading...</label>
+    </div>
+  </div>
+  <div *ngIf="allSalaryComp.length > 0"  style=" margin: auto; width:90%;">
+    <h3 class="text-center header mb-4 mt-3" style="font-family: 'MS UI Gothic'"><span class="text-primary text-capitalize">{{employeeName}}'s</span> Salary components details</h3>
+    <table class="table table-bordered " style="margin:auto; table-layout: fixed; width: 100%;">
+      <thead>
+        <tr>
+          <th class="text-center">Date</th>
+          <th class="text-center">Total hours</th>
+          <th class="text-center">Bonus hours</th>
+          <th class="text-center">Bonus wages</th>
+          <th class="text-center">Expenses</th>
+          <th style="width:30%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let salary of allSalaryComp" >
+            <td>
+                <input type="text"  [value]="salary.date |date: 'dd/MM/yyyy'"  required date #date  readonly/>
+            </td>
+          <td><input type="number"[value]="salary.totalHours" name="payRate" readonly ></td>
+          <td >
+            <input type="number"[value]="salary.bonusHours" readonly/>
+          </td>
+          <td>
+            <input type="number"[value]="salary.bonusWage" readonly/>
+          </td>
+          <td>
+              <input type="number"[value]="salary.expenses" readonly />
+          </td>
+          <td class="d-flex " style="justify-content: space-around">
+            <button class="btn btn-outline-primary" style="width: 45%; " (click)="onEdit(salary)" >Edit</button>
+            <button class="btn btn-outline-danger" style="width: 45%; "(click)="onDelete(salary)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <a class="btn btn-primary form-control mt-3" style="width: 20%; background-color:black" href="/salary">Back</a>
+  </div>
+  

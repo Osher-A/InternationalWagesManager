@@ -1,0 +1,26 @@
+<div *ngIf="employees.length < 1" class="d-flex justify-content-center" >
+    <div class="spinner-border text-primary" role="status" >
+      <label class="visually-hidden">Loading...</label>
+    </div>
+  </div>
+  <div *ngIf="employees.length > 0" style="width: 60%; margin:auto;">
+    <h2 class="header text-center  mt-5 " style="font-family: 'MS UI Gothic'">Salary index</h2>
+    <table class="table table-bordered mt-3" style="table-layout: fixed; width: 80%; margin: auto;">
+      <thead>
+        <tr>
+          <th scope="col">Employee name</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let employee of employees">
+        <tr>
+          <td>{{employee.firstName}}</td>
+          <td>
+            <a class="btn btn-outline-primary form-control" routerLink="details/{{employee.id}}">Details</a>
+          </td>
+          <td><a class="btn btn-outline-success form-control" routerLink="add/{{employee.id}}">Add Salary components</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

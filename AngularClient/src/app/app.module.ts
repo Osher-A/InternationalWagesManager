@@ -1,3 +1,4 @@
+import { SalaryDataService } from 'src/app/services/data/salary/salary.service';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -17,8 +18,12 @@ import { WorkConditionsUpdateComponent } from './workConditions/update/update.co
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WorkConditionsAddComponent } from './workConditions/add/add.component';
-import { WorkCDataService } from './services/work-cdata-service.';
+import { WorkCDataService } from './services/data/workConditions/work-cdata-service.';
 import { AlertMsgComponent } from './alert-msg/alert-msg.component';
+import { SalaryIndexComponent } from './salary/index/index.component';
+import { SalaryDetailsComponent } from './salary/details/details.component';
+import { SalaryAddComponent } from './salary/add/add.component';
+import { SalaryUpdateComponent } from './salary/update/update.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +35,13 @@ import { AlertMsgComponent } from './alert-msg/alert-msg.component';
     WorkConditionsDetailsComponent,
     WorkConditionsAddComponent,
     WorkConditionsUpdateComponent,
+    SalaryIndexComponent,
     NavbarComponent,
     AlertMsgComponent,
     WorkConditionsUpdateComponent,
+    SalaryDetailsComponent,
+    SalaryAddComponent,
+    SalaryUpdateComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,10 +58,9 @@ import { AlertMsgComponent } from './alert-msg/alert-msg.component';
     },
     {
       provide: WorkCDataService, deps: [HttpClient], useFactory: (dep1: HttpClient) => {
-        return new WorkCDataService(dep1, "")
-      },
-
-    }
+        return new WorkCDataService(dep1)
+      }
+    },
   ],
   bootstrap: [AppComponent]
 })

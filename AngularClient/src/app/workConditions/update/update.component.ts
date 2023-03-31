@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Currency } from '../../dto/currency';
 import { WorkConditions } from '../../dto/workConditions';
-import { CurrencyDataService } from '../../services/currency-data.service';
-import { WorkCDataService } from '../../services/work-cdata-service.';
+import { CurrencyDataService } from '../../services/data/currency/currency-data.service';
+import { WorkCDataService } from '../../services/data/workConditions/work-cdata-service.';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 

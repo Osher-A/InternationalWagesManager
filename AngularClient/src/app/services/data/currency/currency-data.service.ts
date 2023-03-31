@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Currency } from '../dto/currency';
-import { DataService } from './data.service';
+import { Currency } from '../../../dto/currency';
+import { DataService } from '../data.service';
 
 @Injectable({
   providedIn: 'root'
