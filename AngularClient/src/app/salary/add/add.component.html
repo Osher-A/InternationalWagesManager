@@ -1,4 +1,4 @@
-<form #myForm="ngForm" name="myForm" (ngSubmit)="onSubmit()" style="width: 50%; margin: 3% auto auto auto;">
+<form #myForm="ngForm" name="Form" (ngSubmit)="onSubmit()" style="width: 50%; margin: 3% auto auto auto;">
     <h2 class="text-center m-4 header ">Salary Components</h2>
     <table class="mt-2 table table-bordered border-2 border-secondary">
         <tbody>
@@ -11,7 +11,7 @@
             <tr>
                 <th scope="row">Total hours:</th>
                 <td>
-                    <input type="number" [(ngModel)]="salaryComp.totalHours" required  class="form-control" #hours="ngModel"  name="totalHours" />
+                    <input type="number" [(ngModel)]="salaryComp.totalHours" required  class="form-control" #total="ngModel"  name="totalHours" />
                 </td>
             </tr>
             <tr>
@@ -44,7 +44,8 @@
         </tbody>
         <div>
             <div class="error-field" *ngIf="(dateBox.touched || dateBox.dirty) && dateBox.errors?.['required']">Date is required!</div>
-            <div class="error-field" *ngIf="(hours.touched || hours.dirty) && hours.errors?.['required']">Pay rate is required!</div>
+            <div class="error-field" *ngIf="(total.touched || total.dirty) && total.errors?.['required']">Pay rate is required!</div>
+            <div class="error-field" *ngIf="(total.touched || total.dirty) && total.errors?.['cannotBeZero']">Min hours is 1 !</div>
       </div>  
     </table>
 

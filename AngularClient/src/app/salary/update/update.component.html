@@ -5,13 +5,13 @@
             <tr>
                 <th scope="row">Date:</th>
                 <td>
-                    <input type="date" [value]="salaryComp.date | date: 'dd/MM/yyyy'" required class="form-control" #date  (change)="onChange(date)" />
+                    <input type="text" [value]="salaryComp.date | date: 'dd/MM/yyyy'"  class="form-control" #date  (change)="onChange(date)" />
                 </td>
             </tr>
             <tr>
                 <th scope="row">Total hours:</th>
                 <td>
-                    <input type="number" [(ngModel)]="salaryComp.totalHours" class="form-control" #totalHours="ngModel" required name="hours" />
+                    <input type="number" [(ngModel)]="salaryComp.totalHours" class="form-control" #totalHours="ngModel"  name="hours" />
                 </td>
             </tr>
             <tr>

@@ -17,11 +17,11 @@
   </style>
   
   <div class="d-flex justify-content-center">
-    <div *ngIf="allSalaryComp.length < 1" class="spinner-border text-primary" role="status" >
+    <div *ngIf="allSalaryComp.value.length < 1" class="spinner-border text-primary" role="status" >
       <label class="visually-hidden">Loading...</label>
     </div>
   </div>
-  <div *ngIf="allSalaryComp.length > 0"  style=" margin: auto; width:90%;">
+  <div *ngIf="allSalaryComp.value.length > 0"  style=" margin: auto; width:90%;">
     <h3 class="text-center header mb-4 mt-3" style="font-family: 'MS UI Gothic'"><span class="text-primary text-capitalize">{{employeeName}}'s</span> Salary components details</h3>
     <table class="table table-bordered " style="margin:auto; table-layout: fixed; width: 100%;">
       <thead>
@@ -35,9 +35,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let salary of allSalaryComp" >
+        <tr *ngFor="let salary of allSalaryComp.value" >
             <td>
-                <input type="text"  [value]="salary.date |date: 'dd/MM/yyyy'"  required date #date  readonly/>
+            <input type="text"  [value]="salary.date |date: 'dd/MM/yyyy'"  required date #date  readonly/>
             </td>
           <td><input type="number"[value]="salary.totalHours" name="payRate" readonly ></td>
           <td >
