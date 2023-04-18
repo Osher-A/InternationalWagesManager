@@ -28,7 +28,7 @@ namespace BlazorClient.ApiServices
             return allSalaryComponents!;
         }
 
-        public async Task<SalaryComponents> GetSalaryComponentsAsync(int id)
+        public async Task<SalaryComponents> GetByIdAsync(int id)
         {
             var salaryComponents = new SalaryComponents();
             string endPoint = $@"/{id}";
@@ -40,7 +40,7 @@ namespace BlazorClient.ApiServices
             }
             return salaryComponents!;
         }
-        public async Task<int> AddSalaryComponentsAsync(SalaryComponents newSC)
+        public async Task<int> AddAsync(SalaryComponents newSC)
         {
             var json = JsonConvert.SerializeObject(newSC);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -54,7 +54,7 @@ namespace BlazorClient.ApiServices
             return 0;
         }
 
-        public async Task UpdateSalaryComponentsAsync(SalaryComponents SC)
+        public async Task UpdateAsync(SalaryComponents SC)
         {
             string endPoint = $"/{SC.Id}";
             var jsonBody = JsonConvert.SerializeObject(SC);
@@ -63,11 +63,16 @@ namespace BlazorClient.ApiServices
 
         }
 
-        public async Task DeleteSalaryComponentsAsync(SalaryComponents SC)
+        public async Task DeleteAsync(SalaryComponents SC)
         {
             string endPoint = $"/{SC.Id}";
             var response = await _httpClient.DeleteAsync(_url + endPoint);
 
+        }
+
+        public Task<List<SalaryComponents>> GetAllAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

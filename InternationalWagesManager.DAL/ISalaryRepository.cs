@@ -2,11 +2,8 @@
 
 namespace InternationalWagesManager.DAL
 {
-    public interface ISalaryRepository
+    public interface ISalaryRepository : IBaseRepository<Salary>
     {
-        Task<int> AddSalaryAsync(Salary salary);
-        Task DeleteSalaryAsync(Salary salary);
-        Task<List<Salary>> GetAllSalariesAsync(int employeeId);
-        Task<Salary> GetSalaryAsync(int salaryId);
+        Task<List<Salary>> GetAllEmployeeSalariesAsync(int employeeId);
     }
 }

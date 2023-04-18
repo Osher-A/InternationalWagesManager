@@ -27,7 +27,7 @@ namespace InternationalWagesManager.Domain
 
         public async Task<List<Salary>> GetSalariesAsync(int employeeId, DateTime? fromDate = null, DateTime? toDate = null)
         {
-            var allModelSalaries = _mapper.Map<List<Models.Salary>, List<DTO.Salary>>(await _salaryRepo.GetAllSalariesAsync(employeeId));
+            var allModelSalaries = _mapper.Map<List<Models.Salary>, List<DTO.Salary>>(await _salaryRepo.GetAllEmployeeSalariesAsync(employeeId));
             if (fromDate != null && toDate != null)
                 return allModelSalaries.Where(s => s.Month >= fromDate && s.Month <= toDate).ToList();
             else if (fromDate != null)
@@ -114,7 +114,7 @@ namespace InternationalWagesManager.Domain
         private void AddSalaryToRepo()
         {
             var modelSalary = _mapper.Map<DTO.Salary, Models.Salary>(_salary);
-            _salaryRepo.AddSalaryAsync(modelSalary);
+            _salaryRepo.AddAsync(modelSalary);
         }
 
         private async Task<string> GetCurrencyName(int? currencyId) =>

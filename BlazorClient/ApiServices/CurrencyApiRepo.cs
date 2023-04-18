@@ -15,7 +15,7 @@ namespace BlazorClient.ApiServices
             _url = configuration.GetSection("BaseAPIUrl").Value! + "/currencies";
         }
 
-        public async Task<List<Currency>> GetAllCurrenciesAsync()
+        public async Task<List<Currency>> GetAllAsync()
         {
             var response = await _httpClient.GetAsync(_url);
             var jsonContent = await response.Content.ReadAsStringAsync();
@@ -25,17 +25,18 @@ namespace BlazorClient.ApiServices
             return currencyList;
         }
 
-        public void AddCurrency(Currency currency)
+        public async Task<int> AddAsync(Currency currency)
         {
             string endPoint = "addcurrency";
             var jsonContent = JsonConvert.SerializeObject(currency);
             var body = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
-            var response = _httpClient.PostAsync(_url + endPoint, body);
+            var response = await _httpClient.PostAsync(_url + endPoint, body);
 
-            // todo: Validation
+            // todo return id & validation
+            return 0;
         }
 
-        public async void DeleteCurrency(Currency currency)
+        public async Task DeleteAsync(Currency currency)
         {
             string endPoint = $"delete/{currency.Id}";
             var response = await _httpClient.DeleteAsync(_url + endPoint);
@@ -43,7 +44,7 @@ namespace BlazorClient.ApiServices
             // to do: validation
         }
 
-        public async void UpdateCurrency(Currency currency)
+        public async Task UpdateAsync(Currency currency)
         {
             string endPoint = $"update/{currency.Id}";
             var jsonContent = JsonConvert.SerializeObject(currency);
@@ -52,5 +53,13 @@ namespace BlazorClient.ApiServices
 
             //to do: validation
         }
+
+        //to do: 
+        public Task<Currency> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

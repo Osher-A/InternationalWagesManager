@@ -28,9 +28,9 @@ public class EmployeesController : ControllerBase
     {
         try
         {
-            if (await _employeeRepo.GetEmployeesAsync() == null)
+            if (await _employeeRepo.GetAllAsync() == null)
                 return Problem("No Data in database!", statusCode: StatusCodes.Status503ServiceUnavailable);
-            return _mapper.Map<List<Employee>, List<EmployeeResponse>>(await _employeeRepo.GetEmployeesAsync());
+            return _mapper.Map<List<Employee>, List<EmployeeResponse>>(await _employeeRepo.GetAllAsync());
         }
         catch (Exception)
         {
@@ -47,7 +47,7 @@ public class EmployeesController : ControllerBase
             return BadRequestResponse();
         try
         {
-            var result = await _employeeRepo.GetEmployeeAsync(id);
+            var result = await _employeeRepo.GetByIdAsync(id);
             if (result == null)
                 return NotFound();
             return _mapper.Map<EmployeeResponse>(result);
@@ -68,7 +68,7 @@ public class EmployeesController : ControllerBase
             return BadRequest(ModelState);
         try
         {
-            int employeeId = await _employeeRepo.AddEmployeeAsync(_mapper.Map<Employee>(employee));
+            int employeeId = await _employeeRepo.AddAsync(_mapper.Map<Employee>(employee));
             return CreatedAtAction(nameof(GetEmployee), new { id = employeeId }, employee);
         }
         catch (Exception e)
@@ -95,7 +95,7 @@ public class EmployeesController : ControllerBase
         {
             Employee modelEmployee = _mapper.Map<Employee>(employee);
             modelEmployee.Id = id;
-            _employeeRepo.UpdateEmployee(modelEmployee);
+            _employeeRepo.UpdateAsync(modelEmployee);
 
             return CreatedAtAction(nameof(GetEmployee), new { id = modelEmployee.Id }, employee);
         }
@@ -112,11 +112,11 @@ public class EmployeesController : ControllerBase
     {
         try
         {
-            var employee = await _employeeRepo.GetEmployeeAsync(id);
+            var employee = await _employeeRepo.GetByIdAsync(id);
             if (employee == null)
                 return NotFound();
 
-            _employeeRepo.DeleteEmployee(employee);
+            await _employeeRepo.DeleteAsync(employee);
         }
         catch (Exception e)
         {
@@ -130,7 +130,7 @@ public class EmployeesController : ControllerBase
     {
         try
         {
-            return _employeeRepo.GetEmployeeAsync(id) != null;
+            return _employeeRepo.GetByIdAsync(id) != null;
         }
         catch (Exception e)
         {

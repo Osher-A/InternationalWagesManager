@@ -2,12 +2,9 @@
 
 namespace InternationalWagesManager.DAL
 {
-    public interface IWConditionsRepository
+    public interface IWConditionsRepository : IBaseRepository<WorkConditions>
     {
-        Task<int> AddWorkConditionsAsync(WorkConditions workConditions);
-        Task DeleteWorkConditionsAsync(int id);
-        Task UpdateWorkConditionsAsync(WorkConditions workConditions);
+        Task DeleteByIdAsync(int id);
         Task<List<WorkConditions>> GetAllEmployeesWCAsync(int employeeId);
-        Task<WorkConditions> GetWorkConditionsAsync(int workConditionId);
     }
 }

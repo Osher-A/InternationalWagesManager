@@ -28,7 +28,7 @@ namespace WebApi.Controllers
 
         // GET: api/SalaryComponents/All/5
         [HttpGet("all/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<SalaryComponentsResponse>>> AllSalaryComponents(int employeeId)
+        public async Task<ActionResult<IEnumerable<SalaryComponentsResponse>>> GetSalariesComponents(int employeeId)
         {
             var sc = _mapper.Map<IEnumerable<SalaryComponentsResponse>>(await _scRepository.GetEmployeeSalaryComponentsAsync(employeeId));
             if (sc == null)
@@ -41,7 +41,7 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<SalaryComponentsResponse>> GetSalaryComponents(int id)
         {
-            var sc = _mapper.Map<SalaryComponentsResponse>(await _scRepository.GetSalaryComponentsAsync(id));
+            var sc = _mapper.Map<SalaryComponentsResponse>(await _scRepository.GetByIdAsync(id));
             if (sc == null)
                 return NotFound();
 
@@ -50,14 +50,14 @@ namespace WebApi.Controllers
 
         // POST: api/SalaryComponents
         [HttpPost]
-        public async Task<ActionResult<SalaryComponents>> PostSalaryComponents(SalaryComponentsRequest salaryComponents)
+        public async Task<ActionResult<SalaryComponents>> AddSalaryComponents(SalaryComponentsRequest salaryComponents)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             int newId = 0;
             try
             {
-                newId = await _scRepository.AddSalaryComponentsAsync(_mapper.Map<SalaryComponents>(salaryComponents));
+                newId = await _scRepository.AddAsync(_mapper.Map<SalaryComponents>(salaryComponents));
             }
             catch (Exception ex)
             {
@@ -69,14 +69,14 @@ namespace WebApi.Controllers
 
         // PUT: api/SalaryComponents/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSalaryComponents(int id, SalaryComponentsRequest salaryComponents)
+        public async Task<IActionResult> UpdateSalaryComponents(int id, SalaryComponentsRequest salaryComponents)
         {
             if (!ModelState.IsValid || !(await SalaryComponentsExists(id)))
                 return BadRequest();
 
             try
             {
-                await _scRepository.UpdateSalaryComponentsAsync(_mapper.Map<SalaryComponents>(salaryComponents));
+                await _scRepository.UpdateAsync(_mapper.Map<SalaryComponents>(salaryComponents));
             }
             catch (Exception ex)
             {
@@ -97,7 +97,7 @@ namespace WebApi.Controllers
             try
             {
                 var sc = new SalaryComponents() { Id = id };
-                await _scRepository.DeleteSalaryComponentsAsync(sc);
+                await _scRepository.DeleteAsync(sc);
             }
             catch (Exception ex)
             {
@@ -110,7 +110,7 @@ namespace WebApi.Controllers
 
         private async Task<bool> SalaryComponentsExists(int id)
         {
-            return await _scRepository.GetSalaryComponentsAsync(id) != null;
+            return await _scRepository.GetByIdAsync(id) != null;
         }
         private ActionResult BadRequestResponse()
         {

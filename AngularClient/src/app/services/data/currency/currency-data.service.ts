@@ -8,8 +8,7 @@ import { DataService } from '../data.service';
 })
 export class CurrencyDataService extends DataService<Currency> {
 
-
   constructor(http: HttpClient) {
-    super(http, 'https://localhost:7194/api/currencies');
+    super(http, '/currencies');
   }
 }

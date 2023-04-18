@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InternationalWagesManager.DAL;
+using System.Reflection.Metadata.Ecma335;
 
 namespace InternationalWagesManager.Domain
 {
@@ -18,7 +19,7 @@ namespace InternationalWagesManager.Domain
         {
             try
             {
-                var dtoCurrencies = _mapper.Map<List<Models.Currency>, List<DTO.Currency>>(await _currenciesRepo.GetAllCurrenciesAsync());
+                var dtoCurrencies = _mapper.Map<List<Models.Currency>, List<DTO.Currency>>(await _currenciesRepo.GetAllAsync());
                 return dtoCurrencies;
             }
             catch (Exception)
@@ -28,8 +29,8 @@ namespace InternationalWagesManager.Domain
             }
         }
 
-        public async Task<string> GetCurrencyName(int? CurrencyId) =>
-           (await GetAllCurrencies()).Find(c => c.Id == CurrencyId)?.Name ?? "";
+        public async Task<string> GetCurrencyName(int? currencyId) =>
+           (await _currenciesRepo.GetByIdAsync((int)currencyId!)).Name ?? "";
 
         public int GetCurrencyId(string currencyName)
         {

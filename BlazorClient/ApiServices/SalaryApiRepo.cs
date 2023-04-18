@@ -14,27 +14,32 @@ namespace BlazorClient.ApiServices
             _httpClient = httpClient;
             _url = configuration.GetSection("BaseAPIUrl").Value! + "/salaries";
         }
-        public async Task<int> AddSalaryAsync(Salary salary)
+        public async Task<int> AddAsync(Salary salary)
         {
             var json = JsonConvert.SerializeObject(salary);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(_url , content);
+            var response = await _httpClient.PostAsync(_url, content);
             if (response.IsSuccessStatusCode)
             {
                 string responseResult = await response.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<Salary>(responseResult);
                 return result.Id;
             }
-            return 0; 
+            return 0;
         }
 
-        public async Task DeleteSalaryAsync(Salary salary)
+        public async Task DeleteAsync(Salary salary)
         {
             string endPoint = $"{salary.Id}";
             var response = await _httpClient.DeleteAsync(_url + endPoint);
         }
 
-        public async Task<List<Salary>> GetAllSalariesAsync(int employeeId)
+        public Task<List<Salary>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<Salary>> GetAllEmployeeSalariesAsync(int employeeId)
         {
             var allSalaries = new List<Salary>();
             string endPoint = $@"/all/{employeeId}";
@@ -47,7 +52,7 @@ namespace BlazorClient.ApiServices
             return allSalaries!;
         }
 
-        public async Task<Salary> GetSalaryAsync(int id)
+        public async Task<Salary> GetByIdAsync(int id)
         {
             var salary = new Salary();
             string endPoint = $@"/{id}";
@@ -58,6 +63,11 @@ namespace BlazorClient.ApiServices
                 salary = JsonConvert.DeserializeObject<Salary>(content);
             }
             return salary!;
+        }
+
+        public Task UpdateAsync(Salary entity) //to do:
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -4,6 +4,7 @@ using InternationalWagesManager.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InternationalWagesManager.Models.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230418113602_AddingAspNetRolesAndUsers")]
+    partial class AddingAspNetRolesAndUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +41,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currencies", (string)null);
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.Employee", b =>
@@ -70,7 +73,7 @@ namespace InternationalWagesManager.Models.Migrations
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.Payment", b =>
@@ -97,7 +100,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.Salary", b =>
@@ -138,7 +141,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Salaries", (string)null);
+                    b.ToTable("Salaries");
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.SalaryComponents", b =>
@@ -171,7 +174,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("SalariesComponents", (string)null);
+                    b.ToTable("SalariesComponents");
                 });
 
             modelBuilder.Entity("InternationalWagesManager.Models.WorkConditions", b =>
@@ -214,7 +217,7 @@ namespace InternationalWagesManager.Models.Migrations
 
                     b.HasIndex("WageCurrencyId");
 
-                    b.ToTable("WorkConditions", (string)null);
+                    b.ToTable("WorkConditions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

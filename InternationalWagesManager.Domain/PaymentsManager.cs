@@ -18,12 +18,12 @@ namespace InternationalWagesManager.Domain
         {
             var modelPayment = _mapper.Map<DTO.Payment, Models.Payment>(payment);
             if (payment.EmployeeId != 0 && payment.Amount != 0 && payment.Amount != null && payment.Date != null)
-                _paymentsRepository.AddPayment(modelPayment);
+                _paymentsRepository.AddAsync(modelPayment);
         }
 
         public List<DTO.Payment> GetAllPayments(int employeeId, DateTime? fromDate = null, DateTime? toDate = null)
         {
-            var allModelPayments = _mapper.Map<List<Models.Payment>, List<DTO.Payment>>(_paymentsRepository.GetAllPayments(employeeId));
+            var allModelPayments = _mapper.Map<List<Models.Payment>, List<DTO.Payment>>(_paymentsRepository.GetAllEmployeePaymentsAsync(employeeId).GetAwaiter().GetResult());
             if (fromDate != null && toDate != null)
                 return allModelPayments.Where(p => p.Date >= fromDate && p.Date <= toDate).ToList();
             else if (fromDate != null)

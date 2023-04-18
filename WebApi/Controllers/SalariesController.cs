@@ -25,9 +25,9 @@ namespace WebApi.Controllers
 
         // GET: api/Salaries/5
         [HttpGet("all/{employeeId}")]
-        public async Task<ActionResult<IEnumerable<SalaryResponse>>> AllSalaries(int employeeId)
+        public async Task<ActionResult<IEnumerable<SalaryResponse>>> GetSalaries(int employeeId)
         {
-            var salary = _mapper.Map<IEnumerable<SalaryResponse>>(await _salaryRepository.GetAllSalariesAsync(employeeId));
+            var salary = _mapper.Map<IEnumerable<SalaryResponse>>(await _salaryRepository.GetAllEmployeeSalariesAsync(employeeId));
             if (salary == null)
                 return NotFound();
 
@@ -38,7 +38,7 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<SalaryResponse>> GetSalary(int id)
         {
-            var salary = _mapper.Map<SalaryResponse>(await _salaryRepository.GetSalaryAsync(id));
+            var salary = _mapper.Map<SalaryResponse>(await _salaryRepository.GetByIdAsync(id));
             if (salary == null)
                 return NotFound();
 
@@ -47,14 +47,14 @@ namespace WebApi.Controllers
 
         // POST: api/Salaries
         [HttpPost]
-        public async Task<ActionResult<Salary>> PostSalary(SalaryRequest salary)
+        public async Task<ActionResult<Salary>> AddSalary(SalaryRequest salary)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             int newId = 0;
             try
             {
-                newId = await _salaryRepository.AddSalaryAsync(_mapper.Map<Salary>(salary));
+                newId = await _salaryRepository.AddAsync(_mapper.Map<Salary>(salary));
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace WebApi.Controllers
             try
             {
                 var salary = new Salary() { Id = id };
-                await _salaryRepository.DeleteSalaryAsync(salary);
+                await _salaryRepository.DeleteAsync(salary);
             }
             catch (Exception ex)
             {
@@ -88,7 +88,7 @@ namespace WebApi.Controllers
 
         private async Task<bool> SalaryExists(int id)
         {
-            return await _salaryRepository.GetSalaryAsync(id) != null;
+            return await _salaryRepository.GetByIdAsync(id) != null;
         }
         private ActionResult BadRequestResponse()
         {

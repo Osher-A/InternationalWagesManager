@@ -15,7 +15,7 @@ namespace BlazorClient.ApiServices
             _url = configuration.GetSection("BaseAPIUrl").Value! + "/workConditions";
         }
 
-        public async Task<WorkConditions?> GetWorkConditionsAsync(int workConditionId)
+        public async Task<WorkConditions?> GetByIdAsync(int workConditionId)
         {
             string endPoint = $@"/{workConditionId}";
             var response = await ResponseStatusAndContent(_url + endPoint);
@@ -27,7 +27,7 @@ namespace BlazorClient.ApiServices
 
         public async Task<List<WorkConditions>> GetAllEmployeesWCAsync(int employeeId)
         {
-            string endPoint = $"/employee/{employeeId}";
+            string endPoint = $"/all/{employeeId}";
             var response = await ResponseStatusAndContent(_url + endPoint);
             List<WorkConditions> workConditions = new List<WorkConditions>();
             if (response.Item1)
@@ -35,7 +35,7 @@ namespace BlazorClient.ApiServices
             return workConditions;
         }
 
-        public async Task<int>? AddWorkConditionsAsync(WorkConditions workConditions)
+        public async Task<int>? AddAsync(WorkConditions workConditions)
         {
             var bodyContent = BodyForRequest(workConditions);
             var response = await _httpClient.PostAsync(_url, bodyContent);
@@ -49,7 +49,7 @@ namespace BlazorClient.ApiServices
             return 0;
         }
 
-        public async Task UpdateWorkConditionsAsync(WorkConditions workConditions)
+        public async Task UpdateAsync(WorkConditions workConditions)
         {
             var bodyContent = BodyForRequest(workConditions);
             string endPoint = "/" + workConditions.EmployeeId.ToString();
@@ -59,7 +59,7 @@ namespace BlazorClient.ApiServices
 
         }
 
-        public async Task DeleteWorkConditionsAsync(int id)
+        public async Task DeleteByIdAsync(int id)
         {
             string endPoint = "/" + id.ToString();
             await _httpClient.DeleteAsync(_url + endPoint);
@@ -75,6 +75,16 @@ namespace BlazorClient.ApiServices
         {
             var response = await _httpClient.GetAsync(_url);
             return (response.IsSuccessStatusCode, await response.Content.ReadAsStringAsync());
+        }
+
+        public Task<List<WorkConditions>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(WorkConditions entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

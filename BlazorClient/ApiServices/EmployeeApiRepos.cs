@@ -17,7 +17,7 @@ public class EmployeeApiRepo : IEmployeeRepository
         _url = configuration.GetSection("BaseAPIUrl").Value! + "/employees";
     }
 
-    public async Task<Employee?> GetEmployeeAsync(int id)
+    public async Task<Employee?> GetByIdAsync(int id)
     {
         string endPoint = $@"/{id}";
         var response = await ResponseStatusAndContent(_url + endPoint);
@@ -27,7 +27,7 @@ public class EmployeeApiRepo : IEmployeeRepository
         return employee;
     }
 
-    public async Task<List<Employee>> GetEmployeesAsync()
+    public async Task<List<Employee>> GetAllAsync()
     {
         var response = await ResponseStatusAndContent(_url);
         List<Employee> employees = new List<Employee>();
@@ -36,7 +36,7 @@ public class EmployeeApiRepo : IEmployeeRepository
         return employees;
     }
 
-    public async Task<int> AddEmployeeAsync(Employee newEmployee)
+    public async Task<int> AddAsync(Employee newEmployee)
     {
         var bodyContent = BodyForRequest(newEmployee);
         var response = await _httpClient.PostAsync(_url, bodyContent);
@@ -50,7 +50,7 @@ public class EmployeeApiRepo : IEmployeeRepository
         return 0;
     }
 
-    public async void UpdateEmployee(Employee employee)
+    public async Task UpdateAsync(Employee employee)
     {
         var bodyContent = BodyForRequest(employee);
         string endPoint = "/" + employee.Id.ToString();
@@ -58,7 +58,7 @@ public class EmployeeApiRepo : IEmployeeRepository
 
     }
 
-    public async void DeleteEmployee(Employee employee)
+    public async Task DeleteAsync(Employee employee)
     {
         string endPoint = "/" + employee.Id.ToString();
         await _httpClient.DeleteAsync(_url + endPoint);
@@ -76,9 +76,6 @@ public class EmployeeApiRepo : IEmployeeRepository
         var response = await _httpClient.GetAsync(_url);
         return (response.IsSuccessStatusCode, await response.Content.ReadAsStringAsync());
     }
-
-
-
 
 }
 

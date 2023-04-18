@@ -1,4 +1,8 @@
-﻿using InternationalWagesManager.Models;
+﻿using ApiContracts;
+using ApiContracts.ResponseStatus;
+using AutoMapper;
+using InternationalWagesManager.DAL;
+using InternationalWagesManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,111 +12,120 @@ namespace WebApi.Controllers
     [ApiController]
     public class PaymentsController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private readonly IPaymentsRepository _paymentsRepository;
+        private readonly IMapper _mapper;
+        private ILogger<PaymentsController> _logger;
 
-        public PaymentsController(MyDbContext context)
+        public PaymentsController(IPaymentsRepository paymentsRepository, IMapper mapper, ILogger<PaymentsController> logger)
         {
-            _context = context;
+            _paymentsRepository = paymentsRepository;
+            _mapper = mapper;
+            _logger = logger;
         }
 
-        // GET: api/Payments
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Payment>>> GetPayments()
+        // GET: api/Payments/employeeId
+        [HttpGet("all/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<PaymentResponse>>> GetPayments(int employeeId)
         {
-            if (_context.Payments == null)
-            {
+            var payments = _mapper.Map<IEnumerable<PaymentResponse>>(await _paymentsRepository.GetAllEmployeePaymentsAsync(employeeId));
+            if (payments == null)
                 return NotFound();
-            }
-            return await _context.Payments.ToListAsync();
+
+            return Ok(payments);
         }
 
         // GET: api/Payments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Payment>> GetPayment(int id)
+        public async Task<ActionResult<PaymentResponse>> GetPayment(int id)
         {
-            if (_context.Payments == null)
-            {
+            var salary = _mapper.Map<PaymentResponse>(await _paymentsRepository.GetByIdAsync(id));
+            if (salary == null)
                 return NotFound();
-            }
-            var payment = await _context.Payments.FindAsync(id);
 
-            if (payment == null)
-            {
-                return NotFound();
-            }
-
-            return payment;
+            return Ok(salary);
         }
 
         // PUT: api/Payments/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPayment(int id, Payment payment)
+        public async Task<IActionResult> UpdatePayment(int id, PaymentRequest payment)
         {
-            if (id != payment.Id)
-            {
-                return BadRequest();
-            }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            _context.Entry(payment).State = EntityState.Modified;
+            if (id < 1)
+                return BadRequestResponse();
+
+            if (await PaymentExistsAsync(id))
+                return NotFound();
 
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PaymentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                Payment modelPayment = _mapper.Map<Payment>(payment);
+                modelPayment.Id = id;
+                await _paymentsRepository.UpdateAsync(modelPayment);
 
-            return NoContent();
+                return CreatedAtAction(nameof(GetPayment), new { id = modelPayment.Id }, payment);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return ServerErrorResponse();
+            }
         }
 
         // POST: api/Payments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Payment>> PostPayment(Payment payment)
+        public async Task<ActionResult<PaymentResponse>> AddPayment(PaymentRequest payment)
         {
-            if (_context.Payments == null)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            int newId = 0;
+            try
             {
-                return Problem("Entity set 'MyDbContext.Payments'  is null.");
+                newId = await _paymentsRepository.AddAsync(_mapper.Map<Payment>(payment));
             }
-            _context.Payments.Add(payment);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPayment", new { id = payment.Id }, payment);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ServerErrorResponse();
+            }
+            return CreatedAtAction(nameof(GetPayment), new { id = newId }, payment);
         }
 
         // DELETE: api/Payments/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayment(int id)
         {
-            if (_context.Payments == null)
-            {
+            if (!(await PaymentExistsAsync(id)))
                 return NotFound();
-            }
-            var payment = await _context.Payments.FindAsync(id);
-            if (payment == null)
-            {
-                return NotFound();
-            }
 
-            _context.Payments.Remove(payment);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var payment = new Payment() { Id = id };
+                await _paymentsRepository.DeleteAsync(payment);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ServerErrorResponse();
+            }
 
             return NoContent();
         }
 
-        private bool PaymentExists(int id)
+        private async Task<bool> PaymentExistsAsync(int id)
         {
-            return (_context.Payments?.Any(e => e.Id == id)).GetValueOrDefault();
+            return await _paymentsRepository.GetByIdAsync(id) != null;
+        }
+        private ActionResult ServerErrorResponse() => Problem("Server Error", statusCode: StatusCodes.Status500InternalServerError);
+
+        private ActionResult BadRequestResponse()
+        {
+            return BadRequest(new ErrorResponse
+            {
+                ErrorMessage = "Invalid id",
+                StatusCode = StatusCodes.Status400BadRequest
+            });
         }
     }
 }

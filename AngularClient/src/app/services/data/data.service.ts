@@ -1,17 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 export class DataService<T> {
-
-  constructor(private http: HttpClient, protected url: string) { }
+  url: string = environment.apiUrl;
+  constructor(private http: HttpClient, protected endPoint: string) { 
+    this.url += endPoint;
+  }
 
 
   getAll(): Observable<T[]> {
     return this.http.get<T[]>(this.url)
       .pipe(
-        catchError(this.handleError2<T[]>('getAll', [])
-        ))
+        catchError(this.handleError2<T[]>('getAll', []) 
+        )) 
   }
 
   get(id: number): Observable<T> {

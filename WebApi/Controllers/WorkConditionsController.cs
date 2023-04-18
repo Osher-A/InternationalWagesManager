@@ -28,7 +28,7 @@ namespace WebApi.Controllers
                 return BadRequestResponse();
             try
             {
-                var data = _mapper.Map<WorkConditionsResponse>(await _wcRepository.GetWorkConditionsAsync(id));
+                var data = _mapper.Map<WorkConditionsResponse>(await _wcRepository.GetByIdAsync(id));
                 if (data == null || data?.Id == 0)
                     return NotFound();
                 return Ok(data);
@@ -42,7 +42,7 @@ namespace WebApi.Controllers
 
 
         // GET: api/WorkConditions/employee/5
-        [HttpGet("employee/{employeeId}")]
+        [HttpGet("all/{employeeId}")]
         public async Task<ActionResult<WorkConditionsResponse>> GetEmployeesWC(int employeeId)
         {
             if (employeeId == 0)
@@ -76,7 +76,7 @@ namespace WebApi.Controllers
 
             try
             {
-                await _wcRepository.UpdateWorkConditionsAsync(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
+                await _wcRepository.UpdateAsync(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
             }
             catch (Exception e)
             {
@@ -88,14 +88,14 @@ namespace WebApi.Controllers
 
         // POST: api/WorkConditions
         [HttpPost]
-        public async Task<ActionResult<WorkConditionsRequest>> PostWorkConditions(WorkConditionsRequest workConditions)
+        public async Task<ActionResult<WorkConditionsRequest>> AddWorkConditions(WorkConditionsRequest workConditions)
         {
             int newId;
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
-                newId = await _wcRepository.AddWorkConditionsAsync(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
+                newId = await _wcRepository.AddAsync(_mapper.Map<InternationalWagesManager.Models.WorkConditions>(workConditions));
             }
             catch (Exception e)
             {
@@ -115,7 +115,7 @@ namespace WebApi.Controllers
 
             try
             {
-                await _wcRepository.DeleteWorkConditionsAsync(id);
+                await _wcRepository.DeleteByIdAsync(id);
             }
             catch (Exception e)
             {
@@ -130,7 +130,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                return (await _wcRepository.GetWorkConditionsAsync(id)).Id != 0;
+                return (await _wcRepository.GetByIdAsync(id)).Id != 0;
             }
             catch (Exception e)
             {

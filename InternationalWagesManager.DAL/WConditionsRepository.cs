@@ -3,15 +3,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InternationalWagesManager.DAL
 {
-    public class WConditionsRepository : IWConditionsRepository
+    public class WConditionsRepository : BaseRepository<WorkConditions>, IWConditionsRepository
     {
         private MyDbContext _db;
 
-        public WConditionsRepository(MyDbContext db)
+        public WConditionsRepository(MyDbContext db) : base(db)
         {
             _db = db;
         }
-        public async Task<WorkConditions> GetWorkConditionsAsync(int workConditionId)
+        public new async Task<WorkConditions> GetByIdAsync(int workConditionId)
         {
             return await _db.WorkConditions
                 .Include(wc => wc.PayCurrency)
@@ -31,23 +31,7 @@ namespace InternationalWagesManager.DAL
                 .ToListAsync() ?? new();
         }
 
-        public async Task<int> AddWorkConditionsAsync(WorkConditions workConditions)
-        {
-            await _db.WorkConditions.AddAsync(workConditions);
-            await _db.SaveChangesAsync();
-            return workConditions.Id;
-        }
-
-        public async Task UpdateWorkConditionsAsync(WorkConditions workConditions)
-        {
-            _db.Update<WorkConditions>(workConditions);
-
-
-            await _db.SaveChangesAsync();
-            _db.Entry(workConditions).State = EntityState.Detached;
-        }
-
-        public async Task DeleteWorkConditionsAsync(int id)
+        public async Task DeleteByIdAsync(int id)
         {
             _db.WorkConditions.Remove(_db.WorkConditions.Find(id));
             await _db.SaveChangesAsync();

@@ -2,12 +2,8 @@
 
 namespace InternationalWagesManager.DAL
 {
-    public interface IPaymentsRepository
+    public interface IPaymentsRepository : IBaseRepository<Payment>
     {
-        void AddPayment(Payment payment);
-        void DeletePayment(Payment payment);
-        List<Payment> GetAllPayments(int employeeId);
-        Payment GetPayment(int paymentId);
-        void UpdatePayment(Payment payment);
+        Task<List<Payment>> GetAllEmployeePaymentsAsync(int employeeId);
     }
 }

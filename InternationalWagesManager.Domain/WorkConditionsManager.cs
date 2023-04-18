@@ -17,13 +17,13 @@ public class WorkConditionsManager
 
     public WorkConditions GetWorkConditions(int workConditionId)
     {
-        var dtoWorkConditions = _mapper.Map<Models.WorkConditions, DTO.WorkConditions>(_wCRepo.GetWorkConditionsAsync(workConditionId).Result);
+        var dtoWorkConditions = _mapper.Map<Models.WorkConditions, DTO.WorkConditions>(_wCRepo.GetByIdAsync(workConditionId).Result);
         return dtoWorkConditions;
     }
 
     public async Task<WorkConditions> GetWorkConditionsAsync(int workConditionId)
     {
-        var dtoWorkConditions = _mapper.Map<Models.WorkConditions, DTO.WorkConditions>(await _wCRepo.GetWorkConditionsAsync(workConditionId));
+        var dtoWorkConditions = _mapper.Map<Models.WorkConditions, DTO.WorkConditions>(await _wCRepo.GetByIdAsync(workConditionId));
         return dtoWorkConditions;
     }
     public async Task<DTO.WorkConditions> LatestWorkConditions(int employeeId)
@@ -54,7 +54,6 @@ public class WorkConditionsManager
             throw;
         }
 
-        return new();
     }
     public void AddWorkConditions(DTO.WorkConditions workConditions)
     {
@@ -65,7 +64,7 @@ public class WorkConditionsManager
             if (workConditions.EmployeeId != 0 && workConditions.PayRate != 0
                 && workConditions.PayCurrencyId != 0 && workConditions.WageCurrencyId != 0 && workConditions.ExpensesCurrencyId != 0)
             {
-                _wCRepo.AddWorkConditionsAsync(modelWorkConditions);
+                _wCRepo.AddAsync(modelWorkConditions);
                 MessagesManager.SuccessMessage?.Invoke("Successfully added! ");
             }
 
@@ -86,7 +85,7 @@ public class WorkConditionsManager
             if (workConditions.EmployeeId != 0 && workConditions.PayRate != 0
                  && workConditions.PayCurrencyId != 0 && workConditions.WageCurrencyId != 0 && workConditions.ExpensesCurrencyId != 0)
             {
-                await _wCRepo.AddWorkConditionsAsync(modelWorkConditions);
+                await _wCRepo.AddAsync(modelWorkConditions);
                 MessagesManager.SuccessMessage?.Invoke("Successfully added! ");
             }
 
@@ -105,7 +104,7 @@ public class WorkConditionsManager
         {
             if (workConditions.Id != 0)
             {
-                await _wCRepo.UpdateWorkConditionsAsync(_mapper.Map<Models.WorkConditions>(workConditions));
+                await _wCRepo.UpdateAsync(_mapper.Map<Models.WorkConditions>(workConditions));
                 MessagesManager.SuccessMessage?.Invoke("Successful update! ");
             }
 
@@ -125,7 +124,7 @@ public class WorkConditionsManager
             if (id != 0)
                 if (await MessagesManager.UserConfirmation("Are you sure you want to delete these conditions?"))
                 {
-                    await _wCRepo.DeleteWorkConditionsAsync(id);
+                    await _wCRepo.DeleteByIdAsync(id);
                     MessagesManager.SuccessMessage?.Invoke("Successfully Deleted");
                     return true;
                 }
@@ -143,14 +142,13 @@ public class WorkConditionsManager
         try
         {
             if (id != 0)
-                await _wCRepo.DeleteWorkConditionsAsync(id);
+                await _wCRepo.DeleteByIdAsync(id);
         }
         catch (Exception)
         {
             throw;
         }
     }
-
 
     private void ClearingAllRelatedObjects(DTO.WorkConditions workConditions)
     {

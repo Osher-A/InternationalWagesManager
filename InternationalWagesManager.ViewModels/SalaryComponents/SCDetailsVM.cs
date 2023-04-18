@@ -72,7 +72,7 @@ namespace InternationalWagesManager.WPFViewModels.SalaryComponents
                 case ActionType.Add:
 
                     await AddSalaryComponents();
-                    BackAction?.Invoke();         //Since its within a void method it'll invoke before task completion, causing a database error
+                    BackAction?.Invoke();
                     break;
                 case ActionType.Edit:
                     await UpdateSalaryComponents();

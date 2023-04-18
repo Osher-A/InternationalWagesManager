@@ -55,7 +55,7 @@ async void ApiTester()
     using (var scope = builder.Services.BuildServiceProvider().CreateScope())
     {
         var repo = scope.ServiceProvider.GetRequiredService<IEmployeeRepository>();
-        var employees = await repo.GetEmployeesAsync();
+        var employees = await repo.GetAllAsync();
         var a = employees.Count;
     }
 }

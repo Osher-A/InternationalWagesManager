@@ -1,8 +1,7 @@
 ﻿namespace InternationalWagesManager.Models
 {
-    public class SalaryComponents
+    public class SalaryComponents : BaseClass
     {
-        public int Id { get; set; }
         public Employee Employee { get; set; }
         public int EmployeeId { get; set; }
         public DateTime Date { get; set; }

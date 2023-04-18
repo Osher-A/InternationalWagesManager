@@ -1,44 +1,21 @@
 ﻿using InternationalWagesManager.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InternationalWagesManager.DAL
 {
-    public class PaymentsRepository : IPaymentsRepository
+    public class PaymentsRepository : BaseRepository<Payment>, IPaymentsRepository
     {
         private MyDbContext _db;
 
-        public PaymentsRepository(MyDbContext db)
+        public PaymentsRepository(MyDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void AddPayment(Payment payment)
+        public async Task<List<Payment>> GetAllEmployeePaymentsAsync(int employeeId)
         {
-            _db.Payments.Add(payment);
-            _db.SaveChanges();
-        }
-
-        public void UpdatePayment(Payment payment)
-        {
-            _db.Payments.Update(payment);
-            _db.SaveChanges();
-        }
-
-        public void DeletePayment(Payment payment)
-        {
-            _db.Payments.Remove(payment);
-            _db.SaveChanges();
-        }
-
-        public Payment GetPayment(int paymentId)
-        {
-            var result = _db.Payments.FirstOrDefault(x => x.Id == paymentId);
-            return result ?? new();
-        }
-
-        public List<Payment> GetAllPayments(int employeeId)
-        {
-            var result = _db.Payments.Where(p => p.EmployeeId == employeeId).ToList();
-            return result ?? new();
+            var result = await _db.Payments.Where(p => p.EmployeeId == employeeId).ToListAsync();
+            return result;
         }
     }
 }

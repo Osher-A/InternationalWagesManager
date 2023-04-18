@@ -20,7 +20,7 @@ namespace InternationalWagesManager.Domain
 
                 try
                 {
-                    await _employeeRepo.AddEmployeeAsync(MapToModel(employee));
+                    await _employeeRepo.AddAsync(MapToModel(employee));
                     MessagesManager.SuccessMessage?.Invoke("Successfully added! ");
                 }
                 catch (Exception)
@@ -30,11 +30,11 @@ namespace InternationalWagesManager.Domain
                 }
         }
 
-        public void UpdateEmployee(DTO.Employee employee)
+        public async void UpdateEmployee(DTO.Employee employee)
         {
             try
             {
-                _employeeRepo.UpdateEmployee(MapToModel(employee));
+                await _employeeRepo.UpdateAsync(MapToModel(employee));
                 MessagesManager.SuccessMessage?.Invoke("Successful update! ");
             }
             catch (Exception)
@@ -52,7 +52,7 @@ namespace InternationalWagesManager.Domain
             {
                 try
                 {
-                    _employeeRepo.DeleteEmployee(MapToModel(employee));
+                    await _employeeRepo.DeleteAsync(MapToModel(employee));
                     MessagesManager.SuccessMessage?.Invoke("Successfully Deleted");
                 }
                 catch (Exception)
@@ -67,7 +67,7 @@ namespace InternationalWagesManager.Domain
         {
             try
             {
-                _employeeRepo.DeleteEmployee(MapToModel(employee));
+                _employeeRepo.DeleteAsync(MapToModel(employee));
             }
             catch (Exception)
             {
@@ -81,7 +81,7 @@ namespace InternationalWagesManager.Domain
             var listOfEmployees = new List<DTO.Employee>();
             try
             {
-                var modelEmployees = await _employeeRepo.GetEmployeesAsync();
+                var modelEmployees = await _employeeRepo.GetAllAsync();
                 foreach (var employee in modelEmployees)
                 {
                     var dtoEmployee = _mapper.Map<Models.Employee, DTO.Employee>(employee);

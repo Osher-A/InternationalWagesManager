@@ -22,7 +22,7 @@ namespace InternationalWagesManager.Domain
 
         public async Task<DTO.SalaryComponents> GetSalaryComponentsAsync(int id)
         {
-            return _mapper.Map<DTO.SalaryComponents>(await _salaryComponentsRepository.GetSalaryComponentsAsync(id));
+            return _mapper.Map<DTO.SalaryComponents>(await _salaryComponentsRepository.GetByIdAsync(id));
         }
 
         public async Task<bool> AddSalaryComponentsSuccessAsync(DTO.SalaryComponents salaryComponents)
@@ -35,7 +35,7 @@ namespace InternationalWagesManager.Domain
                 {
                     try
                     {
-                        if ((await _salaryComponentsRepository.AddSalaryComponentsAsync(modelSalaryComponents)) > 0)
+                        if ((await _salaryComponentsRepository.AddAsync(modelSalaryComponents)) > 0)
                             if (await _salaryManager.AddSalaryAsync(salaryComponents))
                             {
                                 tran.Complete();
@@ -70,7 +70,7 @@ namespace InternationalWagesManager.Domain
     {
         try
         {
-            await _salaryComponentsRepository.UpdateSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
+            await _salaryComponentsRepository.UpdateAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
         }
         catch (Exception)
         {
@@ -84,7 +84,7 @@ namespace InternationalWagesManager.Domain
         {
             try
             {
-                await _salaryComponentsRepository.DeleteSalaryComponentsAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
+                await _salaryComponentsRepository.DeleteAsync(_mapper.Map<Models.SalaryComponents>(salaryComponents));
                 MessagesManager.SuccessMessage?.Invoke("Successfully deleted!");
             }
             catch (Exception)

@@ -1,8 +1,7 @@
 ﻿namespace InternationalWagesManager.Models
 {
-    public class Currency
+    public class Currency : BaseClass
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

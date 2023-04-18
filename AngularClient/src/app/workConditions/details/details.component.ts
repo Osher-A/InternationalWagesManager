@@ -25,7 +25,7 @@ export class WorkConditionsDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     let param = this._route.snapshot.params['id'];
-    this._workCService.endOfUrl = `/employee/${param}`;
+    this._workCService.endOfUrl = `/all/${param}`;
     this._workCService.getAll().subscribe(response => {
       this.workConditions.next(response);
     })
