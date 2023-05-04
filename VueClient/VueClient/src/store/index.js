@@ -11,7 +11,8 @@ const store = createStore({
       return {
         userId: '1'
       };
-    }, 
+    },
+    
 
 });
 

@@ -30,6 +30,7 @@
 <script setup>
 import { onBeforeMount, ref} from 'vue';
 import { useStore} from 'vuex';
+import { getData } from '../../hooks/apiHandler';
  
 const store = useStore();
 
@@ -43,7 +44,10 @@ employees.value = store.getters['employees/getEmployees'];
 }
 
 onBeforeMount(() =>{
-employees.value = store.getters['employees/getEmployees'];
+//employees.value = store.getters['employees/getEmployees'];
+getData('https://localhost:7194/api/Employees').then(data => {
+  employees.value = data;
+});
 });
 
 </script>

@@ -24,7 +24,7 @@
                 </tr>
                 <tr>
                     <th scope="row">Phone:</th>
-                    <td><input type="tel" class="form-control" required minlength="7" v-model="employee.tel" /></td>
+                    <td><input type="tel" class="form-control" required minlength="7" v-model="employee.phone" /></td>
                 </tr>
                 <tr>
                     <th scope="row">Email:</th>
@@ -47,22 +47,23 @@
 </template>
 
 <script>
+import { postData } from '../../hooks/apiHandler';
 export default{
     data(){
         return {
             employee:{
-            id: 3,
             firstName: '',
             lastName: '',
             dob: '',
-            tel: '',
+            phone: '',
             email: ''
             }
         };
     },
     methods:{
      submit(){
-       this.$store.dispatch('employees/addEmployee', this.employee);
+       //this.$store.dispatch('employees/addEmployee', this.employee);
+      postData("https://localhost:7194/api/Employees", this.employee)
      },
     }
 }

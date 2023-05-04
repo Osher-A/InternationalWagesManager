@@ -58,7 +58,7 @@ export default{
             employee:{}
         };
     },
- 
+    
     computed: {
       date(){
         return this.employee.dob.toLocaleDateString();
