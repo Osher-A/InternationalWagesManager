@@ -1,4 +1,8 @@
 <template>
+  <base-spinner v-if="!!employee && isLoading"></base-spinner>
+  <base-dialog title="An error occured" :show="!!error" @close="confirmError">
+    <p>{{ error }}</p>
+  </base-dialog>
     <base-div>
     <form >
   <base-header title="Employee Details"></base-header>
@@ -35,7 +39,7 @@
 
     </tbody>
     <tfoot>
-        <routerLink to="/employees" class="btn btn-primary mt-3" style="width: 100%" >Back</routerLink>
+        <routerLink to="/employees" class="btn mt-3 backButton"  >Back</routerLink>
     </tfoot>
 
   </base-table>
@@ -45,7 +49,7 @@
 </template>
 
 <script>
-
+import {getData} from '../../hooks/apiHandler'
 export default{
     props:{
        id:{
@@ -55,21 +59,43 @@ export default{
     }, 
     data(){
         return{
-            employee:{}
+            employee: null,
+            isLoading: false,
+            error: null
         };
     },
     
     computed: {
       date(){
-        return this.employee.dob.toLocaleDateString();
+        return new Date(this.employee.dob).toLocaleDateString(); // its passed as a string so needs to be converted first
+      }
+    },
+
+    methods: {
+      confirmError(){
+        this.error = null;
       }
     },
 
       created(){
-      const id = this.id;
-      console.log(this.id);
-      this.employee = this.$store.getters['employees/getEmployee'](id);
-      console.log(this.employee);
+      //this.employee = this.$store.getters['employees/getEmployee'](1);
+      this.isLoading = true;
+      getData(`https://localhost:7194/api/Employees/${this.id}`).then(response => {
+        this.employee = response;
+        this.isLoading = false
+      }).catch(error => {
+        this.error = error.message || 'something went wrong !';
+        this.isLoading = false;
+      })
     }
 }
 </script>
+<style scoped>
+.backButton {
+  background-color: #30311d;
+  color: white;
+  height: 40px;
+  width: 100%;
+}
+
+</style>

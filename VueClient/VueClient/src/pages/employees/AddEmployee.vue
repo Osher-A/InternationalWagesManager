@@ -1,4 +1,7 @@
 <template>
+    <base-dialog title="An error occured" :show="!!error" @close="confirmError">
+    <p>{{ error }}</p>
+  </base-dialog>
     <base-div>
     <form v-on:submit.prevent="submit" >
         <base-header title="New Employee"></base-header>
@@ -57,13 +60,18 @@ export default{
             dob: '',
             phone: '',
             email: ''
-            }
+            },
+            error: null
         };
     },
     methods:{
      submit(){
        //this.$store.dispatch('employees/addEmployee', this.employee);
-      postData("https://localhost:7194/api/Employees", this.employee)
+      postData("https://localhost:7194/api/Employees", this.employee).then(() => {
+      this.$router.push('/employees');
+      }).catch(error => {
+       this.error = error.message || 'something went wrong!';
+      });
      },
     }
 }

@@ -1,8 +1,10 @@
 import {createRouter, createWebHistory} from 'vue-router';
 
-import AddEmployee from './AddEmployee.vue'
 import EmployeesIndex from './EmployeesIndex.vue'
 import EmployeeDetails from './EmployeeDetails.vue'
+
+// for lazy loading to optimize performance
+const AddEmployee = () => import('./AddEmployee.vue');
 
 const router = createRouter({
  history: createWebHistory(),

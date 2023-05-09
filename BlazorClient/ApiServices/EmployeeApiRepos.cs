@@ -40,7 +40,7 @@ public class EmployeeApiRepo : IEmployeeRepository
     {
         var bodyContent = BodyForRequest(newEmployee);
         var response = await _httpClient.PostAsync(_url, bodyContent);
-        string responseResult = response.Content.ReadAsStringAsync().Result;
+        string responseResult = response.Content.ReadAsStringAsync().Result; 
 
         if (response.IsSuccessStatusCode)
         {

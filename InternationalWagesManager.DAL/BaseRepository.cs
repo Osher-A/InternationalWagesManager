@@ -33,7 +33,8 @@ namespace InternationalWagesManager.DAL
         public async Task<int> AddAsync(EntityType entity)
         {
             await _dbContext.Set<EntityType>().AddAsync(entity);
-            _dbContext.Entry(typeof(EntityType)).State = EntityState.Detached;
+            await _dbContext.SaveChangesAsync();
+            //_dbContext.Entry(typeof(EntityType)).State = EntityState.Detached; // this throws an exception
             return entity.Id;
         }
 
