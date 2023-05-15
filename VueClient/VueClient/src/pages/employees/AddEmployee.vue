@@ -10,7 +10,7 @@
                 <tr>
                     <th scope="row">First name:</th>
                     <td>
-                        <input type="text" class="form-control" required minlength="2" v-model.trim="employee.firstName">
+                        <input data-test="input" type="text" class="form-control" required minlength="2" v-model.trim="employee.firstName">
                     </td>
                 </tr>
                 <tr>

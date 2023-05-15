@@ -1,8 +1,7 @@
 <template>
-    <teleport to="body">
-      <div v-if="show" @click="tryClose" class="backdrop"></div>
-      <dialog open v-if="show">
-        <header>
+      <div  v-if="show" @click="tryClose" class="backdrop"></div>
+      <dialog data-test="dialog" open v-if="show">
+        <header >
           <slot name="header">
             <h3>{{ title }}</h3>
           </slot>
@@ -16,7 +15,6 @@
           </slot>
         </menu>
       </dialog>
-    </teleport>
   </template>
   
   <script>

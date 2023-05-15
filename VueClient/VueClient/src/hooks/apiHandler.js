@@ -1,10 +1,20 @@
+import axios from 'axios'
 
-    export const getData = async function(url){
-        const response = await fetch(url);
-        if(!response.ok)
-            errorHandler(response);
-        return await response.json();
-        };
+   // without axios
+    // export const getData = async function(url){
+    //     const response = await fetch(url);
+    //     if(!response.ok)
+    //         errorHandler(response);
+    //     return await response.json();
+    //     };
+ 
+    // with axios
+        export const getData = async function(url){
+          const response = await axios.get(url);
+          if(response.status != 200)
+              errorHandler(response);
+          return response.data;
+          };
     
     export const postData = async function(url, body){
       const response = await fetch(url,{

@@ -2,12 +2,12 @@ import "bootstrap/dist/css/bootstrap.css"
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from "./pages/employees/Router"
-import BaseHeader from './components/BaseHeader.vue'
-import BaseCard from './components/BaseCard.vue'
-import BaseTable from './components/BaseTable.vue'
-import BaseDiv from './components/BaseDiv.vue'
-import BaseSpinner from './components/BaseSpiner.vue'
-import BaseDialog from './components/BaseDialog.vue'
+import BaseHeader from './components/ui/BaseHeader.vue'
+import BaseCard from './components/ui/BaseCard.vue'
+import BaseTable from './components/ui/BaseTable.vue'
+import BaseDiv from './components/ui/BaseDiv.vue'
+import BaseSpinner from './components/ui/BaseSpiner.vue'
+import BaseDialog from './components/ui/BaseDialog.vue'
 import MyStore from './store/index'
 
 
